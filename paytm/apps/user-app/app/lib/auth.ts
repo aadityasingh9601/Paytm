@@ -21,7 +21,7 @@ export const authOptions = {
         const hashedPassword = await bcrypt.hash(credentials.password, 10);
         const existingUser = await db.user.findFirst({
           where: {
-            phone_no: credentials.phone,
+            number: credentials.phone,
           },
         });
 
@@ -47,16 +47,17 @@ export const authOptions = {
         try {
           const user = await db.user.create({
             data: {
-              phone_no: credentials.phone,
+              number: credentials.phone,
               email: "abc",
               password: hashedPassword,
             },
           });
+          //create a separate signup route & also add some kind of opt validation or email verification there.
 
           return {
             id: user.id.toString(),
             name: user.name,
-            phone_no: user.phone_no,
+            number: user.number,
           };
         } catch (error) {
           console.log(error);
