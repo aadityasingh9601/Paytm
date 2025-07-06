@@ -3,11 +3,19 @@
 
 import { PrismaClient } from "@prisma/client";
 
-const PrismaClientSingleton = () => {
+const prismaClientSingleton = () => {
   return new PrismaClient();
 };
 
-export * as db from "@prisma/client";
+declare global {
+  var prisma: undefined | ReturnType<typeof prismaClientSingleton>;
+}
+
+const prisma = globalThis.prisma ?? prismaClientSingleton();
+
+export default prisma;
+
+if (process.env.NODE_ENV !== "production") globalThis.prisma = prisma;
 
 //You can export the prisma with any name you want, currently we're exporting @prisma/client as db, when we finish creating
 //this file, we'll just export the prisma client.

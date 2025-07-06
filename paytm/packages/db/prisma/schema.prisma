@@ -22,4 +22,15 @@ model User{
     password String 
 }
 
-//We'll keep adding other models too as we go. 
+model Merchant{
+  id Int @id @default(autoincrement())
+  email String @unique
+  name String?
+  auth_type AuthType
+}
+
+enum AuthType{
+  Google
+  Github
+}
+//We'll keep adding other models too as we go.
