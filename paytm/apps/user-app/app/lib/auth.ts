@@ -1,6 +1,6 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
-import { db } from "@repo/db/client";
+import db from "@repo/db/client";
 
 export const authOptions = {
   providers: [
@@ -15,21 +15,54 @@ export const authOptions = {
         },
         password: { label: "Password", type: "password", required: true },
       },
+      //Do zod validation or OTP validation here.
       async authorize(credentials: any) {
         //Hash the password sent by user.
         const hashedPassword = await bcrypt.hash(credentials.password, 10);
-        //Look up for the user in the database.
-        const user = { id: "1", name: "J Smith", email: "jsmith@example.com" };
+        const existingUser = await db.user.findFirst({
+          where: {
+            phone_no: credentials.phone,
+          },
+        });
 
-        if (user) {
-          // Any object returned will be saved in `user` property of the JWT
-          return user;
-        } else {
-          // If you return null then an error will be displayed advising the user to check their details.
+        //If user exists, then check their password.
+        if (existingUser) {
+          const passwordValidation = await bcrypt.compare(
+            credentials.password,
+            hashedPassword
+          );
+          if (passwordValidation) {
+            return {
+              id: existingUser.id.toString(),
+              name: existingUser.name,
+              email: existingUser.email,
+            };
+          }
           return null;
-
-          // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
         }
+
+        //If user doesn't exists, then create the user.
+        //Get the user email from user, also create 2 separate handlers for signin & signup, don't mix them up, it may
+        //create confusion in the long run.
+        try {
+          const user = await db.user.create({
+            data: {
+              phone_no: credentials.phone,
+              email: "abc",
+              password: hashedPassword,
+            },
+          });
+
+          return {
+            id: user.id.toString(),
+            name: user.name,
+            phone_no: user.phone_no,
+          };
+        } catch (error) {
+          console.log(error);
+        }
+
+        return null;
       },
     }),
   ],
