@@ -17,11 +17,14 @@ export const authOptions = {
       },
       //Do zod validation or OTP validation here.
       async authorize(credentials: any) {
+        try {
+        console.log("Inside authorize function");
+        console.log(typeof credentials.phone);
         //Hash the password sent by user.
         const hashedPassword = await bcrypt.hash(credentials.password, 10);
         const existingUser = await db.user.findFirst({
           where: {
-            number: credentials.phone,
+            number: parseInt(credentials.phone),
           },
         });
 
@@ -44,10 +47,10 @@ export const authOptions = {
         //If user doesn't exists, then create the user.
         //Get the user email from user, also create 2 separate handlers for signin & signup, don't mix them up, it may
         //create confusion in the long run.
-        try {
+         
           const user = await db.user.create({
             data: {
-              number: credentials.phone,
+              number: parseInt(credentials.phone),
               email: "abc",
               password: hashedPassword,
             },
@@ -67,4 +70,5 @@ export const authOptions = {
       },
     }),
   ],
+  secret: process.env.NEXTAUTH_SECRET,
 };
