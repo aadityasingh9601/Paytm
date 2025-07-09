@@ -1,11 +1,25 @@
-import React from "react";
+import { Button } from "./button";
 
-interface AppbarTypes {
-  onSignin: any;
-  onSignout: any;
-  user: any;
+interface AppbarProps {
+    user?: {
+        name?: string | null;
+    },
+    // TODO: can u figure out what the type should be here?
+    onSignin: any,
+    onSignout: any
 }
 
-export default function Appbar({ onSignin, onSignout, user }: AppbarTypes) {
-  return <div>This is a basic app bar.</div>;
+export const Appbar = ({
+    user,
+    onSignin,
+    onSignout
+}: AppbarProps) => {
+    return <div className="flex justify-between border-b px-4 border-slate-300">
+        <div className="text-lg flex flex-col justify-center">
+            PayTM
+        </div>
+        <div className="flex flex-col justify-center pt-2">
+            <Button onClick={user ? onSignout : onSignin}>{user ? "Logout" : "Login"}</Button>
+        </div>
+    </div>
 }
