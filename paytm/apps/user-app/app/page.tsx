@@ -1,6 +1,6 @@
 "use client";
 import { signIn, signOut, useSession } from "next-auth/react";
-import Appbar from "@repo/ui/Appbar";
+import { Appbar } from "@repo/ui/Appbar";
 //Fix the above error yourself, figure out the types yourself.
 
 export default function Page() {
