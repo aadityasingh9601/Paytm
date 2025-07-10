@@ -1,7 +1,7 @@
 //It's a good practice to export everything from a file like this, so that other modules outside it can import
 //them.
 
-import {PrismaClient} from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 
 const prismaClientSingleton = () => {
   return new PrismaClient();

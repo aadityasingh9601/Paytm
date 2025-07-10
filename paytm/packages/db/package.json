@@ -9,6 +9,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "type": "module",
   "devDependencies": {
     "@repo/eslint-config": "*",
     "@repo/typescript-config": "*",
@@ -18,6 +19,11 @@
     "./client": "./src/index.ts"
   },
   "dependencies": {
-    "@prisma/client": "^6.11.1"
+    "@prisma/client": "^6.11.1",
+    "@types/node": "^24.0.12",
+    "ts-node": "^10.9.2"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
   }
 }

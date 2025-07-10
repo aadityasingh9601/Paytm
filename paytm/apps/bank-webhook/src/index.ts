@@ -6,6 +6,7 @@ const app = express();
 app.post("/bankWebhook", async (req, res) => {
   try {
     const { token, userId, amount } = req.body;
+    console.log(req.body);
     //Add zod validation here.
     //Check if the request actually came from the bank using a webhook secret here.
 
@@ -53,6 +54,6 @@ app.post("/bankWebhook", async (req, res) => {
   }
 });
 
-app.listen(8000, () => {
-  console.log("Bank webhook handler listening on port 8000 ");
+app.listen(3003, () => {
+  console.log("Bank webhook handler listening on port 3003 ");
 });
