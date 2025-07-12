@@ -5,6 +5,7 @@ const app = express();
 
 app.post("/bankWebhook", async (req, res) => {
   try {
+    //Only do this, if the status is still processing. Add zod validation too.
     const { token, userId, amount } = req.body;
     console.log(req.body);
     //Add zod validation here.
