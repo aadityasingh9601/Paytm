@@ -24,7 +24,7 @@ export const authOptions = {
           const hashedPassword = await bcrypt.hash(credentials.password, 10);
           const existingUser = await db.user.findFirst({
             where: {
-              number: Number(credentials.phone),
+              number: credentials.phone,
             },
           });
 
@@ -50,7 +50,7 @@ export const authOptions = {
 
           const user = await db.user.create({
             data: {
-              number: parseInt(credentials.phone),
+              number: credentials.phone,
               email: "abc",
               password: hashedPassword,
             },
