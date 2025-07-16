@@ -1,19 +1,29 @@
 import express from "express";
 import db from "@repo/db/client";
+import bodyParser from "body-parser";
 
 const app = express();
+
+//To parse the incoming request bodies.
+app.use(bodyParser.json());
+
+app.get("/", (req, res) => {
+  console.log("received on backend");
+  res.send("Bank webhook handler");
+});
 
 app.post("/bankWebhook", async (req, res) => {
   try {
     //Only do this, if the status is still processing. Add zod validation too.
-    const { token, userId, amount } = req.body;
     console.log(req.body);
+    const { token, userId, amount } = req.body;
+
     //Add zod validation here.
     //Check if the request actually came from the bank using a webhook secret here.
 
     const paymentInformation = {
       token: token,
-      userId: userId,
+      userId: Number(userId),
       amount: amount,
     };
     //Here the bank has told us that this is the token, this is the user, this is the amount that they has transfered or

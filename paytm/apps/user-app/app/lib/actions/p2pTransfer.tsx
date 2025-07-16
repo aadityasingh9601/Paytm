@@ -2,6 +2,7 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth";
 import db from "@repo/db/client";
+import { timeStamp } from "console";
 
 export const p2pTransfer = async (to: string, amount: number) => {
   //First check the login status of the current user.
@@ -28,7 +29,9 @@ export const p2pTransfer = async (to: string, amount: number) => {
   }
 
   //Create a transaction as we want everything to happen or nothing to happen.
-  await db.$transaction(async (tx) => {
+  //There is another way to define a transaction, see in other files in this lib folder. Understand both of them & when we use
+  //each one.
+  await db.$transaction(async (tx: any) => {
     // const fromBalance = await db.balance.findFirst({
     //   where: {
     //     userId: from,
@@ -38,7 +41,7 @@ export const p2pTransfer = async (to: string, amount: number) => {
     //This will ensure locking of rows in the database. So that only one transaction can access the database at one time.
     //const fromBalance = await db.$queryRaw `SELECT * FROM "Balance" WHERE "userId"= ${from} FOR UPDATE`;
     const fromBalance =
-      await db.$queryRaw`SELECT * FROM "Balance" WHERE userId=${from} FOR UPDATE`;
+      await tx.$queryRaw`SELECT * FROM "Balance" WHERE "userId" = ${Number(from)} FOR UPDATE`;
 
     if (!fromBalance || fromBalance?.amount < amount) {
       return {
@@ -47,9 +50,9 @@ export const p2pTransfer = async (to: string, amount: number) => {
     }
 
     //debit from fromUser account.
-    await db.balance.update({
+    await tx.balance.update({
       where: {
-        userId: from,
+        userId: Number(from),
       },
       data: {
         amount: {
@@ -58,7 +61,7 @@ export const p2pTransfer = async (to: string, amount: number) => {
       },
     });
     //credit to toUser account
-    await db.balance.update({
+    await tx.balance.update({
       where: {
         userId: toUser.id,
       },
@@ -66,6 +69,16 @@ export const p2pTransfer = async (to: string, amount: number) => {
         amount: {
           increment: amount,
         },
+      },
+    });
+
+    //Make sure to create transaction history too & show on the UI.
+    await tx.p2pTransfers.create({
+      data: {
+        amount,
+        timeStamp: new Date(),
+        fromUserId: Number(from),
+        toUserId: toUser.id,
       },
     });
   });
