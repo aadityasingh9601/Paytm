@@ -1,31 +1,31 @@
 import { SidebarItem } from "../../components/SidebarItem";
 import { JSX } from "react";
+import { Providers } from "../Providers";
+import { AppbarClient } from "../../components/AppbarClient";
 
-export default function Layout({
-  children,
-}: {
-  children: React.ReactNode;
-}): JSX.Element {
+function Layout({ children }: { children: React.ReactNode }): JSX.Element {
   return (
-    <div className="flex">
-      <div className="w-72 border-r border-slate-300 min-h-screen mr-4 pt-28">
-        <div>
-          <SidebarItem href={"/dashboard"} icon={<HomeIcon />} title="Home" />
-          <SidebarItem
-            href={"/transfer"}
-            icon={<TransferIcon />}
-            title="Transfer"
-          />
-          <SidebarItem
-            href={"/transactions"}
-            icon={<TransactionsIcon />}
-            title="Transactions"
-          />
-          <SidebarItem href={"/p2p"} icon={<TransactionsIcon />} title="P2P" />
+    <Providers>
+      <div className="flex">
+        <div className="w-72 border-r border-slate-300 min-h-screen mr-4 pt-28">
+          <div>
+            <SidebarItem href={"/dashboard"} icon={<HomeIcon />} title="Home" />
+            <SidebarItem
+              href={"/transfer"}
+              icon={<TransferIcon />}
+              title="Transfer"
+            />
+            <SidebarItem
+              href={"/transactions"}
+              icon={<TransactionsIcon />}
+              title="Transactions"
+            />
+            <SidebarItem href={"/p2p"} icon={<P2pIcon />} title="P2P" />
+          </div>
         </div>
+        {children}
       </div>
-      {children}
-    </div>
+    </Providers>
   );
 }
 
@@ -85,3 +85,24 @@ function TransactionsIcon() {
     </svg>
   );
 }
+
+function P2pIcon() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke-width="1.5"
+      stroke="currentColor"
+      className="size-6"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941"
+      />
+    </svg>
+  );
+}
+
+export default Layout;
