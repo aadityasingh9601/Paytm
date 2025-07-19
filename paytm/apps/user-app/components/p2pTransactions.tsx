@@ -1,6 +1,8 @@
 import { Card } from "@repo/ui/card";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../app/lib/auth";
 
-export const P2PTransactions = ({
+export const P2PTransactions = async ({
   transactions,
 }: {
   transactions: {
@@ -18,6 +20,8 @@ export const P2PTransactions = ({
       </Card>
     );
   }
+  const session = await getServerSession(authOptions);
+  console.log(session?.user.id);
   return (
     //Improve this card here to showcase also the name of the other person in the transaction, also if money is received
     //showcase in green color with plus, if debited, showcase in red color or with a minus sign.
@@ -31,8 +35,17 @@ export const P2PTransactions = ({
                 {t.timeStamp.toDateString()}
               </div>
             </div>
-            <div className="flex flex-col justify-center">
-              + Rs {t.amount / 100}
+            <div
+              style={{
+                color:
+                  Number(session?.user.id) === Number(t.fromUserId)
+                    ? "#dc2626" // Tailwind red-600
+                    : "#059669", // Tailwind emerald-600
+              }}
+              className={`flex flex-col justify-center text-emerald-600 ${Number(session?.user.id) === Number(t.fromUserId) ? "text-emerald-600" : "text-green-600"}`}
+            >
+              {Number(session?.user.id) === Number(t.fromUserId) ? "-" : "+"} Rs{" "}
+              {t.amount / 100}
             </div>
           </div>
         ))}
