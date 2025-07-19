@@ -43,25 +43,6 @@ export const authOptions = {
             }
             return null;
           }
-
-          //If user doesn't exists, then create the user.
-          //Get the user email from user, also create 2 separate handlers for signin & signup, don't mix them up, it may
-          //create confusion in the long run.
-
-          const user = await db.user.create({
-            data: {
-              number: credentials.phone,
-              email: "abc",
-              password: hashedPassword,
-            },
-          });
-          //create a separate signup route & also add some kind of opt validation or email verification there.
-
-          return {
-            id: user.id.toString(),
-            name: user.name,
-            number: user.number,
-          };
         } catch (error) {
           console.log(error);
         }

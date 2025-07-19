@@ -7,6 +7,7 @@ import { authOptions } from "../../lib/auth";
 
 async function getP2PTransactions() {
   const session = await getServerSession(authOptions);
+  console.log(session?.user.id);
   const p2pTxns = await db.p2pTransfers.findMany({
     where: {
       OR: [
