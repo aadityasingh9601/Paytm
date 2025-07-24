@@ -40,7 +40,7 @@ export const P2PTransactions = async ({
                 color:
                   Number(session?.user.id) === Number(t.fromUserId)
                     ? "#dc2626" // Tailwind red-600
-                    : "#059669", // Tailwind emerald-6000
+                    : "#059669", // Tailwind emerald-600
               }}
               className={`flex flex-col justify-center text-emerald-600 ${Number(session?.user.id) === Number(t.fromUserId) ? "text-emerald-600" : "text-green-600"}`}
             >
