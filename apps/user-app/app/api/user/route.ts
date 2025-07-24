@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import { authOptions } from "../../lib/auth";
 
-//This function returns the session details of the current logged in user.
+//This function returns the session details of the current logged-in user.
 
 export const GET = async () => {
   try {
