@@ -22,7 +22,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
-          file: ./docker/Dockerfile.userApp
+          file: ./docker/DockerFile.userApp
           push: true
           tags: aaditya999/user_app:latest # Replace with your Docker Hub username and repository
 
