@@ -16,7 +16,7 @@ export const GET = async () => {
   } catch (e) {
     return NextResponse.json(
       {
-        message: "You are not logged in",
+        message: "You aren't logged in",
       },
       { status: 403 }
     );
