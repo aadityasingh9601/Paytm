@@ -3,7 +3,9 @@ name: Build and Deploy to Docker Hub
 on:
   push:
     branches:
-      - main
+      - master
+      # We've changed it to master just for now, as currenly we are just building our application and we don't want the whole
+      # workflow to run for each & every commit, that's why. You can change it to "main" later.
 
 jobs:
   build-and-push:
