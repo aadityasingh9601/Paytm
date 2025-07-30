@@ -59,7 +59,7 @@ export default function page() {
           </Button2>
           <Button2
             onClick={() => {
-              router.push("/signin");
+              router.push("/auth/signin");
             }}
             type="regular"
           >

@@ -2,7 +2,6 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth";
 import db from "@repo/db/client";
-import { timeStamp } from "console";
 
 export const p2pTransfer = async (to: string, amount: number) => {
   //First check the login status of the current user.

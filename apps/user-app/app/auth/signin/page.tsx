@@ -39,11 +39,12 @@ export default function page() {
                 phone: number,
                 password: password,
                 redirect: false,
+                callbackUrl: process.env.NEXTAUTH_URL,
               });
               if (res?.status === 200) {
                 router.push("/dashboard");
               }
-              //console.log(res);
+              console.log(res);
             }}
             type="solid"
           >
