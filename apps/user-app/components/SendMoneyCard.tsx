@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@repo/ui/Button";
 import { Card } from "@repo/ui/card";
-import { Center } from "@repo/ui/Center";
+import { toast } from "react-hot-toast";
 import { TextInput } from "@repo/ui/TextInput";
 import { useState } from "react";
 import { p2pTransfer } from "../app/lib/actions/p2pTransfer";
