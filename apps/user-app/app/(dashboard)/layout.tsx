@@ -1,7 +1,6 @@
 import { SidebarItem } from "../../components/SidebarItem";
 import { JSX } from "react";
 import { Providers } from "../Providers";
-import { AppbarClient } from "../../components/AppbarClient";
 
 function Layout({ children }: { children: React.ReactNode }): JSX.Element {
   return (

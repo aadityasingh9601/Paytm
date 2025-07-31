@@ -9,6 +9,11 @@ async function getP2PTransactions() {
   const session = await getServerSession(authOptions);
   console.log(session?.user.id);
   const p2pTxns = await db.p2pTransfers.findMany({
+    relationLoadStrategy: "join",
+    include: {
+      fromUser: true,
+      toUser: true,
+    },
     where: {
       OR: [
         { fromUserId: Number(session?.user?.id) },
@@ -18,7 +23,6 @@ async function getP2PTransactions() {
   });
 
   console.log(p2pTxns);
-
   return p2pTxns;
 }
 
@@ -36,6 +40,7 @@ export default async function page() {
           <SendMoneyCard />
         </div>
         <div>
+          {/*@ts-ignore */}
           <P2PTransactions transactions={transactions} />
         </div>
       </div>
