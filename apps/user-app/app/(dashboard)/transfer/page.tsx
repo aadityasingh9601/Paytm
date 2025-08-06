@@ -21,7 +21,7 @@ async function getBalance() {
 
 async function getOnRampTransactions() {
   const session = await getServerSession(authOptions);
-  console.log(session);
+  //console.log(session);
   const txns = await db.onRampTransaction.findMany({
     where: {
       userId: Number(session?.user?.id),

@@ -10,11 +10,11 @@ import { onRampTransaction } from "../app/lib/actions/onRampTransaction";
 const SUPPORTED_BANKS = [
   {
     name: "HDFC Bank",
-    redirectUrl: "https://netbanking.hdfcbank.com",
+    redirectUrl: "http://localhost:3001/netbanking",
   },
   {
     name: "Axis Bank",
-    redirectUrl: "https://www.axisbank.com/",
+    redirectUrl: "http://localhost:3001/netbanking",
   },
 ];
 
@@ -52,8 +52,9 @@ export const AddMoney = () => {
         <div className="flex justify-center pt-4">
           <Button
             onClick={async () => {
-              await onRampTransaction(amount * 100, provider);
-              window.location.href = redirectUrl || "";
+              //Server action handling the logic here.
+              const res = await onRampTransaction(amount * 100, provider);
+              window.location.href = `${redirectUrl}/${res.token}` || "";
             }}
           >
             Add Money
