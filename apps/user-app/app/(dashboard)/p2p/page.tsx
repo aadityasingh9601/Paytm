@@ -1,4 +1,3 @@
-//@ts-ignore Make sure you fix this later.
 import { getServerSession } from "next-auth";
 import { P2PTransactions } from "../../../components/p2pTransactions";
 import { SendMoneyCard } from "../../../components/SendMoneyCard";

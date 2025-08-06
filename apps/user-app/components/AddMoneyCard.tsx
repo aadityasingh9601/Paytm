@@ -9,11 +9,11 @@ import { onRampTransaction } from "../app/lib/actions/onRampTransaction";
 
 const SUPPORTED_BANKS = [
   {
-    name: "HDFC Bank",
+    name: "HDFC",
     redirectUrl: "http://localhost:3001/netbanking",
   },
   {
-    name: "Axis Bank",
+    name: "Axis",
     redirectUrl: "http://localhost:3001/netbanking",
   },
 ];
