@@ -9,7 +9,7 @@ export const TextInput = ({
   placeholder: string;
   onChange: (value: string) => void;
   label: string;
-  type: string;
+  type?: string;
 }) => {
   return (
     <div className="pt-2">

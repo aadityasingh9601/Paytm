@@ -10,9 +10,8 @@ interface AppbarProps {
 }
 
 export const Appbar = ({ user, onSignin, onSignout }: AppbarProps) => {
-  console.log("13", user);
   return (
-    <div className="flex justify-between border-b px-4 border-slate-300">
+    <div className="flex justify-between border-b px-4 border-slate-300 bg-white">
       <div className="text-lg flex flex-col justify-center">PayTM</div>
       <div className="flex flex-col justify-center pt-2">
         <Button onClick={user ? onSignout : onSignin}>
