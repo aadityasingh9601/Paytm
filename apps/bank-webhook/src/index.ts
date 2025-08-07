@@ -1,8 +1,17 @@
 import express from "express";
 import db from "@repo/db/client";
 import bodyParser from "body-parser";
+import cors from "cors";
 
 const app = express();
+
+const corsOptions = {
+  origin: ["http://localhost:3001"],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  headers: ["Content-Type", "Authorization"],
+};
+
+app.use(cors(corsOptions));
 
 //To parse the incoming request bodies.
 app.use(bodyParser.json());

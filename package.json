@@ -316,7 +316,8 @@
     "wrap-ansi": "^8.1.0",
     "wrap-ansi-cjs": "^8.0.0",
     "yaml": "^2.7.0",
-    "yocto-queue": "^0.1.0"
+    "yocto-queue": "^0.1.0",
+    "zod": "^4.0.15"
   },
   "keywords": [],
   "author": "",

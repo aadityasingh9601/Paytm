@@ -15,15 +15,17 @@ export default function VerifyTpin({ txn }) {
       <Card
         title={`You are transfering ₹${txn.amount / 100} from your ${txn.provider} bank account to Paytm PVT LTD`}
       >
-        <div className="w-full">
-          <TextInput
-            label={"Enter you Tpin"}
-            placeholder={"Enter your 6 digit Tpin here"}
-            onChange={(value) => {
-              setPin(value);
-            }}
-          />
-          <div className="flex justify-center pt-4">
+        <div className="w-full flex flex-col gap-2">
+          <div>
+            <TextInput
+              label={"Enter you Tpin"}
+              placeholder={"Enter your 6 digit Tpin here"}
+              onChange={(value) => {
+                setPin(value);
+              }}
+            />
+          </div>
+          <div className="flex justify-center">
             <Button
               onClick={async () => {
                 const res = await verifyOnramps({
@@ -32,7 +34,7 @@ export default function VerifyTpin({ txn }) {
                   token: txn.token,
                   pin: pin,
                 });
-                //console.log(res);
+                console.log(res);
               }}
             >
               Add Money
