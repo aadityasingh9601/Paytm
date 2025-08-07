@@ -28,6 +28,7 @@
   "main": "index.js",
   "dependencies": {
     "@esbuild/win32-x64": "^0.25.8",
+    "@hookform/resolvers": "^5.2.1",
     "@prisma/client": "^6.11.1",
     "@tailwindcss/postcss": "^4.1.11",
     "acorn": "^8.14.1",
@@ -245,6 +246,7 @@
     "queue-microtask": "^1.2.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-hook-form": "^7.62.0",
     "react-hot-toast": "^2.5.2",
     "react-is": "^16.13.1",
     "read-cache": "^1.0.0",
