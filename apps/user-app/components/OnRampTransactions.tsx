@@ -19,26 +19,28 @@ export const OnRampTransactions = ({
     );
   }
   return (
-    <Card title="Recent Transactions">
-      <div className="pt-2">
-        {transactions.map((t) => (
-          <div className="flex justify-between border-b">
-            <div>
-              <div className="text-sm">{t.provider}</div>
-              <div className="text-sm">{t.status}</div>
-              <div className="text-slate-600 text-sm">
-                {t.time.toDateString()}
+    <div>
+      <Card title="Recent Transactions">
+        <div className="pt-2">
+          {transactions.map((t) => (
+            <div className="flex justify-between border-b">
+              <div>
+                <div className="text-sm">{t.provider}</div>
+                <div className="text-sm">{t.status}</div>
+                <div className="text-slate-600 text-sm">
+                  {t.time.toDateString()}
+                </div>
+              </div>
+              <div
+                className="flex flex-col justify-center"
+                style={{ color: "#059669" }}
+              >
+                + Rs {t.amount / 100}
               </div>
             </div>
-            <div
-              className="flex flex-col justify-center"
-              style={{ color: "#059669" }}
-            >
-              + Rs {t.amount / 100}
-            </div>
-          </div>
-        ))}
-      </div>
-    </Card>
+          ))}
+        </div>
+      </Card>
+    </div>
   );
 };
