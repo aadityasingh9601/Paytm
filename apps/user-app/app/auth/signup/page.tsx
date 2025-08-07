@@ -4,67 +4,83 @@ import { Button2 } from "@repo/ui/Button2";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { useState } from "react";
+import { signupInput } from "@repo/schema/schema";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export default function page() {
-  //Add zod validatoin or some other validation on the fronntend too.
-  const [email, setEmail] = useState("");
-  const [number, setNumber] = useState("");
-  const [password, setPassword] = useState("");
+  type signupData = z.infer<typeof signupInput>;
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(signupInput), // Apply the zodResolver
+  });
+
   const router = useRouter();
+
+  const onSubmit = async (data: signupData) => {
+    console.log("trigerred");
+    console.log(data);
+    try {
+      const res = await axios.post("/api/auth/signup", data, {});
+      if (res.status === 200) {
+        router.push("/auth/signin");
+      }
+      if (res.status === 400) {
+        console.log(res);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <div className="flex justify-center items-center h-[92.5vh]">
       <div className="flex flex-col justify-center items-center border-[2px] rounded-md border-grey-800 bg-white w-[26rem] min-h-[23rem] max-h-[31rem] p-5">
         <div className="text-2xl">Sign up</div>
         <div className="flex flex-col justify-center min-w-[20rem] gap-[1rem]">
-          <div className="flex flex-col ">
-            <TextInput
-              label=""
-              type="email"
-              placeholder="Enter your email"
-              onChange={(value) => {
-                setEmail(value);
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="flex flex-col ">
+              <TextInput
+                register={register}
+                errors={errors}
+                name="email"
+                label=""
+                type="email"
+                placeholder="Enter your email"
+              />
+              <TextInput
+                register={register}
+                errors={errors}
+                name="phone"
+                label=""
+                type="text"
+                placeholder="Enter phone number"
+              />
+              <TextInput
+                register={register}
+                errors={errors}
+                name="password"
+                label=""
+                type="password"
+                placeholder="Enter password"
+              />
+            </div>
+            <Button2 shade="solid" type="submit">
+              Next
+            </Button2>
+            <Button2
+              onClick={() => {
+                router.push("/auth/signin");
               }}
-            />
-            <TextInput
-              label=""
-              type="text"
-              placeholder="Enter phone number"
-              onChange={(value) => {
-                setNumber(value);
-              }}
-            />
-            <TextInput
-              label=""
-              type="password"
-              placeholder="Enter password"
-              onChange={(value) => {
-                setPassword(value);
-              }}
-            />
-          </div>
-          <Button2
-            onClick={async () => {
-              const res = await axios.post("/api/auth/signup", {
-                email: email,
-                phone: number,
-                password: password,
-              });
-              if (res.status === 200) {
-                router.push("/signin");
-              }
-            }}
-            type="solid"
-          >
-            Next
-          </Button2>
-          <Button2
-            onClick={() => {
-              router.push("/auth/signin");
-            }}
-            type="regular"
-          >
-            Existing account? Log in!
-          </Button2>
+              type="button"
+              shade="regular"
+            >
+              Existing account? Log in!
+            </Button2>
+          </form>
         </div>
       </div>
     </div>

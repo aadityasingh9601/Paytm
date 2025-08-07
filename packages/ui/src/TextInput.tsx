@@ -2,14 +2,19 @@
 
 export const TextInput = ({
   placeholder,
-  onChange,
+
   type,
   label,
+  register,
+  name,
+  errors,
 }: {
   placeholder: string;
-  onChange: (value: string) => void;
   label: string;
   type?: string;
+  register?: any;
+  name: string;
+  errors?: any;
 }) => {
   return (
     <div className="pt-2">
@@ -17,12 +22,15 @@ export const TextInput = ({
         {label}
       </label>
       <input
-        onChange={(e) => onChange(e.target.value)}
+        {...register(name)}
         type={type}
         id="first_name"
         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-4"
         placeholder={placeholder}
       />
+      {errors[name] && (
+        <span className="text-red-500 text-sm">{errors[name].message}</span>
+      )}
     </div>
   );
 };
