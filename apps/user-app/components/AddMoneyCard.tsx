@@ -1,65 +1,68 @@
 "use client";
 import { Button } from "@repo/ui/Button";
 import { Card } from "@repo/ui/card";
-import { Center } from "@repo/ui/Center";
 import { Select } from "@repo/ui/Select";
-import { useState } from "react";
 import { TextInput } from "@repo/ui/TextInput";
 import { onRampTransaction } from "../app/lib/actions/onRampTransaction";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { addMoneySchema } from "@repo/schema/schema";
+import { z } from "zod";
 
 const SUPPORTED_BANKS = [
   {
     name: "HDFC",
-    redirectUrl: "http://localhost:3001/netbanking",
   },
   {
     name: "Axis",
-    redirectUrl: "http://localhost:3001/netbanking",
   },
 ];
 
 export const AddMoney = () => {
-  const [redirectUrl, setRedirectUrl] = useState(
-    SUPPORTED_BANKS[0]?.redirectUrl
-  );
-  const [amount, setAmount] = useState(0);
-  const [provider, setProvider] = useState(SUPPORTED_BANKS[0]?.name || "");
+  //If you have multiple banks with differenet redirect urls you can create a separate state managment for them too, like
+  //it was done earlier, using a SUPPORTED_BANKS array.
+  const redirectUrl = "http://localhost:3001/netbanking";
+  type addMoneyData = z.infer<typeof addMoneySchema>;
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(addMoneySchema),
+  });
+
+  const onSubmit = async (data: addMoneyData) => {
+    //Server action handling the logic here.
+    const res = await onRampTransaction(data.amount * 100, data.provider);
+    window.location.href = `${redirectUrl}/${res.token}` || "";
+  };
   return (
     <Card title="Add Money">
       <div className="w-full">
-        <TextInput
-          label={"Amount"}
-          placeholder={"Amount"}
-          onChange={(value) => {
-            setAmount(Number(value));
-          }}
-        />
-        <div className="py-4 text-left">Bank</div>
-        <Select
-          onSelect={(value) => {
-            setRedirectUrl(
-              SUPPORTED_BANKS.find((x) => x.name === value)?.redirectUrl || ""
-            );
-            setProvider(
-              SUPPORTED_BANKS.find((x) => x.name === value)?.name || ""
-            );
-          }}
-          options={SUPPORTED_BANKS.map((x) => ({
-            key: x.name,
-            value: x.name,
-          }))}
-        />
-        <div className="flex justify-center pt-4">
-          <Button
-            onClick={async () => {
-              //Server action handling the logic here.
-              const res = await onRampTransaction(amount * 100, provider);
-              window.location.href = `${redirectUrl}/${res.token}` || "";
-            }}
-          >
-            Add Money
-          </Button>
-        </div>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <TextInput
+            label={"Amount"}
+            placeholder={"Amount"}
+            register={register}
+            options={{ valueAsNumber: true }}
+            errors={errors}
+            name="amount"
+          />
+          <div className="py-4 text-left">Bank</div>
+          <Select
+            register={register}
+            errors={errors}
+            name="provider"
+            options={SUPPORTED_BANKS.map((x) => ({
+              key: x.name,
+              value: x.name,
+            }))}
+          />
+          <div className="flex justify-center pt-4">
+            <Button type="submit">Add Money</Button>
+          </div>
+        </form>
       </div>
     </Card>
   );

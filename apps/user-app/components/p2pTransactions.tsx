@@ -31,7 +31,8 @@ export const P2PTransactions = async ({
     );
   }
   const session = await getServerSession(authOptions);
-  //console.log(session?.user.id);
+  //console.log(transactions);
+  console.log("The session id is " + typeof session?.user.id);
 
   return (
     //Improve this card here to showcase also the name of the other person in the transaction, also if money is received
@@ -40,7 +41,9 @@ export const P2PTransactions = async ({
       <div className="pt-2">
         {transactions?.map((t) => {
           const otherPerson =
-            session.user.id == t.fromUser ? t.toUser : t.fromUser;
+            session.user.id === t.fromUser.id.toString()
+              ? t.toUser
+              : t.fromUser;
           return (
             <div className="flex justify-between border-b">
               <div>

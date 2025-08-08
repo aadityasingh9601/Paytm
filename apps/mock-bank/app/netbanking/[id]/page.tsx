@@ -1,4 +1,4 @@
-import VerfiyTpin from "../../../components/VerifyTpin";
+import VerifyTpin from "../../../components/verifyTpin";
 import db from "@repo/db/client";
 
 //You can make it a async component now, to fetch the transaction data using the token, like u've done in p2p & transfer,
@@ -12,19 +12,13 @@ interface Props {
 
 async function getTransactionData(token: string) {
   //This function will fetch the current transaction's data, as that will be used to display info on the netbanking page.
-  const t = await db.onRampTransaction.findFirst({
+  const t = await db.onRampTransaction.findUniqueOrThrow({
     where: {
       token: token,
     },
   });
 
-  if (t)
-    return {
-      token: t.token,
-      amount: t.amount,
-      userId: t.userId,
-      provider: t.provider,
-    };
+  return t;
 }
 
 export default async function page({ params }: Props) {
@@ -33,7 +27,7 @@ export default async function page({ params }: Props) {
   return (
     <div className="flex justify-center items-center h-[92.5vh]">
       <div className="min-w-[40rem]">
-        <VerfiyTpin txn={txnData} />
+        <VerifyTpin txn={txnData} />
       </div>
     </div>
   );

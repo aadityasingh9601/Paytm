@@ -28,4 +28,7 @@ export const verifyOnramps = async (data: any) => {
     //Redirect back to the website.
     window.location.href = `${redirectUrl}` || "";
   }
+
+  //Also you can maintain a queue or something like that here to ensure the transaction that are failed, unable to be
+  //processed currently, must try again, or if there's some error occured then send failure message altogether.
 };

@@ -2,12 +2,12 @@
 
 export const TextInput = ({
   placeholder,
-
   type,
   label,
   register,
   name,
   errors,
+  options,
 }: {
   placeholder: string;
   label: string;
@@ -15,6 +15,7 @@ export const TextInput = ({
   register?: any;
   name: string;
   errors?: any;
+  options?: any;
 }) => {
   return (
     <div className="pt-2">
@@ -22,7 +23,7 @@ export const TextInput = ({
         {label}
       </label>
       <input
-        {...register(name)}
+        {...register(name, { ...options })}
         type={type}
         id="first_name"
         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-4"

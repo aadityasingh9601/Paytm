@@ -2,7 +2,6 @@
 import { TextInput } from "@repo/ui/TextInput";
 import { Button2 } from "@repo/ui/Button2";
 import { signIn } from "next-auth/react";
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -10,7 +9,7 @@ import { z } from "zod";
 import { signinInput } from "@repo/schema/schema";
 
 export default function page() {
-  type signinInput = z.infer<typeof signinInput>;
+  type signinData = z.infer<typeof signinInput>;
   const {
     register,
     handleSubmit,
@@ -18,17 +17,15 @@ export default function page() {
   } = useForm({
     resolver: zodResolver(signinInput), // Apply the zodResolver
   });
-  const [number, setNumber] = useState("");
-  const [password, setPassword] = useState("");
+
   const router = useRouter();
 
-  const onSubmit = async (data: signinInput) => {
-    console.log("triggered");
+  const onSubmit = async (data: signinData) => {
     console.log(data);
     try {
       const res = await signIn("credentials", {
-        phone: number,
-        password: password,
+        phone: data.phone,
+        password: data.password,
         redirect: false,
         callbackUrl: process.env.NEXTAUTH_URL,
       });
