@@ -21,7 +21,7 @@ async function getP2PTransactions() {
     },
   });
 
-  console.log(p2pTxns);
+  //console.log(p2pTxns);
   return p2pTxns;
 }
 
