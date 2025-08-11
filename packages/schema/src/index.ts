@@ -1,6 +1,6 @@
 import { z, ZodType } from "zod";
 
-export const signupInput = z.object({
+export const signupSchema = z.object({
   email: z.string().endsWith("@gmail.com", "Invalid email!"),
   phone: z
     .string()
@@ -12,7 +12,7 @@ export const signupInput = z.object({
     .max(16, "Must be atmost 16 characters"),
 });
 
-export const signinInput = z.object({
+export const signinSchema = z.object({
   phone: z
     .string()
     .min(8, "Must be atleast 8 digits")
@@ -45,3 +45,19 @@ export const addMoneySchema = z.object({
 export const verifyOnrampsSchema = z.object({
   pin: z.string().regex(/^\d{6}$/, "OTP must be exactly 6 digits"),
 });
+
+export const bankWebhookSchema = z.object({
+  token: z.string().min(1),
+  userId: z.number(),
+  amount: z
+    .number()
+    .min(100, "Minimum amount ₹100")
+    .max(50000, "Maximum amount ₹50000"),
+});
+
+export type signupInput = z.infer<typeof signupSchema>;
+export type signinInput = z.infer<typeof signinSchema>;
+export type p2pInput = z.infer<typeof p2pSchema>;
+export type addMoneyInput = z.infer<typeof addMoneySchema>;
+export type verifyOnrampsInput = z.infer<typeof verifyOnrampsSchema>;
+export type bankWebhookInput = z.infer<typeof bankWebhookSchema>;

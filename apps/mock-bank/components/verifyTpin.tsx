@@ -3,10 +3,9 @@ import { Card } from "@repo/ui/card";
 import { TextInput } from "@repo/ui/TextInput";
 import { Button } from "@repo/ui/Button";
 import { verifyOnramps } from "../app/lib/actions/verifyOnramps";
-import { verifyOnrampsSchema } from "@repo/schema/schema";
+import { verifyOnrampsSchema, verifyOnrampsInput } from "@repo/schema/schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 
 type txnData = {
   id: number;
@@ -22,7 +21,6 @@ type txnData = {
 //also create a server action here that u can use to handle the backned logic.
 
 export default function VerifyTpin({ txn }: { txn: txnData }) {
-  type verifyOnrampData = z.infer<typeof verifyOnrampsSchema>;
   const {
     register,
     handleSubmit,
@@ -31,7 +29,7 @@ export default function VerifyTpin({ txn }: { txn: txnData }) {
     resolver: zodResolver(verifyOnrampsSchema),
   });
 
-  const onSubmit = async (data: verifyOnrampData) => {
+  const onSubmit = async (data: verifyOnrampsInput) => {
     const res = await verifyOnramps({
       userId: txn.userId,
       amount: txn.amount,

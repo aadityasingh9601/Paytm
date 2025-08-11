@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { NextResponse } from "next/server";
 import db from "@repo/db/client";
 import bcrypt from "bcrypt";
-import { signupInput } from "@repo/schema/schema";
+import { signupSchema } from "@repo/schema/schema";
 import { json } from "zod";
 
 //This function returns the session details of the current logged in user.
@@ -13,7 +13,7 @@ export const POST = async (req: Request, res: NextApiResponse) => {
     console.log(body);
     const { email, phone, password } = body;
     //Zod validation
-    const result = signupInput.safeParse(body);
+    const result = signupSchema.safeParse(body);
     if (!result.success) {
       console.log(result.error); // ZodError instance
       return new Response(result.error.message, {

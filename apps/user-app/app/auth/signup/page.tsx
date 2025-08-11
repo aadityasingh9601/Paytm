@@ -4,24 +4,22 @@ import { Button2 } from "@repo/ui/Button2";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { useState } from "react";
-import { signupInput } from "@repo/schema/schema";
-import { z } from "zod";
+import { signupSchema, signupInput } from "@repo/schema/schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 export default function page() {
-  type signupData = z.infer<typeof signupInput>;
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(signupInput), // Apply the zodResolver
+    resolver: zodResolver(signupSchema), // Apply the zodResolver
   });
 
   const router = useRouter();
 
-  const onSubmit = async (data: signupData) => {
+  const onSubmit = async (data: signupInput) => {
     console.log("trigerred");
     console.log(data);
     try {

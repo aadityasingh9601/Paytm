@@ -6,11 +6,9 @@ import { TextInput } from "@repo/ui/TextInput";
 import { p2pTransfer } from "../app/lib/actions/p2pTransfer";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { p2pSchema } from "@repo/schema/schema";
+import { p2pSchema, p2pInput } from "@repo/schema/schema";
 
 export const SendMoneyCard = () => {
-  type p2pData = z.infer<typeof p2pSchema>;
   const {
     register,
     handleSubmit,
@@ -19,7 +17,7 @@ export const SendMoneyCard = () => {
     resolver: zodResolver(p2pSchema),
   });
 
-  const onSubmit = (data: p2pData) => {
+  const onSubmit = (data: p2pInput) => {
     console.log(data);
     //doing * 100 to avoid sending and storing decimals in our database.
     p2pTransfer(data.phone, data.amount * 100);

@@ -6,8 +6,7 @@ import { TextInput } from "@repo/ui/TextInput";
 import { onRampTransaction } from "../app/lib/actions/onRampTransaction";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { addMoneySchema } from "@repo/schema/schema";
-import { z } from "zod";
+import { addMoneySchema, addMoneyInput } from "@repo/schema/schema";
 
 const SUPPORTED_BANKS = [
   {
@@ -22,7 +21,6 @@ export const AddMoney = () => {
   //If you have multiple banks with differenet redirect urls you can create a separate state managment for them too, like
   //it was done earlier, using a SUPPORTED_BANKS array.
   const redirectUrl = "http://localhost:3001/netbanking";
-  type addMoneyData = z.infer<typeof addMoneySchema>;
 
   const {
     register,
@@ -32,7 +30,7 @@ export const AddMoney = () => {
     resolver: zodResolver(addMoneySchema),
   });
 
-  const onSubmit = async (data: addMoneyData) => {
+  const onSubmit = async (data: addMoneyInput) => {
     //Server action handling the logic here.
     const res = await onRampTransaction(data.amount * 100, data.provider);
     window.location.href = `${redirectUrl}/${res.token}` || "";
