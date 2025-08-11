@@ -2,6 +2,7 @@ import express from "express";
 import db from "@repo/db/client";
 import bodyParser from "body-parser";
 import cors from "cors";
+import { bankWebhookSchema } from "@repo/schema/schema";
 
 const app = express();
 
@@ -28,6 +29,12 @@ app.post("/bankWebhook", async (req, res) => {
     const { token, userId, amount } = req.body;
 
     //Add zod validation here.
+    const result = bankWebhookSchema.safeParse(req.body);
+    if (!result.success) {
+      console.log(result.error);
+      res.status(400).send(result.error);
+      return;
+    }
     //Check if the request actually came from the bank using a webhook secret here.
 
     const paymentInformation = {

@@ -5,22 +5,20 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { signinInput } from "@repo/schema/schema";
+import { signinSchema, signinInput } from "@repo/schema/schema";
 
 export default function page() {
-  type signinData = z.infer<typeof signinInput>;
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(signinInput), // Apply the zodResolver
+    resolver: zodResolver(signinSchema), // Apply the zodResolver
   });
 
   const router = useRouter();
 
-  const onSubmit = async (data: signinData) => {
+  const onSubmit = async (data: signinInput) => {
     console.log(data);
     try {
       const res = await signIn("credentials", {

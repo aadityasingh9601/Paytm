@@ -6,7 +6,7 @@ import db from "@repo/db/client";
 const getAccountInfo = async (userId: number) => {
   const res = await db.user.findUniqueOrThrow({
     where: {
-      id: userId,
+      id: Number(userId),
     },
     select: {
       id: true,
