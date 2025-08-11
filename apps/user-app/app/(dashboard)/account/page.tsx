@@ -1,13 +1,37 @@
+import { getServerSession } from "next-auth";
 import AccountCard from "../../../components/AccountCard";
+import { authOptions } from "../../lib/auth";
+import db from "@repo/db/client";
 
-export default function () {
+const getAccountInfo = async (userId: number) => {
+  const res = await db.user.findUniqueOrThrow({
+    where: {
+      id: userId,
+    },
+    select: {
+      id: true,
+      email: true,
+      name: true,
+      tpin: true,
+      country: true,
+    },
+  });
+
+  console.log(res);
+
+  return res;
+};
+
+export default async function () {
+  const session = await getServerSession(authOptions);
+  const accountData = await getAccountInfo(session.user?.id);
   return (
     <div className="w-screen">
       <div className="text-4xl text-[#6a51a6] pt-8 mb-8 font-bold">
         Account settings
       </div>
       <div>
-        <AccountCard />
+        <AccountCard accountInfo={accountData} />
       </div>
     </div>
   );
