@@ -2,7 +2,17 @@ import { Card } from "@repo/ui/card";
 import { Button } from "@repo/ui/Button";
 import AccountCardItem from "./AccountCardItem";
 
-export default function AccountCard() {
+export default function AccountCard({
+  accountInfo,
+}: {
+  accountInfo: {
+    id: number;
+    email: string;
+    country: string | null;
+    name: string | null;
+    tpin: number | null;
+  };
+}) {
   return (
     <div className=" border p-6 bg-white rounded-xl bg-[#ededed] w-full">
       <div className="flex justify-between align-center text-xl border-b pb-2 w-full">

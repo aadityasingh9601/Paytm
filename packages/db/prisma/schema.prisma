@@ -22,7 +22,8 @@ model User{
     number String @unique
     password String
     tpin Int? //It will be used to verify the transactions from bank to wallet app. Make sure to migrate the database & 
-    //also re-generate prisma client & run npm install globally.  
+    //also re-generate prisma client & run npm install globally.
+    country String?  
     Balance Balance[]
     OnRampTransaction OnRampTransaction[]
     sentTransfers p2pTransfers[] @relation(name: "FromUserRelation")
