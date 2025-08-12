@@ -40,6 +40,7 @@ export const AddMoney = () => {
       <div className="w-full">
         <form onSubmit={handleSubmit(onSubmit)}>
           <TextInput
+            size="md"
             label={"Amount"}
             placeholder={"Amount"}
             register={register}

@@ -1,38 +1,52 @@
-import { Card } from "@repo/ui/card";
+"use client";
 import { Button } from "@repo/ui/Button";
 import AccountCardItem from "./AccountCardItem";
+import AccountForm from "./AccountForm";
+import { useState } from "react";
 
 export default function AccountCard({
   accountInfo,
 }: {
   accountInfo: {
-    id: number;
     email: string;
-    country: string | null;
-    name: string | null;
-    tpin: number | null;
+    phone: string;
+    country: string;
+    name: string;
+    tpin: string;
   };
 }) {
+  const [edit, setEdit] = useState(false);
   return (
     <div className=" border p-6 bg-white rounded-xl bg-[#ededed] w-full">
       <div className="flex justify-between align-center text-xl border-b pb-2 w-full">
         <div>Personal Info</div>
         <div>
-          <Button type="button">Edit</Button>
+          <Button
+            type="button"
+            onClick={() => {
+              setEdit(!edit);
+            }}
+          >
+            {edit ? "Cancel" : "Edit"}
+          </Button>
         </div>
       </div>
       <div className="relative">
-        <div className="space-y-4">
-          <AccountCardItem field={"Public Id"} value="123" />
+        {edit ? (
+          <AccountForm accountInfo={accountInfo} />
+        ) : (
+          <div className="space-y-4">
+            <AccountCardItem field="Name" value={accountInfo.name} />
 
-          <AccountCardItem field="Name" value="Aaditya Singh" />
+            <AccountCardItem field="Email" value={accountInfo.email} />
 
-          <AccountCardItem field="Email" value="abc@gmail.com" />
+            <AccountCardItem field="Phone" value={accountInfo.phone} />
 
-          <AccountCardItem field="T-PIN" value="123456" />
+            <AccountCardItem field="T-PIN" value={accountInfo.tpin} />
 
-          <AccountCardItem field="Country" value="India" />
-        </div>
+            <AccountCardItem field="Country" value={accountInfo.country} />
+          </div>
+        )}
       </div>
     </div>
   );
