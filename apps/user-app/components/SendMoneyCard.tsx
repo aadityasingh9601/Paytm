@@ -17,10 +17,18 @@ export const SendMoneyCard = () => {
     resolver: zodResolver(p2pSchema),
   });
 
-  const onSubmit = (data: p2pInput) => {
-    console.log(data);
+  const onSubmit = async (data: p2pInput) => {
+    //console.log(data);
     //doing * 100 to avoid sending and storing decimals in our database.
-    p2pTransfer(data.phone, data.amount * 100);
+    const res = await p2pTransfer(data.phone, data.amount * 100);
+    //If everything goes well add a toast notificaation here.
+    if (res.success) {
+      // Handle success
+      toast.success(res.message ?? "Success");
+    } else {
+      // Handle error
+      toast.error(res.error ?? "Some error occured!");
+    }
   };
   return (
     <div className="h-full flex justify-center flex-col">
@@ -28,6 +36,7 @@ export const SendMoneyCard = () => {
         <div className="min-w-72 pt-2">
           <form onSubmit={handleSubmit(onSubmit)}>
             <TextInput
+              size="md"
               register={register}
               errors={errors}
               name="phone"
@@ -35,6 +44,7 @@ export const SendMoneyCard = () => {
               label="Phone number"
             />
             <TextInput
+              size="md"
               register={register}
               errors={errors}
               name="amount"
