@@ -1,19 +1,17 @@
 import axios from "axios";
-import { verifyOnrampsSchema } from "@repo/schema/schema";
+import { bankWithOnrampSchema, bankWithOnRampInput } from "@repo/schema/schema";
 import db from "@repo/db/client";
 
 let redirectUrl = "http://localhost:3000/transfer";
 
-export const verifyOnramps = async (data: any) => {
+export const verifyOnramps = async (data: bankWithOnRampInput) => {
   console.log(data);
 
-  //Add zod validation here.
+  //Using the combined schema and type of both verifyOnrampsSchema & bankWebhookSchema, as both are needed here.
 
-  //Use the combined schema and type of both verifyOnrampsInput and bankWebhookInput, as both are needed here.
-
-  const result = verifyOnrampsSchema.safeParse(data);
+  const result = bankWithOnrampSchema.safeParse(data);
   if (!result.success) {
-    console.log(result.error); // ZodError instance
+    console.log(result.error);
     return new Response(result.error.message, {
       status: 400,
     });
@@ -33,6 +31,11 @@ export const verifyOnramps = async (data: any) => {
   }
 
   //Check if the tpin entered is correct or not.
+  if (user.tpin !== data.tpin) {
+    return new Response("Tpin is incorrect", {
+      status: 400,
+    });
+  }
 
   //If correct, transaction is successful & request goes to the bank web hook hanlder that the transaction is completed
   //successfully, inform it, so that it can update the details.
@@ -46,7 +49,7 @@ export const verifyOnramps = async (data: any) => {
     {}
   );
 
-  //console.log(res);
+  console.log(res);
   if (res.status === 200) {
     //Show a toast notification or pop-up here for success.
 

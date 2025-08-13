@@ -42,6 +42,7 @@ export default function page() {
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col ">
               <TextInput
+                size="md"
                 register={register}
                 errors={errors}
                 name="email"
@@ -50,6 +51,7 @@ export default function page() {
                 placeholder="Enter your email"
               />
               <TextInput
+                size="md"
                 register={register}
                 errors={errors}
                 name="phone"
@@ -58,6 +60,7 @@ export default function page() {
                 placeholder="Enter phone number"
               />
               <TextInput
+                size="md"
                 register={register}
                 errors={errors}
                 name="password"

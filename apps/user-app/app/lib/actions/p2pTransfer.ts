@@ -2,6 +2,7 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth";
 import db from "@repo/db/client";
+import { error } from "console";
 
 export const p2pTransfer = async (to: string, amount: number) => {
   //First check the login status of the current user.
@@ -10,7 +11,8 @@ export const p2pTransfer = async (to: string, amount: number) => {
   //If userId doesn't exists means the user isn't logged in or some problem
   if (!from) {
     return {
-      message: "Error while sending, check your login status",
+      success: false,
+      error: "Error while sending, check your login status",
     };
   }
 
@@ -23,7 +25,8 @@ export const p2pTransfer = async (to: string, amount: number) => {
 
   if (!toUser) {
     return {
-      message: "User not found",
+      success: false,
+      error: "User not found",
     };
   }
 
@@ -44,7 +47,8 @@ export const p2pTransfer = async (to: string, amount: number) => {
 
     if (!fromBalance || fromBalance?.amount < amount) {
       return {
-        message: "Insufficient funds",
+        success: false,
+        error: "Insufficient funds",
       };
     }
 
@@ -83,6 +87,7 @@ export const p2pTransfer = async (to: string, amount: number) => {
   });
 
   return {
+    success: true,
     message: "Transaction successful",
   };
 };
