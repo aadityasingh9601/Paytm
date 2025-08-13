@@ -14,6 +14,7 @@ export const onRampTransaction = async (amount: number, provider: string) => {
   const token = Math.random().toString();
 
   const userId = session?.user.id;
+  //console.log(session);
 
   if (!userId) {
     return {

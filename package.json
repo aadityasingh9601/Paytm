@@ -11,6 +11,7 @@
     "start-user-app": "cd apps/user-app && npm run dev"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^3.0.0",
     "prettier": "^3.5.3",
     "prettier-plugin-tailwindcss": "^0.6.11",
     "turbo": "^2.5.5"
@@ -52,6 +53,7 @@
     "available-typed-arrays": "^1.0.7",
     "axios": "^1.10.0",
     "balanced-match": "^1.0.2",
+    "bcryptjs": "^3.0.2",
     "binary-extensions": "^2.3.0",
     "brace-expansion": "^1.1.11",
     "braces": "^3.0.3",

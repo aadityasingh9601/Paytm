@@ -4,6 +4,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { accountSchema, accountInput } from "@repo/schema/schema";
 import { Button } from "@repo/ui/Button";
+import { updateAccount } from "../app/lib/actions/updateAccount";
+import { useSession } from "next-auth/react";
 
 export default function AccountForm({
   accountInfo,
@@ -22,15 +24,18 @@ export default function AccountForm({
     formState: { errors },
   } = useForm({
     resolver: zodResolver(accountSchema),
-    defaultValues: {
-      phone: accountInfo.phone,
-      email: accountInfo.email,
-      tpin: accountInfo.tpin,
-    },
+    defaultValues: accountInfo,
   });
 
-  const onSubmit = (data: accountInput) => {
+  // const session = useSession();
+  // const userId = session.data?.user.id;
+
+  const onSubmit = async (data: accountInput) => {
     console.log(data);
+
+    const res = await updateAccount(data);
+
+    console.log(res);
   };
 
   return (

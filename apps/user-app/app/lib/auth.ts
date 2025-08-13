@@ -1,5 +1,5 @@
 import CredentialsProvider from "next-auth/providers/credentials";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import db from "@repo/db/client";
 
 console.log(process.env.NEXTAUTH_SECRET);
@@ -56,12 +56,13 @@ export const authOptions = {
   //We've added this callback here to include the id of the user in the session data too, you can also use other similar
   //callbacks to perform various tasks, see on NextAuth docs.
   callbacks: {
-    session: async ({ session, token }: { session: any; token: any }) => {
-      if (session?.user) {
-        session.user.id = token.sub;
-      }
-      return session;
-    },
+    session: ({ session, token }: { session: any; token: any }) => ({
+      ...session,
+      user: {
+        ...session.user,
+        id: token.sub,
+      },
+    }),
   },
   pages: {
     signIn: "/signin",

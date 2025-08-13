@@ -2,13 +2,22 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth";
 import db from "@repo/db/client";
-import { error } from "console";
 
 export const p2pTransfer = async (to: string, amount: number) => {
   //First check the login status of the current user.
   const session = await getServerSession(authOptions);
-  const from = session?.user?.id;
+
+  const userId = session?.user.id;
   //If userId doesn't exists means the user isn't logged in or some problem
+  if (!userId) {
+    return {
+      success: false,
+      message: "User not logged in!",
+    };
+  }
+
+  const from = session?.user?.id;
+
   if (!from) {
     return {
       success: false,
