@@ -30,7 +30,7 @@ export const p2pSchema = z.object({
     .max(12, "Must be atmost 12 digits"),
   amount: z
     .number()
-    .min(100, "Minimum amount ₹10")
+    .min(10, "Minimum amount ₹10")
     .max(50000, "Maximum amount ₹50000"),
 });
 
@@ -43,7 +43,7 @@ export const addMoneySchema = z.object({
 });
 
 export const verifyOnrampsSchema = z.object({
-  pin: z.string().regex(/^\d{6}$/, "OTP must be exactly 6 digits"),
+  tpin: z.string().regex(/^\d{6}$/, "OTP must be exactly 6 digits"),
 });
 
 export const bankWebhookSchema = z.object({
@@ -55,9 +55,28 @@ export const bankWebhookSchema = z.object({
     .max(50000, "Maximum amount ₹50000"),
 });
 
+// Combined schema using extend
+export const bankWithOnrampSchema = bankWebhookSchema.extend({
+  ...verifyOnrampsSchema.shape,
+});
+
+export const accountSchema = z.object({
+  email: z.string().endsWith("@gmail.com", "Invalid email!"),
+  phone: z
+    .string()
+    .min(8, "Must be atleast 8 digits")
+    .max(12, "Must be atmost 12 digits"),
+  tpin: z.string().regex(/^\d{6}$/, "OTP must be exactly 6 digits"),
+
+  name: z.string(),
+  country: z.string(),
+});
+
 export type signupInput = z.infer<typeof signupSchema>;
 export type signinInput = z.infer<typeof signinSchema>;
 export type p2pInput = z.infer<typeof p2pSchema>;
 export type addMoneyInput = z.infer<typeof addMoneySchema>;
 export type verifyOnrampsInput = z.infer<typeof verifyOnrampsSchema>;
 export type bankWebhookInput = z.infer<typeof bankWebhookSchema>;
+export type bankWithOnRampInput = z.infer<typeof bankWithOnrampSchema>;
+export type accountInput = z.infer<typeof accountSchema>;

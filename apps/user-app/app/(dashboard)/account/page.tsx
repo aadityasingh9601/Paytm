@@ -9,22 +9,29 @@ const getAccountInfo = async (userId: number) => {
       id: Number(userId),
     },
     select: {
-      id: true,
       email: true,
       name: true,
       tpin: true,
+      number: true,
       country: true,
     },
   });
 
   console.log(res);
 
-  return res;
+  return {
+    name: res.name ?? "",
+    email: res.email,
+    phone: res.number,
+    tpin: res.tpin ?? "", //Even if it's null assign a default value to them.
+    country: res.country ?? "",
+  };
 };
 
 export default async function () {
   const session = await getServerSession(authOptions);
   const accountData = await getAccountInfo(session.user?.id);
+
   return (
     <div className="w-screen">
       <div className="text-4xl text-[#6a51a6] pt-8 mb-8 font-bold">

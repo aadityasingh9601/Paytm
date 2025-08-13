@@ -34,7 +34,7 @@ export default function VerifyTpin({ txn }: { txn: txnData }) {
       userId: txn.userId,
       amount: txn.amount,
       token: txn.token,
-      pin: data.pin,
+      tpin: data.tpin,
     });
     console.log(res);
   };
@@ -48,10 +48,11 @@ export default function VerifyTpin({ txn }: { txn: txnData }) {
           <form onSubmit={handleSubmit(onSubmit)}>
             <div>
               <TextInput
+                size="md"
                 label={"Enter you Tpin"}
                 placeholder={"Enter your 6 digit Tpin here"}
                 register={register}
-                name="pin"
+                name="tpin"
                 errors={errors}
               />
             </div>

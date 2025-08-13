@@ -8,15 +8,21 @@ export const TextInput = ({
   name,
   errors,
   options,
+  size,
 }: {
   placeholder: string;
   label: string;
   type?: string;
-  register?: any;
+  register: any;
   name: string;
   errors?: any;
   options?: any;
+  size: "sm" | "md";
 }) => {
+  const sizeClasses = {
+    sm: "w-[25rem] py-2",
+    md: "w-full py-4",
+  };
   return (
     <div className="pt-2">
       <label className="block mb-2 text-sm font-medium text-gray-900">
@@ -26,7 +32,7 @@ export const TextInput = ({
         {...register(name, { ...options })}
         type={type}
         id="first_name"
-        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-4"
+        className={`bg-gray-50 border border-gray-300 ${sizeClasses[size]} px-2.5 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block`}
         placeholder={placeholder}
       />
       {errors[name] && (
