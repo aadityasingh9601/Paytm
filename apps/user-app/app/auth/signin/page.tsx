@@ -38,13 +38,14 @@ export default function page() {
   };
 
   return (
-    <div className="flex justify-center items-center h-[92.5vh]">
+    <div className="flex justify-center items-center h-[92.8vh]">
       <div className="flex flex-col justify-center items-center border-[2px] rounded-md border-grey-800 bg-white w-[26rem] min-h-[23rem] p-5">
         <div className="text-2xl">Log in</div>
-        <div className="flex flex-col justify-center min-w-[20rem] gap-[1rem]">
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="flex flex-col">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="flex flex-col justify-center min-w-[20rem] gap-[1rem]">
+            <div>
               <TextInput
+                size="md"
                 register={register}
                 name="phone"
                 errors={errors}
@@ -53,6 +54,7 @@ export default function page() {
                 placeholder="Enter phone number"
               />
               <TextInput
+                size="md"
                 register={register}
                 errors={errors}
                 name="password"
@@ -73,8 +75,8 @@ export default function page() {
             >
               No account? Sign up!
             </Button2>
-          </form>
-        </div>
+          </div>
+        </form>
       </div>
     </div>
   );

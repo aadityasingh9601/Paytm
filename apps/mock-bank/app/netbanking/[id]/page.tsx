@@ -25,7 +25,7 @@ export default async function page({ params }: Props) {
   const token = params.id;
   const txnData = await getTransactionData(token);
   return (
-    <div className="flex justify-center items-center h-[92.5vh]">
+    <div className="flex justify-center items-center h-[100vh]">
       <div className="min-w-[40rem]">
         <VerifyTpin txn={txnData} />
       </div>

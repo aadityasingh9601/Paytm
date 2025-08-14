@@ -6,6 +6,9 @@ import { verifyOnramps } from "../app/lib/actions/verifyOnramps";
 import { verifyOnrampsSchema, verifyOnrampsInput } from "@repo/schema/schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import toast from "react-hot-toast";
+
+const redirectUrl = `http://localhost:3000/transfer`;
 
 type txnData = {
   id: number;
@@ -37,6 +40,14 @@ export default function VerifyTpin({ txn }: { txn: txnData }) {
       tpin: data.tpin,
     });
     console.log(res);
+    if (res?.success) {
+      toast.success(res.message ?? "Success");
+      //Redirect back to the website.
+      window.location.href = `${redirectUrl}` || "";
+    } else {
+      console.log(res.error);
+      toast.error(res.error);
+    }
   };
 
   return (
