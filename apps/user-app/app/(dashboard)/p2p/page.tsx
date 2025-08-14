@@ -38,10 +38,9 @@ export default async function page() {
         <div>
           <SendMoneyCard />
         </div>
-        <div>
-          {/*@ts-ignore */}
-          <P2PTransactions transactions={transactions} />
-        </div>
+
+        {/*@ts-ignore */}
+        <P2PTransactions transactions={transactions} />
       </div>
     </div>
   );

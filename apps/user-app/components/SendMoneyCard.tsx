@@ -31,33 +31,31 @@ export const SendMoneyCard = () => {
     }
   };
   return (
-    <div className="h-full flex justify-center flex-col">
-      <Card title="Send Money">
-        <div className="min-w-72 pt-2">
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <TextInput
-              size="md"
-              register={register}
-              errors={errors}
-              name="phone"
-              placeholder="Enter number"
-              label="Phone number"
-            />
-            <TextInput
-              size="md"
-              register={register}
-              errors={errors}
-              name="amount"
-              options={{ valueAsNumber: true }}
-              placeholder="Enter amount"
-              label="Amount"
-            />
-            <div className="pt-4 flex justify-center">
-              <Button type="submit">Send</Button>
-            </div>
-          </form>
-        </div>
-      </Card>
-    </div>
+    <Card title="Send Money">
+      <div className="min-w-72 pt-2">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <TextInput
+            size="md"
+            register={register}
+            errors={errors}
+            name="phone"
+            placeholder="Enter number"
+            label="Phone number"
+          />
+          <TextInput
+            size="md"
+            register={register}
+            errors={errors}
+            name="amount"
+            options={{ valueAsNumber: true }}
+            placeholder="Enter amount"
+            label="Amount"
+          />
+          <div className="pt-4 flex justify-center">
+            <Button type="submit">Send</Button>
+          </div>
+        </form>
+      </div>
+    </Card>
   );
 };
