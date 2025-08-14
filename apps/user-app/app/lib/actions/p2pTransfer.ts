@@ -4,6 +4,7 @@ import { authOptions } from "../auth";
 import db from "@repo/db/client";
 
 export const p2pTransfer = async (to: string, amount: number) => {
+  //First of all add zod validation here.
   //First check the login status of the current user.
   const session = await getServerSession(authOptions);
 
@@ -12,7 +13,7 @@ export const p2pTransfer = async (to: string, amount: number) => {
   if (!userId) {
     return {
       success: false,
-      message: "User not logged in!",
+      error: "User not logged in!",
     };
   }
 

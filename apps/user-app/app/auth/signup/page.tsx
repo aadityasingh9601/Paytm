@@ -2,11 +2,12 @@
 import { TextInput } from "@repo/ui/TextInput";
 import { Button2 } from "@repo/ui/Button2";
 import { useRouter } from "next/navigation";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useState } from "react";
 import { signupSchema, signupInput } from "@repo/schema/schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import toast from "react-hot-toast";
 
 export default function page() {
   const {
@@ -20,27 +21,29 @@ export default function page() {
   const router = useRouter();
 
   const onSubmit = async (data: signupInput) => {
-    console.log("trigerred");
     console.log(data);
     try {
       const res = await axios.post("/api/auth/signup", data, {});
       if (res.status === 200) {
+        toast.success(res.data);
         router.push("/auth/signin");
       }
       if (res.status === 400) {
         console.log(res);
+        toast.error(res.data);
       }
-    } catch (err) {
-      console.log(err);
+    } catch (e: unknown) {
+      toast.error("Some error occured");
+      console.log(e);
     }
   };
   return (
-    <div className="flex justify-center items-center h-[92.5vh]">
+    <div className="flex justify-center items-center  h-[92.8vh]">
       <div className="flex flex-col justify-center items-center border-[2px] rounded-md border-grey-800 bg-white w-[26rem] min-h-[23rem] max-h-[31rem] p-5">
         <div className="text-2xl">Sign up</div>
-        <div className="flex flex-col justify-center min-w-[20rem] gap-[1rem]">
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="flex flex-col ">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="flex flex-col justify-center min-w-[20rem] gap-[1rem]">
+            <div>
               <TextInput
                 size="md"
                 register={register}
@@ -69,6 +72,7 @@ export default function page() {
                 placeholder="Enter password"
               />
             </div>
+
             <Button2 shade="solid" type="submit">
               Next
             </Button2>
@@ -81,8 +85,8 @@ export default function page() {
             >
               Existing account? Log in!
             </Button2>
-          </form>
-        </div>
+          </div>
+        </form>
       </div>
     </div>
   );

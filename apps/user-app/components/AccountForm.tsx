@@ -6,6 +6,7 @@ import { accountSchema, accountInput } from "@repo/schema/schema";
 import { Button } from "@repo/ui/Button";
 import { updateAccount } from "../app/lib/actions/updateAccount";
 import { useSession } from "next-auth/react";
+import { toast } from "react-hot-toast";
 
 export default function AccountForm({
   accountInfo,
@@ -27,15 +28,21 @@ export default function AccountForm({
     defaultValues: accountInfo,
   });
 
-  // const session = useSession();
-  // const userId = session.data?.user.id;
+  const session = useSession();
+  const userId = session.data?.user.id;
 
   const onSubmit = async (data: accountInput) => {
     console.log(data);
 
-    const res = await updateAccount(data);
+    const res = await updateAccount(Number(userId), data);
 
     console.log(res);
+
+    if (res.success) {
+      toast.success(res.message ?? "Success");
+    } else {
+      toast.error(res.error ?? "Some error occured!");
+    }
   };
 
   return (
