@@ -1,5 +1,4 @@
 import { AddMoney } from "../../../components/AddMoneyCard";
-import { BalanceCard } from "../../../components/BalanceCard";
 import { OnRampTransactions } from "../../../components/OnRampTransactions";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../lib/auth";
@@ -7,6 +6,7 @@ import db from "@repo/db/client";
 
 async function getOnRampTransactions() {
   const session = await getServerSession(authOptions);
+
   //console.log(session);
   const txns = await db.onRampTransaction.findMany({
     where: {

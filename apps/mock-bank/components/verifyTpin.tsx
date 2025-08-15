@@ -41,9 +41,8 @@ export default function VerifyTpin({ txn }: { txn: txnData }) {
     });
     console.log(res);
     if (res?.success) {
-      toast.success(res.message ?? "Success");
       //Redirect back to the website.
-      window.location.href = `${redirectUrl}` || "";
+      window.location.href = `${redirectUrl}?success=true` || "";
     } else {
       console.log(res.error);
       toast.error(res.error);
@@ -59,6 +58,7 @@ export default function VerifyTpin({ txn }: { txn: txnData }) {
           <form onSubmit={handleSubmit(onSubmit)}>
             <div>
               <TextInput
+                type="password"
                 size="md"
                 label={"Enter you Tpin"}
                 placeholder={"Enter your 6 digit Tpin here"}
