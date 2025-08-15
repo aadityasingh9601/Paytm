@@ -2,9 +2,18 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth";
 import db from "@repo/db/client";
+import { p2pSchema } from "@repo/schema/schema";
 
-export const p2pTransfer = async (to: string, amount: number) => {
+export const p2pTransfer = async (phone: string, amount: number) => {
   //First of all add zod validation here.
+  const result = p2pSchema.safeParse({ phone, amount });
+  if (!result.success) {
+    console.log(result.error.message);
+    return {
+      success: false,
+      error: result.error.message,
+    };
+  }
   //First check the login status of the current user.
   const session = await getServerSession(authOptions);
 
@@ -29,7 +38,7 @@ export const p2pTransfer = async (to: string, amount: number) => {
   //Find the user to whom money has to be sent.
   const toUser = await db.user.findFirst({
     where: {
-      number: to,
+      number: phone,
     },
   });
 
@@ -55,7 +64,7 @@ export const p2pTransfer = async (to: string, amount: number) => {
     const fromBalance =
       await tx.$queryRaw`SELECT * FROM "Balance" WHERE "userId" = ${Number(from)} FOR UPDATE`;
 
-    if (!fromBalance || fromBalance?.amount < amount) {
+    if (!fromBalance || fromBalance?.amount < amount * 100) {
       return {
         success: false,
         error: "Insufficient funds",
@@ -69,7 +78,7 @@ export const p2pTransfer = async (to: string, amount: number) => {
       },
       data: {
         amount: {
-          decrement: amount,
+          decrement: amount * 100,
         },
       },
     });
@@ -80,7 +89,7 @@ export const p2pTransfer = async (to: string, amount: number) => {
       },
       data: {
         amount: {
-          increment: amount,
+          increment: amount * 100,
         },
       },
     });
@@ -88,7 +97,7 @@ export const p2pTransfer = async (to: string, amount: number) => {
     //Make sure to create transaction history too & show on the UI.
     await tx.p2pTransfers.create({
       data: {
-        amount,
+        amount: amount * 100,
         timeStamp: new Date(),
         fromUserId: Number(from),
         toUserId: toUser.id,

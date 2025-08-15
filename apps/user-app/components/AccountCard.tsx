@@ -16,6 +16,9 @@ export default function AccountCard({
   };
 }) {
   const [edit, setEdit] = useState(false);
+  const updateEdit = (value: boolean) => {
+    setEdit(value);
+  };
   return (
     <div className=" border p-6 bg-white rounded-xl bg-[#ededed] w-full">
       <div className="flex justify-between align-center text-xl border-b pb-2 w-full">
@@ -24,7 +27,7 @@ export default function AccountCard({
           <Button
             type="button"
             onClick={() => {
-              setEdit(!edit);
+              updateEdit(!edit);
             }}
           >
             {edit ? "Cancel" : "Edit"}
@@ -33,7 +36,7 @@ export default function AccountCard({
       </div>
       <div className="relative">
         {edit ? (
-          <AccountForm accountInfo={accountInfo} />
+          <AccountForm accountInfo={accountInfo} updateEdit={updateEdit} />
         ) : (
           <div className="space-y-4">
             <AccountCardItem field="Name" value={accountInfo.name} />

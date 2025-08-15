@@ -19,8 +19,7 @@ export const SendMoneyCard = () => {
 
   const onSubmit = async (data: p2pInput) => {
     //console.log(data);
-    //doing * 100 to avoid sending and storing decimals in our database.
-    const res = await p2pTransfer(data.phone, data.amount * 100);
+    const res = await p2pTransfer(data.phone, data.amount);
     //If everything goes well add a toast notificaation here.
     if (res.success) {
       // Handle success

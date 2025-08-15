@@ -27,6 +27,7 @@ app.post("/bankWebhook", async (req, res) => {
     //Only do this, if the status is still processing. Add zod validation too.
     console.log(req.body);
     const { token, userId, amount } = req.body;
+    console.log(amount);
 
     //Add zod validation here.
     const result = bankWebhookSchema.safeParse(req.body);
@@ -40,7 +41,7 @@ app.post("/bankWebhook", async (req, res) => {
     const paymentInformation = {
       token: token,
       userId: Number(userId),
-      amount: amount,
+      amount: amount * 100,
     };
     //Here the bank has told us that this is the token, this is the user, this is the amount that they has transfered or
     //or something, now we've to store this transaction details & payment info in the database.

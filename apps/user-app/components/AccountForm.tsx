@@ -10,6 +10,7 @@ import { toast } from "react-hot-toast";
 
 export default function AccountForm({
   accountInfo,
+  updateEdit,
 }: {
   accountInfo: {
     email: string;
@@ -18,6 +19,7 @@ export default function AccountForm({
     name: string;
     tpin: string;
   };
+  updateEdit: any;
 }) {
   const {
     register,
@@ -39,6 +41,7 @@ export default function AccountForm({
     console.log(res);
 
     if (res.success) {
+      updateEdit(false);
       toast.success(res.message ?? "Success");
     } else {
       toast.error(res.error ?? "Some error occured!");

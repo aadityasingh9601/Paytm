@@ -32,7 +32,7 @@ export const AddMoney = () => {
 
   const onSubmit = async (data: addMoneyInput) => {
     //Server action handling the logic here.
-    const res = await onRampTransaction(data.amount * 100, data.provider);
+    const res = await onRampTransaction(data.amount, data.provider);
     window.location.href = `${redirectUrl}/${res.token}` || "";
   };
   return (

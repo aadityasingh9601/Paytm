@@ -35,7 +35,7 @@ export default function VerifyTpin({ txn }: { txn: txnData }) {
   const onSubmit = async (data: verifyOnrampsInput) => {
     const res = await verifyOnramps({
       userId: txn.userId,
-      amount: txn.amount,
+      amount: txn.amount / 100, //DATABASES HAS AMOUNT STORES BY *100, SO TO USE WE'VE TO DIVIDE BY 100
       token: txn.token,
       tpin: data.tpin,
     });
@@ -55,7 +55,7 @@ export default function VerifyTpin({ txn }: { txn: txnData }) {
       <Card
         title={`You are transfering ₹${txn.amount / 100} from your ${txn.provider} bank account to Paytm PVT LTD`}
       >
-        <div className="w-full flex flex-col gap-2">
+        <div className="w-full flex flex-col mt-4">
           <form onSubmit={handleSubmit(onSubmit)}>
             <div>
               <TextInput
@@ -67,7 +67,15 @@ export default function VerifyTpin({ txn }: { txn: txnData }) {
                 errors={errors}
               />
             </div>
-            <div className="flex justify-center">
+            <div className="flex justify-center pt-4">
+              <Button
+                type="button"
+                onClick={() => {
+                  window.location.href = `${redirectUrl}` || "";
+                }}
+              >
+                Return home
+              </Button>
               <Button type="submit">Add Money</Button>
             </div>
           </form>
