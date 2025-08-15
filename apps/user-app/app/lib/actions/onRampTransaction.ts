@@ -28,7 +28,7 @@ export const onRampTransaction = async (amount: number, provider: string) => {
       userId: Number(userId),
       startTime: new Date(),
       token: token,
-      amount: amount,
+      amount: amount * 100,
       provider: provider,
       status: "Processing",
     },

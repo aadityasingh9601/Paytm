@@ -3,10 +3,9 @@
 import axios from "axios";
 import { bankWithOnrampSchema, bankWithOnRampInput } from "@repo/schema/schema";
 import db from "@repo/db/client";
-import { error } from "console";
 
 export const verifyOnramps = async (data: bankWithOnRampInput) => {
-  //console.log(data);
+  console.log(data);
 
   const result = bankWithOnrampSchema.safeParse(data);
   if (!result.success) {
@@ -28,6 +27,15 @@ export const verifyOnramps = async (data: bankWithOnRampInput) => {
     return {
       success: false,
       error: "User doesn't exists!",
+    };
+  }
+
+  //If the user hasn't set up their tpin yet.
+  if (user.tpin == null) {
+    return {
+      success: false,
+      error:
+        "Setup your tpin first (in account settings) to enable bank transfers!",
     };
   }
 
