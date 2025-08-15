@@ -49,6 +49,8 @@ export const p2pTransfer = async (phone: string, amount: number) => {
     };
   }
 
+  let newTxnData;
+
   //Create a transaction as we want everything to happen or nothing to happen.
   //There is another way to define a transaction, see in other files in this lib folder. Understand both of them & when we use
   //each one.
@@ -95,12 +97,26 @@ export const p2pTransfer = async (phone: string, amount: number) => {
     });
 
     //Make sure to create transaction history too & show on the UI.
-    await tx.p2pTransfers.create({
+    newTxnData = await tx.p2pTransfers.create({
       data: {
         amount: amount * 100,
         timeStamp: new Date(),
         fromUserId: Number(from),
         toUserId: toUser.id,
+      },
+      include: {
+        fromUser: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+        toUser: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
       },
     });
   });
@@ -108,5 +124,6 @@ export const p2pTransfer = async (phone: string, amount: number) => {
   return {
     success: true,
     message: "Transaction successful",
+    data: newTxnData,
   };
 };

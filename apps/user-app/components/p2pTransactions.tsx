@@ -1,6 +1,8 @@
+"use client";
 import { Card } from "@repo/ui/card";
-import { getServerSession } from "next-auth";
 import { authOptions } from "../app/lib/auth";
+import { useStore } from "@repo/store/store";
+import { useSession } from "next-auth/react";
 
 interface User {
   id: number;
@@ -10,7 +12,7 @@ interface User {
   password: string;
 }
 
-export const P2PTransactions = async ({
+export const P2PTransactions = ({
   transactions,
 }: {
   transactions: {
@@ -30,16 +32,21 @@ export const P2PTransactions = async ({
       </Card>
     );
   }
-  const session = await getServerSession(authOptions);
+  const session = useSession();
+  //Access your zustand store here.
+  const p2pTxns = useStore((state: any) => state.p2pTxns);
+  const setP2P = useStore((state: any) => state.setP2P);
+  setP2P(transactions);
+  //console.log(p2pTxns);
 
   return (
     //Improve this card here to showcase also the name of the other person in the transaction, also if money is received
     //showcase in green color with plus, if debited, showcase in red color or with a minus sign.
     <Card title="📋Recent Transactions">
       <div className="pt-2">
-        {transactions?.map((t) => {
+        {p2pTxns?.map((t: any) => {
           const otherPerson =
-            session.user.id === t.fromUser.id.toString()
+            session?.data?.user.id === t.fromUser.id.toString()
               ? t.toUser
               : t.fromUser;
           return (
@@ -51,9 +58,11 @@ export const P2PTransactions = async ({
                 </div>
               </div>
               <div
-                className={`flex flex-col justify-center ${Number(session?.user.id) === Number(t.fromUserId) ? "text-red-500" : "text-emerald-600"}`}
+                className={`flex flex-col justify-center ${Number(session?.data?.user.id) === Number(t.fromUserId) ? "text-red-500" : "text-emerald-600"}`}
               >
-                {Number(session?.user.id) === Number(t.fromUserId) ? "-" : "+"}{" "}
+                {Number(session?.data?.user.id) === Number(t.fromUserId)
+                  ? "-"
+                  : "+"}{" "}
                 ₹ {t.amount / 100}
               </div>
             </div>

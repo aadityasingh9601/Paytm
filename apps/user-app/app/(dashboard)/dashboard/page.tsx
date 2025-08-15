@@ -68,6 +68,7 @@ async function getTxnData() {
 
 export default async function () {
   const session = await getServerSession(authOptions);
+
   const balance = await getBalance();
   const txnData = await getTxnData();
 
