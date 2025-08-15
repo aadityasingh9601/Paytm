@@ -40,7 +40,7 @@ export const SendMoneyCard = () => {
             errors={errors}
             name="phone"
             placeholder="Enter number"
-            label="Phone number"
+            label="📱Phone number"
           />
           <TextInput
             size="md"
@@ -49,7 +49,7 @@ export const SendMoneyCard = () => {
             name="amount"
             options={{ valueAsNumber: true }}
             placeholder="Enter amount"
-            label="Amount"
+            label="💵 Amount"
           />
           <div className="pt-4 flex justify-center">
             <Button type="submit">Send</Button>

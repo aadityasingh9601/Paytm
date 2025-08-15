@@ -2,8 +2,8 @@
 import { TextInput } from "@repo/ui/TextInput";
 import { Button2 } from "@repo/ui/Button2";
 import { useRouter } from "next/navigation";
-import axios, { AxiosError } from "axios";
-import { useState } from "react";
+import axios from "axios";
+
 import { signupSchema, signupInput } from "@repo/schema/schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
