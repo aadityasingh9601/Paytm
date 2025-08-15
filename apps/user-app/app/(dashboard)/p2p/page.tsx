@@ -19,6 +19,9 @@ async function getP2PTransactions() {
         { toUserId: Number(session?.user?.id) },
       ],
     },
+    orderBy: {
+      timeStamp: "desc",
+    },
   });
 
   //console.log(p2pTxns);

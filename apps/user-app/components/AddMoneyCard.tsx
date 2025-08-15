@@ -36,19 +36,19 @@ export const AddMoney = () => {
     window.location.href = `${redirectUrl}/${res.token}` || "";
   };
   return (
-    <Card title="Add Money">
+    <Card title="💳Add Money to wallet">
       <div className="w-full">
         <form onSubmit={handleSubmit(onSubmit)}>
           <TextInput
             size="md"
-            label={"Amount"}
+            label={"💵 Amount"}
             placeholder={"Amount"}
             register={register}
             options={{ valueAsNumber: true }}
             errors={errors}
             name="amount"
           />
-          <div className="py-4 text-left">Bank</div>
+          <div className="py-4 text-left">🏛️ Select Bank</div>
           <Select
             register={register}
             errors={errors}
