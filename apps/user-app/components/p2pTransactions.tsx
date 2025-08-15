@@ -3,6 +3,7 @@ import { Card } from "@repo/ui/card";
 import { authOptions } from "../app/lib/auth";
 import { useStore } from "@repo/store/store";
 import { useSession } from "next-auth/react";
+import { useEffect } from "react";
 
 interface User {
   id: number;
@@ -36,7 +37,10 @@ export const P2PTransactions = ({
   //Access your zustand store here.
   const p2pTxns = useStore((state: any) => state.p2pTxns);
   const setP2P = useStore((state: any) => state.setP2P);
-  setP2P(transactions);
+
+  useEffect(() => {
+    setP2P(transactions);
+  }, []);
   //console.log(p2pTxns);
 
   return (

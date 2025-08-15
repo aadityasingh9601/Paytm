@@ -7,6 +7,9 @@ import { onRampTransaction } from "../app/lib/actions/onRampTransaction";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addMoneySchema, addMoneyInput } from "@repo/schema/schema";
+import { useSearchParams } from "next/navigation";
+import { toast } from "react-hot-toast";
+import { useEffect } from "react";
 
 const SUPPORTED_BANKS = [
   {
@@ -21,6 +24,15 @@ export const AddMoney = () => {
   //If you have multiple banks with differenet redirect urls you can create a separate state managment for them too, like
   //it was done earlier, using a SUPPORTED_BANKS array.
   const redirectUrl = "http://localhost:3001/netbanking";
+  const searchParams = useSearchParams();
+  let isSucess = searchParams.get("success");
+  useEffect(() => {
+    if (isSucess === "true") {
+      toast.success("Transaction successful!");
+      // Make sure to clean up URL (remove the success parameter), else the task will happen again and again.
+      window.history.replaceState({}, "", window.location.pathname);
+    }
+  }, [isSucess]);
 
   const {
     register,
