@@ -8,23 +8,53 @@ async function getP2PTransactions() {
   const session = await getServerSession(authOptions);
   console.log(session?.user.id);
   const p2pTxns = await db.p2pTransfers.findMany({
-    relationLoadStrategy: "join",
+    //relationLoadStrategy: "join", not needed, as it's default with preview feature(added in schema.prisma)
     include: {
-      fromUser: true,
-      toUser: true,
+      fromUser: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+      toUser: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
     },
+
     where: {
       OR: [
         { fromUserId: Number(session?.user?.id) },
         { toUserId: Number(session?.user?.id) },
       ],
     },
+    // select: {
+    //   id: true,
+    //   amount: true,
+    //   timeStamp: true,
+    //   fromUserId: true,
+    //   toUserId: true,
+    //   fromUser: {
+    //     select: {
+    //       id: true,
+    //       name: true,
+    //     },
+    //   },
+    //   toUser: {
+    //     select: {
+    //       id: true,
+    //       name: true,
+    //     },
+    //   },
+    // },
     orderBy: {
       timeStamp: "desc",
     },
   });
 
-  //console.log(p2pTxns);
+  console.log(p2pTxns);
   return p2pTxns;
 }
 

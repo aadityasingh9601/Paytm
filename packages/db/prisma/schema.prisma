@@ -6,7 +6,9 @@
 
 generator client {
   provider = "prisma-client-js"
-   previewFeatures = ["relationJoins"]
+  previewFeatures = ["relationJoins"]
+  // DEFAULT BEHAVIOR: If you enable relationJoins preview feature,"join" becomes the default strategy automatically! 
+  //and you don't need to write them in your database queries
 }
 
 datasource db {

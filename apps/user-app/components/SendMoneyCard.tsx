@@ -7,15 +7,20 @@ import { p2pTransfer } from "../app/lib/actions/p2pTransfer";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { p2pSchema, p2pInput } from "@repo/schema/schema";
+import { useStore } from "@repo/store/store";
 
 export const SendMoneyCard = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(p2pSchema),
   });
+
+  //Access your zustand store here.
+  const updateP2P = useStore((state: any) => state.updateP2P);
 
   const onSubmit = async (data: p2pInput) => {
     //console.log(data);
@@ -23,7 +28,11 @@ export const SendMoneyCard = () => {
     //If everything goes well add a toast notificaation here.
     if (res.success) {
       // Handle success
+      updateP2P(res.data);
       toast.success(res.message ?? "Success");
+      //console.log(res.data);
+
+      reset();
     } else {
       // Handle error
       toast.error(res.error ?? "Some error occured!");
