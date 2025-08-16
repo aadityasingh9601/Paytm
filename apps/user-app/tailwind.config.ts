@@ -15,6 +15,13 @@ const config: Pick<Config, "content" | "presets" | "safelist"> = {
     //You dont' really need to add these arbitrary values one by one, you can add a specific pattern for that certain
     //property that you want. You can use the arbitraray values only when the pattern doens't work.
 
+    // Option 3: More flexible pattern for various units
+
+    "h-[33rem]",
+    "overflow-y-scroll",
+
+    "text-xs",
+
     // Text color patterns
     {
       pattern:
@@ -32,6 +39,9 @@ const config: Pick<Config, "content" | "presets" | "safelist"> = {
     },
     {
       pattern: /p-(1|2|3|4|5|6|8|10|12|16|20|24)/,
+    },
+    {
+      pattern: /py-(1|2|3|4|5|6|8|10|12|16|20|24)/,
     },
   ],
   presets: [sharedConfig],
