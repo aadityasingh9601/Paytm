@@ -33,7 +33,7 @@ export default async function () {
   const accountData = await getAccountInfo(session.user?.id);
 
   return (
-    <div className="w-screen">
+    <div className="w-screen mr-4">
       <div className="text-4xl text-[#6a51a6] pt-8 mb-8 font-bold">
         Account settings
       </div>

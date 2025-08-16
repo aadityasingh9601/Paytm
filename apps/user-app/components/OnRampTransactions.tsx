@@ -1,4 +1,5 @@
 import { Card } from "@repo/ui/card";
+import { formatTransactionTime } from "../utils";
 
 export const OnRampTransactions = ({
   transactions,
@@ -19,32 +20,27 @@ export const OnRampTransactions = ({
     );
   }
   return (
-    <div>
-      <Card title="📋Recent Transactions">
-        <div className="pt-2">
-          {transactions.map((t) => (
-            <div className="flex justify-between border-b">
-              <div>
-                <div className="text-sm">{t.provider}</div>
-                <div className="text-sm">
-                  {t.status === "Success"
-                    ? "✅"
-                    : t.status === "Processing"
-                      ? "⏳"
-                      : "❌"}
-                  {t.status}
-                </div>
-                <div className="text-slate-600 text-sm">
-                  {t.time.toDateString()}
-                </div>
-              </div>
-              <div className="flex flex-col justify-center text-emerald-600">
-                + ₹ {t.amount / 100}
+    <Card title="📋Recent Transactions">
+      <div className="overflow-y-scroll pt-2 hide-scrollbar h-[33rem]">
+        {transactions.map((t) => (
+          <div className="flex justify-between items-center border-b py-1">
+            <div>
+              <div className="text-md">{t.provider} Bank</div>
+              <div className="text-xs">
+                {t.status === "Success"
+                  ? "🟢"
+                  : t.status === "Processing"
+                    ? "🟡"
+                    : "❌"}
+                {t.status} • {formatTransactionTime(t.time)}
               </div>
             </div>
-          ))}
-        </div>
-      </Card>
-    </div>
+            <div className="flex  text-lg text-emerald-600">
+              + ₹ {t.amount / 100}
+            </div>
+          </div>
+        ))}
+      </div>
+    </Card>
   );
 };
