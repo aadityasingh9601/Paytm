@@ -68,14 +68,14 @@ async function getTxnData() {
 
 export default async function () {
   const session = await getServerSession(authOptions);
-
+  const userName = session?.user?.name ?? "User";
   const balance = await getBalance();
   const txnData = await getTxnData();
 
   return (
     <div className="w-screen bg-brown-500">
       <div className="text-4xl text-[#6a51a6] pt-8 pl-4 mb-8 font-bold">
-        Good morning, {session?.user?.name}
+        Good evening, {userName}
       </div>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 p-4">
         <div>

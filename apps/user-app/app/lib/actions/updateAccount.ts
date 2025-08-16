@@ -44,7 +44,7 @@ export const updateAccount = async (id: number, data: accountInput) => {
   }
 
   //Check if user has the permission to edit the resources (Authorization).
-  console.log(typeof userId, typeof user.id);
+  // console.log(typeof userId, typeof user.id);
   if (Number(userId) !== user.id) {
     return {
       success: false,
@@ -63,6 +63,13 @@ export const updateAccount = async (id: number, data: accountInput) => {
       tpin: data.tpin,
       number: data.phone,
     },
+    select: {
+      email: true,
+      name: true,
+      country: true,
+      tpin: true,
+      number: true,
+    },
   });
 
   console.log(updatedData);
@@ -70,5 +77,6 @@ export const updateAccount = async (id: number, data: accountInput) => {
   return {
     success: true,
     message: "Account updated successfully!",
+    data: updatedData,
   };
 };

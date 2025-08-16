@@ -7,6 +7,7 @@ import { Button } from "@repo/ui/Button";
 import { updateAccount } from "../app/lib/actions/updateAccount";
 import { useSession } from "next-auth/react";
 import { toast } from "react-hot-toast";
+import { useStore } from "@repo/store/store";
 
 export default function AccountForm({
   accountInfo,
@@ -33,6 +34,9 @@ export default function AccountForm({
   const session = useSession();
   const userId = session.data?.user.id;
 
+  //Access your zustand store here.
+  const updateAccountInfo = useStore((state: any) => state.updateAccount);
+
   const onSubmit = async (data: accountInput) => {
     console.log(data);
 
@@ -42,6 +46,7 @@ export default function AccountForm({
 
     if (res.success) {
       updateEdit(false);
+      updateAccountInfo(res.data);
       toast.success(res.message ?? "Success");
     } else {
       toast.error(res.error ?? "Some error occured!");

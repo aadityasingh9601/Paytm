@@ -14,6 +14,19 @@ const useStore = create((set) => ({
       p2pTxns: [newTxn, ...state.p2pTxns],
     }));
   },
+
+  accountInfo: {},
+
+  setAccountInfo: (accountData: any) => {
+    set({ accountInfo: accountData });
+  },
+
+  updateAccount: (updatedInfo: any) => {
+    console.log(updatedInfo);
+    set((state: any) => ({
+      accountInfo: { ...state.accountInfo, ...updatedInfo },
+    }));
+  },
 }));
 
 export { useStore };
