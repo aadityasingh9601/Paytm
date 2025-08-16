@@ -26,7 +26,7 @@ export const p2pTransfer = async (phone: string, amount: number) => {
     };
   }
 
-  const from = session?.user?.id;
+  const from = userId;
 
   if (!from) {
     return {
@@ -41,6 +41,14 @@ export const p2pTransfer = async (phone: string, amount: number) => {
       number: phone,
     },
   });
+
+  //If the sender and receiver are the same.
+  if (Number(from) === toUser?.id) {
+    return {
+      success: false,
+      error: "You can't send money to yourself!",
+    };
+  }
 
   if (!toUser) {
     return {
