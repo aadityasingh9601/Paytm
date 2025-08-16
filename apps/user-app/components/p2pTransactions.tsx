@@ -35,6 +35,7 @@ export const P2PTransactions = ({
     );
   }
   const session = useSession();
+  const userId = session?.data?.user.id;
   //Access your zustand store here.
   const p2pTxns = useStore((state: any) => state.p2pTxns);
   const setP2P = useStore((state: any) => state.setP2P);
@@ -61,7 +62,18 @@ export const P2PTransactions = ({
           return (
             <div className="flex justify-between items-center border-b py-1">
               <div>
-                <div className="text-md">{otherPerson?.name.toUpperCase()}</div>
+                <div className="flex gap-1">
+                  <div className="text-md">
+                    {otherPerson?.name.toUpperCase()}
+                  </div>
+                  <div>
+                    {userId === t.fromUserId.toString() ? (
+                      <ArrowDownleft />
+                    ) : (
+                      <ArrowUpRight />
+                    )}
+                  </div>
+                </div>
                 <div className="text-slate-600 text-xs">
                   {formatTransactionTime(t.timeStamp)}
                 </div>
@@ -81,3 +93,41 @@ export const P2PTransactions = ({
     </Card>
   );
 };
+
+function ArrowUpRight() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke="currentColor"
+      className="size-6"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="m19.5 4.5-15 15m0 0h11.25m-11.25 0V8.25"
+      />
+    </svg>
+  );
+}
+
+function ArrowDownleft() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke="currentColor"
+      className="size-6"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25"
+      />
+    </svg>
+  );
+}
