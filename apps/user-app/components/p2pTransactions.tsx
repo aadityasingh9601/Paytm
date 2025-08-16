@@ -43,7 +43,6 @@ export const P2PTransactions = ({
   useEffect(() => {
     setP2P(transactions);
   }, []);
-  //console.log(p2pTxns);
 
   return (
     //Improve this card here to showcase also the name of the other person in the transaction, also if money is received

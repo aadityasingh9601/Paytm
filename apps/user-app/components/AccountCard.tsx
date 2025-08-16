@@ -2,12 +2,13 @@
 import { Button } from "@repo/ui/Button";
 import AccountCardItem from "./AccountCardItem";
 import AccountForm from "./AccountForm";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useStore } from "@repo/store/store";
 
 export default function AccountCard({
-  accountInfo,
+  accountData,
 }: {
-  accountInfo: {
+  accountData: {
     email: string;
     phone: string;
     country: string;
@@ -19,6 +20,14 @@ export default function AccountCard({
   const updateEdit = (value: boolean) => {
     setEdit(value);
   };
+
+  //Access your zustand store here.
+  const accountInfo = useStore((state: any) => state.accountInfo);
+  const setAccount = useStore((state: any) => state.setAccountInfo);
+
+  useEffect(() => {
+    setAccount(accountData);
+  }, []);
   return (
     <div className=" border p-6 bg-white rounded-xl bg-[#ededed] w-full">
       <div className="flex justify-between align-center text-xl border-b pb-2 w-full">

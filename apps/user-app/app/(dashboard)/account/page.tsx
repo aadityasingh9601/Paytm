@@ -38,7 +38,7 @@ export default async function () {
         Account settings
       </div>
       <div>
-        <AccountCard accountInfo={accountData} />
+        <AccountCard accountData={accountData} />
       </div>
     </div>
   );
