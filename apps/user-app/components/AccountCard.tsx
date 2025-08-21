@@ -1,6 +1,7 @@
 "use client";
 import { Button } from "@repo/ui/Button";
 import AccountCardItem from "./AccountCardItem";
+import SecurAccCardItem from "./SecureAccCardItem";
 import AccountForm from "./AccountForm";
 import { useEffect, useState } from "react";
 import { useStore } from "@repo/store/store";
@@ -17,7 +18,7 @@ export default function AccountCard({
   };
 }) {
   const [edit, setEdit] = useState(false);
-  const [showTpin, setshowTpin] = useState(false);
+
   const updateEdit = (value: boolean) => {
     setEdit(value);
   };
@@ -37,14 +38,6 @@ export default function AccountCard({
           <Button
             type="button"
             onClick={() => {
-              setshowTpin(!showTpin);
-            }}
-          >
-            {showTpin ? "Hide" : "Show"} Tpin
-          </Button>
-          <Button
-            type="button"
-            onClick={() => {
               updateEdit(!edit);
             }}
           >
@@ -57,35 +50,15 @@ export default function AccountCard({
           <AccountForm accountInfo={accountInfo} updateEdit={updateEdit} />
         ) : (
           <div className="space-y-4">
-            <AccountCardItem
-              field="Name"
-              value={accountInfo.name}
-              state={true}
-            />
+            <AccountCardItem field="Name" value={accountInfo.name} />
 
-            <AccountCardItem
-              field="Email"
-              value={accountInfo.email}
-              state={true}
-            />
+            <AccountCardItem field="Email" value={accountInfo.email} />
 
-            <AccountCardItem
-              field="Phone"
-              value={accountInfo.phone}
-              state={true}
-            />
+            <AccountCardItem field="Phone" value={accountInfo.phone} />
 
-            <AccountCardItem
-              field="T-PIN"
-              value={accountInfo.tpin}
-              state={showTpin}
-            />
+            <SecurAccCardItem field="T-PIN" value={accountInfo.tpin} />
 
-            <AccountCardItem
-              field="Country"
-              value={accountInfo.country}
-              state={true}
-            />
+            <AccountCardItem field="Country" value={accountInfo.country} />
           </div>
         )}
       </div>
