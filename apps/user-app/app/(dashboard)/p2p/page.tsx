@@ -6,7 +6,7 @@ import { authOptions } from "../../lib/auth";
 
 async function getP2PTransactions() {
   const session = await getServerSession(authOptions);
-  console.log(session?.user.id);
+  //console.log(session?.user.id);
   const p2pTxns = await db.p2pTransfers.findMany({
     //relationLoadStrategy: "join", not needed, as it's default with preview feature(added in schema.prisma)
     include: {
@@ -55,7 +55,19 @@ async function getP2PTransactions() {
   });
 
   console.log(p2pTxns);
-  return p2pTxns;
+  return p2pTxns.map((t) => {
+    return {
+      ...t,
+      fromUser: {
+        id: t.fromUser.id,
+        name: t.fromUser.name ?? "",
+      },
+      toUser: {
+        id: t.toUser.id,
+        name: t.toUser.name ?? "",
+      },
+    };
+  });
 }
 
 //These components are called as async componenets. Revise and read more about different ways of doing things in next.js,when
@@ -72,7 +84,6 @@ export default async function page() {
           <SendMoneyCard />
         </div>
 
-        {/*@ts-ignore */}
         <P2PTransactions transactions={transactions} />
       </div>
     </div>

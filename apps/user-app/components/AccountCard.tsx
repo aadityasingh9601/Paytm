@@ -5,17 +5,12 @@ import SecurAccCardItem from "./SecureAccCardItem";
 import AccountForm from "./AccountForm";
 import { useEffect, useState } from "react";
 import { useStore } from "@repo/store/store";
+import { AccountData } from "@repo/types/types";
 
 export default function AccountCard({
   accountData,
 }: {
-  accountData: {
-    email: string;
-    phone: string;
-    country: string;
-    name: string;
-    tpin: string;
-  };
+  accountData: AccountData;
 }) {
   const [edit, setEdit] = useState(false);
 
