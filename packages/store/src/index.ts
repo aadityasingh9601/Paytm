@@ -1,29 +1,42 @@
 import { create } from "zustand";
+import { TxnData, AccountData } from "@repo/types/types";
 
-const useStore = create((set) => ({
+interface AppState {
+  p2pTxns: TxnData[];
+
+  setP2P: (txnData: TxnData[]) => void;
+
+  updateP2P: (newTxn: TxnData) => void;
+
+  accountInfo: Partial<AccountData>; // ✅ All properties optional
+
+  setAccountInfo: (accountData: AccountData) => void;
+
+  updateAccount: (updatedInfo: AccountData) => void;
+}
+
+const useStore = create<AppState>((set) => ({
   p2pTxns: [],
 
-  setP2P: (txnData: any) => {
+  setP2P: (txnData) => {
     set({ p2pTxns: txnData });
   },
 
-  updateP2P: (newTxn: any) => {
+  updateP2P: (newTxn) => {
     console.log(newTxn);
-    console.log("triggered");
-    set((state: any) => ({
+    set((state) => ({
       p2pTxns: [newTxn, ...state.p2pTxns],
     }));
   },
 
   accountInfo: {},
 
-  setAccountInfo: (accountData: any) => {
+  setAccountInfo: (accountData) => {
     set({ accountInfo: accountData });
   },
 
-  updateAccount: (updatedInfo: any) => {
-    console.log(updatedInfo);
-    set((state: any) => ({
+  updateAccount: (updatedInfo) => {
+    set((state) => ({
       accountInfo: { ...state.accountInfo, ...updatedInfo },
     }));
   },

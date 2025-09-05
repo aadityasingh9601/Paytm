@@ -1,31 +1,15 @@
 "use client";
 import { Card } from "@repo/ui/card";
-import { authOptions } from "../app/lib/auth";
 import { useStore } from "@repo/store/store";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 import { formatTransactionTime } from "../utils";
-
-interface User {
-  id: number;
-  email: string;
-  name: string;
-  number: string;
-  password: string;
-}
+import { TxnData } from "@repo/types/types";
 
 export const P2PTransactions = ({
   transactions,
 }: {
-  transactions: {
-    id: number;
-    amount: number;
-    timeStamp: Date;
-    fromUserId: number;
-    toUserId: number;
-    fromUser: User;
-    toUser: User;
-  }[];
+  transactions: TxnData[];
 }) => {
   if (!transactions.length) {
     return (
@@ -37,8 +21,8 @@ export const P2PTransactions = ({
   const session = useSession();
   const userId = session?.data?.user.id;
   //Access your zustand store here.
-  const p2pTxns = useStore((state: any) => state.p2pTxns);
-  const setP2P = useStore((state: any) => state.setP2P);
+  const p2pTxns = useStore((state) => state.p2pTxns);
+  const setP2P = useStore((state) => state.setP2P);
 
   useEffect(() => {
     setP2P(transactions);
