@@ -25,14 +25,14 @@ export const AddMoney = () => {
   //it was done earlier, using a SUPPORTED_BANKS array.
   const redirectUrl = "http://localhost:3001/netbanking";
   const searchParams = useSearchParams();
-  let isSucess = searchParams.get("success");
+  const isSuccess = searchParams.get("success");
   useEffect(() => {
-    if (isSucess === "true") {
+    if (isSuccess === "true") {
       toast.success("Transaction successful!");
       // Make sure to clean up URL (remove the success parameter), else the task will happen again and again.
       window.history.replaceState({}, "", window.location.pathname);
     }
-  }, [isSucess]);
+  }, [isSuccess]);
 
   const {
     register,

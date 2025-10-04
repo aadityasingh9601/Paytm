@@ -19,8 +19,8 @@ export default function AccountCard({
   };
 
   //Access your zustand store here.
-  const accountInfo = useStore((state: any) => state.accountInfo);
-  const setAccount = useStore((state: any) => state.setAccountInfo);
+  const accountInfo = useStore((state) => state.accountInfo);
+  const setAccount = useStore((state) => state.setAccountInfo);
 
   useEffect(() => {
     setAccount(accountData);

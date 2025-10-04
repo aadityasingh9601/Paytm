@@ -4,12 +4,12 @@ import { useStore } from "@repo/store/store";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 import { formatTransactionTime } from "../utils";
-import { TxnData } from "@repo/types/types";
+import { P2pTxnData } from "@repo/types/types";
 
 export const P2PTransactions = ({
   transactions,
 }: {
-  transactions: TxnData[];
+  transactions: P2pTxnData[];
 }) => {
   if (!transactions.length) {
     return (

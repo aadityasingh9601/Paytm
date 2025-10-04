@@ -1,16 +1,11 @@
 import { Card } from "@repo/ui/card";
 import { formatTransactionTime } from "../utils";
+import { OnrampTxnData } from "@repo/types/types";
 
 export const OnRampTransactions = ({
   transactions,
 }: {
-  transactions: {
-    time: Date;
-    amount: number;
-    // TODO: Can the type of `status` be more specific?
-    status: string;
-    provider: string;
-  }[];
+  transactions: OnrampTxnData[];
 }) => {
   if (!transactions.length) {
     return (

@@ -7,7 +7,6 @@ import db from "@repo/db/client";
 async function getOnRampTransactions() {
   const session = await getServerSession(authOptions);
 
-  //console.log(session);
   const txns = await db.onRampTransaction.findMany({
     where: {
       userId: Number(session?.user?.id),
@@ -16,7 +15,8 @@ async function getOnRampTransactions() {
       startTime: "desc",
     },
   });
-  return txns.map((t: any) => ({
+  console.log(txns);
+  return txns.map((t) => ({
     time: t.startTime,
     amount: t.amount,
     status: t.status,

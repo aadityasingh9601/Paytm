@@ -19,22 +19,17 @@ export const SendMoneyCard = () => {
     resolver: zodResolver(p2pSchema),
   });
 
-  //Access your zustand store here.
   const updateP2P = useStore((state: any) => state.updateP2P);
 
   const onSubmit = async (data: p2pInput) => {
-    //console.log(data);
     const res = await p2pTransfer(data.phone, data.amount);
     //If everything goes well add a toast notificaation here.
     if (res.success) {
-      // Handle success
       updateP2P(res.data);
       toast.success(res.message ?? "Success");
-      //console.log(res.data);
 
       reset();
     } else {
-      // Handle error
       toast.error(res.error ?? "Some error occured!");
     }
   };
