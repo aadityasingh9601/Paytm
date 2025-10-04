@@ -17,8 +17,6 @@ const getAccountInfo = async (userId: number) => {
     },
   });
 
-  console.log(res);
-
   return {
     name: res.name ?? "",
     email: res.email,

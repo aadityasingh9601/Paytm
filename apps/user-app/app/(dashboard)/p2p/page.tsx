@@ -6,7 +6,6 @@ import { authOptions } from "../../lib/auth";
 
 async function getP2PTransactions() {
   const session = await getServerSession(authOptions);
-  //console.log(session?.user.id);
   const p2pTxns = await db.p2pTransfers.findMany({
     //relationLoadStrategy: "join", not needed, as it's default with preview feature(added in schema.prisma)
     include: {

@@ -8,18 +8,13 @@ import { updateAccount } from "../app/lib/actions/updateAccount";
 import { useSession } from "next-auth/react";
 import { toast } from "react-hot-toast";
 import { useStore } from "@repo/store/store";
+import { AccountData } from "@repo/types/types";
 
 export default function AccountForm({
   accountInfo,
   updateEdit,
 }: {
-  accountInfo: {
-    email: string;
-    phone: string;
-    country: string;
-    name: string;
-    tpin: string;
-  };
+  accountInfo: AccountData;
   updateEdit: any;
 }) {
   const {
@@ -33,16 +28,10 @@ export default function AccountForm({
 
   const session = useSession();
   const userId = session.data?.user.id;
-
-  //Access your zustand store here.
   const updateAccountInfo = useStore((state: any) => state.updateAccount);
 
   const onSubmit = async (data: accountInput) => {
-    console.log(data);
-
     const res = await updateAccount(Number(userId), data);
-
-    console.log(res);
 
     if (res.success) {
       updateEdit(false);

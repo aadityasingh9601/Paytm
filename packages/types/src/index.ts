@@ -1,4 +1,4 @@
-export interface TxnData {
+export interface P2pTxnData {
   id: number;
   amount: number;
   timeStamp: Date;
@@ -14,10 +14,17 @@ export interface TxnData {
   };
 }
 
+export interface OnrampTxnData {
+  time: Date;
+  amount: number;
+  status: "Failed" | "Processing" | "Success";
+  provider: string;
+}
+
 export interface AccountData {
   email: string;
   phone: string;
-  country: string;
-  name: string;
-  tpin: string;
+  country?: string;
+  name?: string;
+  tpin?: string;
 }

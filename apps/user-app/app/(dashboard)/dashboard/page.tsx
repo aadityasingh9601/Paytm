@@ -4,14 +4,9 @@ import { QuickStatsCard } from "../../../components/QuickStats";
 import db from "@repo/db/client";
 import { authOptions } from "../../lib/auth";
 import { QuickActions } from "../../../components/QuickActions";
+import { P2pTxnData } from "@repo/types/types";
 
-interface TxnData {
-  id: number;
-  amount: number;
-  fromUserId: number;
-  toUserId: number;
-  timeStamp: Date;
-}
+type TxnData = Omit<P2pTxnData, "fromUser" | "toUser">;
 
 async function getBalance() {
   const session = await getServerSession(authOptions);

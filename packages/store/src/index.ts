@@ -1,14 +1,14 @@
 import { create } from "zustand";
-import { TxnData, AccountData } from "@repo/types/types";
+import { P2pTxnData, AccountData } from "@repo/types/types";
 
 interface AppState {
-  p2pTxns: TxnData[];
+  p2pTxns: P2pTxnData[];
 
-  setP2P: (txnData: TxnData[]) => void;
+  setP2P: (txnData: P2pTxnData[]) => void;
 
-  updateP2P: (newTxn: TxnData) => void;
+  updateP2P: (newTxn: P2pTxnData) => void;
 
-  accountInfo: Partial<AccountData>; // ✅ All properties optional
+  accountInfo: AccountData; // ✅ All properties optional
 
   setAccountInfo: (accountData: AccountData) => void;
 
@@ -29,7 +29,7 @@ const useStore = create<AppState>((set) => ({
     }));
   },
 
-  accountInfo: {},
+  accountInfo: { email: "", phone: "" },
 
   setAccountInfo: (accountData) => {
     set({ accountInfo: accountData });
