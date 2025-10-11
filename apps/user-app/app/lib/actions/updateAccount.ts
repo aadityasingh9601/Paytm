@@ -56,13 +56,7 @@ export const updateAccount = async (id: number, data: accountInput) => {
     where: {
       id: user.id,
     },
-    data: {
-      email: data.email,
-      name: data.name,
-      country: data.country,
-      tpin: data.tpin,
-      number: data.phone,
-    },
+    data: data,
     select: {
       email: true,
       name: true,
@@ -73,10 +67,16 @@ export const updateAccount = async (id: number, data: accountInput) => {
   });
 
   console.log(updatedData);
+  const newData = {
+    ...updatedData,
+    tpin: updatedData.tpin ?? "",
+    name: updatedData.name ?? "",
+    country: updatedData.country ?? "",
+  };
 
   return {
     success: true,
     message: "Account updated successfully!",
-    data: updatedData,
+    data: newData,
   };
 };

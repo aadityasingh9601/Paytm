@@ -28,12 +28,13 @@ export default function AccountForm({
 
   const session = useSession();
   const userId = session.data?.user.id;
-  const updateAccountInfo = useStore((state: any) => state.updateAccount);
+  const updateAccountInfo = useStore((state) => state.updateAccount);
 
   const onSubmit = async (data: accountInput) => {
     const res = await updateAccount(Number(userId), data);
+    console.log(35, res.data);
 
-    if (res.success) {
+    if (res?.data) {
       updateEdit(false);
       updateAccountInfo(res.data);
       toast.success(res.message ?? "Success");
