@@ -23,8 +23,8 @@ export interface OnrampTxnData {
 
 export interface AccountData {
   email: string;
-  phone: string;
-  country?: string;
-  name?: string;
-  tpin?: string;
+  number: string;
+  country: string;
+  name: string;
+  tpin: string;
 }

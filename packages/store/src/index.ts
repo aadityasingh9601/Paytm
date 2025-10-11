@@ -29,7 +29,7 @@ const useStore = create<AppState>((set) => ({
     }));
   },
 
-  accountInfo: { email: "", phone: "" },
+  accountInfo: { email: "", number: "", country: "", tpin: "", name: "" },
 
   setAccountInfo: (accountData) => {
     set({ accountInfo: accountData });

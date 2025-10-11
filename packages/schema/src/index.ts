@@ -2,7 +2,7 @@ import { z, ZodType } from "zod";
 
 export const signupSchema = z.object({
   email: z.string().endsWith("@gmail.com", "Invalid email!"),
-  phone: z
+  number: z
     .string()
     .min(8, "Must be atleast 8 digits")
     .max(12, "Must be atmost 12 digits"),
@@ -13,7 +13,7 @@ export const signupSchema = z.object({
 });
 
 export const signinSchema = z.object({
-  phone: z
+  number: z
     .string()
     .min(8, "Must be atleast 8 digits")
     .max(12, "Must be atmost 12 digits"),
@@ -24,7 +24,7 @@ export const signinSchema = z.object({
 });
 
 export const p2pSchema = z.object({
-  phone: z
+  number: z
     .string()
     .min(8, "Must be atleast 8 digits")
     .max(12, "Must be atmost 12 digits"),
@@ -62,7 +62,7 @@ export const bankWithOnrampSchema = bankWebhookSchema.extend({
 
 export const accountSchema = z.object({
   email: z.string().endsWith("@gmail.com", "Invalid email!"),
-  phone: z
+  number: z
     .string()
     .min(8, "Must be atleast 8 digits")
     .max(12, "Must be atmost 12 digits"),
