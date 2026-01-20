@@ -11,7 +11,6 @@
     "start-user-app": "cd apps/user-app && npm run dev"
   },
   "devDependencies": {
-    "@types/bcryptjs": "^3.0.0",
     "prettier": "^3.5.3",
     "prettier-plugin-tailwindcss": "^0.6.11",
     "turbo": "^2.5.5"
@@ -28,8 +27,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "dependencies": {
-    "@esbuild/win32-x64": "^0.25.8",
-    "@hookform/resolvers": "^5.2.1",
+    "@hookform/resolvers": "^5.2.2",
     "@prisma/client": "^6.11.1",
     "@tailwindcss/postcss": "^4.1.11",
     "acorn": "^8.14.1",
@@ -53,7 +51,6 @@
     "available-typed-arrays": "^1.0.7",
     "axios": "^1.10.0",
     "balanced-match": "^1.0.2",
-    "bcryptjs": "^3.0.2",
     "binary-extensions": "^2.3.0",
     "brace-expansion": "^1.1.11",
     "braces": "^3.0.3",
@@ -248,7 +245,7 @@
     "queue-microtask": "^1.2.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-hook-form": "^7.62.0",
+    "react-hook-form": "^7.71.1",
     "react-hot-toast": "^2.5.2",
     "react-is": "^16.13.1",
     "read-cache": "^1.0.0",
@@ -321,7 +318,7 @@
     "wrap-ansi-cjs": "^8.0.0",
     "yaml": "^2.7.0",
     "yocto-queue": "^0.1.0",
-    "zod": "^4.0.15"
+    "zod": "^4.3.5"
   },
   "keywords": [],
   "author": "",
