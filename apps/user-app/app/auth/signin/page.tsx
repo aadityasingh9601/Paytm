@@ -19,10 +19,11 @@ export default function page() {
   const router = useRouter();
 
   const onSubmit = async (data: signinInput) => {
+    console.log("7");
     console.log(data);
     try {
       const res = await signIn("credentials", {
-        phone: data.phone,
+        phone: data.number,
         password: data.password,
         redirect: false,
         callbackUrl: process.env.NEXTAUTH_URL,

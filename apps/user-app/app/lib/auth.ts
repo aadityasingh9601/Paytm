@@ -2,7 +2,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import db from "@repo/db/client";
 
-console.log(process.env.NEXTAUTH_SECRET);
+//console.log(process.env.NEXTAUTH_SECRET);
 
 export const authOptions = {
   providers: [
@@ -33,7 +33,7 @@ export const authOptions = {
           if (existingUser) {
             const passwordValidation = await bcrypt.compare(
               credentials.password,
-              hashedPassword
+              hashedPassword,
             );
             if (passwordValidation) {
               return {
@@ -65,6 +65,6 @@ export const authOptions = {
     }),
   },
   pages: {
-    signIn: "/signin",
+    signIn: "/auth/signin",
   },
 };
