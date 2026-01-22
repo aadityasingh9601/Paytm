@@ -11,7 +11,7 @@ export const POST = async (req: Request, res: NextApiResponse) => {
   try {
     const body = await req.json();
     console.log(body);
-    const { email, phone, password } = body;
+    const { email, number, password } = body;
     //Zod validation
     const result = signupSchema.safeParse(body);
     if (!result.success) {
@@ -23,7 +23,7 @@ export const POST = async (req: Request, res: NextApiResponse) => {
 
     const existingUser = await db.user.findFirst({
       where: {
-        number: phone,
+        number: number,
       },
     });
 
@@ -37,7 +37,7 @@ export const POST = async (req: Request, res: NextApiResponse) => {
 
     const newUser = await db.user.create({
       data: {
-        number: phone,
+        number: number,
         email: email,
         password: hashedPassword,
       },
@@ -61,7 +61,7 @@ export const POST = async (req: Request, res: NextApiResponse) => {
       {
         message: "Something went wrong! Try again!",
       },
-      { status: 400 }
+      { status: 400 },
     );
   }
 };

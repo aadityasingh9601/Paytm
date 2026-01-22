@@ -9,7 +9,7 @@ export const authOptions = {
     CredentialsProvider({
       name: "Phone number",
       credentials: {
-        phone: {
+        number: {
           label: "Phone number",
           type: "text",
           placeholder: "123123123",
@@ -25,7 +25,7 @@ export const authOptions = {
           const hashedPassword = await bcrypt.hash(credentials.password, 10);
           const existingUser = await db.user.findFirst({
             where: {
-              number: credentials.phone,
+              number: credentials.number,
             },
           });
 

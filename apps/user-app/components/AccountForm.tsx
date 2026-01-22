@@ -66,7 +66,7 @@ export default function AccountForm({
           size="sm"
           label="Phone"
           placeholder="Enter your phone number"
-          name="phone"
+          name="number"
           register={register}
           errors={errors}
         />

@@ -20,7 +20,7 @@ const getAccountInfo = async (userId: number) => {
   return {
     name: res.name ?? "",
     email: res.email,
-    phone: res.number,
+    number: res.number,
     tpin: res.tpin ?? "", //Even if it's null assign a default value to them.
     country: res.country ?? "",
   };
