@@ -37,11 +37,16 @@ export default function page() {
       console.log(e);
     }
   };
+
+  // Error handler
+  const onError = (err: unknown) => {
+    console.error("Validation Errors:", err);
+  };
   return (
     <div className="flex justify-center items-center h-[92.8vh]">
       <div className="flex flex-col justify-center items-center border-[2px] rounded-md border-grey-800 bg-white w-[26rem] min-h-[23rem] max-h-[31rem] p-5">
         <div className="text-2xl">Sign up</div>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit, onError)}>
           <div className="flex flex-col justify-center min-w-[20rem] gap-[1rem]">
             <div>
               <TextInput
@@ -57,7 +62,7 @@ export default function page() {
                 size="md"
                 register={register}
                 errors={errors}
-                name="phone"
+                name="number"
                 label=""
                 type="text"
                 placeholder="Enter phone number"

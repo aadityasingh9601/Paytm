@@ -49,7 +49,7 @@ export default function AccountCard({
 
             <AccountCardItem field="Email" value={accountInfo.email} />
 
-            <AccountCardItem field="Phone" value={accountInfo.phone} />
+            <AccountCardItem field="Phone" value={accountInfo.number} />
 
             <SecurAccCardItem field="T-PIN" value={accountInfo.tpin} />
 

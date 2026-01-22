@@ -4,9 +4,9 @@ import { authOptions } from "../auth";
 import db from "@repo/db/client";
 import { p2pSchema } from "@repo/schema/schema";
 
-export const p2pTransfer = async (phone: string, amount: number) => {
+export const p2pTransfer = async (number: string, amount: number) => {
   //First of all add zod validation here.
-  const result = p2pSchema.safeParse({ phone, amount });
+  const result = p2pSchema.safeParse({ number, amount });
   if (!result.success) {
     console.log(result.error.message);
     return {
@@ -38,7 +38,7 @@ export const p2pTransfer = async (phone: string, amount: number) => {
   //Find the user to whom money has to be sent.
   const toUser = await db.user.findFirst({
     where: {
-      number: phone,
+      number: number,
     },
   });
 

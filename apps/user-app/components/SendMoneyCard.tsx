@@ -22,7 +22,7 @@ export const SendMoneyCard = () => {
   const updateP2P = useStore((state: any) => state.updateP2P);
 
   const onSubmit = async (data: p2pInput) => {
-    const res = await p2pTransfer(data.phone, data.amount);
+    const res = await p2pTransfer(data.number, data.amount);
     //If everything goes well add a toast notificaation here.
     if (res.success) {
       updateP2P(res.data);
@@ -41,7 +41,7 @@ export const SendMoneyCard = () => {
             size="md"
             register={register}
             errors={errors}
-            name="phone"
+            name="number"
             placeholder="Enter number"
             label="📱Phone number"
           />

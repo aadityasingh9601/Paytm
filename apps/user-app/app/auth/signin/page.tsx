@@ -23,7 +23,7 @@ export default function page() {
     console.log(data);
     try {
       const res = await signIn("credentials", {
-        phone: data.number,
+        number: data.number,
         password: data.password,
         redirect: false,
         callbackUrl: process.env.NEXTAUTH_URL,
@@ -38,17 +38,22 @@ export default function page() {
     }
   };
 
+  // Error handler
+  const onError = (err: unknown) => {
+    console.error("Validation Errors:", err);
+  };
+
   return (
     <div className="flex justify-center items-center h-[92.8vh]">
       <div className="flex flex-col justify-center items-center border-[2px] rounded-md border-grey-800 bg-white w-[26rem] min-h-[23rem] p-5">
         <div className="text-2xl">Log in</div>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit, onError)}>
           <div className="flex flex-col justify-center min-w-[20rem] gap-[1rem]">
             <div>
               <TextInput
                 size="md"
                 register={register}
-                name="phone"
+                name="number"
                 errors={errors}
                 label=""
                 type="text"
