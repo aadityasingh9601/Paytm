@@ -26,3 +26,5 @@ jobs:
 
       - name: Run build
         run: npm run build
+
+# We can also add a lint check, formatting check & test step in our CI workflow.
