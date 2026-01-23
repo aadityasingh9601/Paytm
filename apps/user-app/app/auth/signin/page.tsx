@@ -40,7 +40,7 @@ export default function page() {
 
   // Error handler
   const onError = (err: unknown) => {
-    console.error("Validation Errors:", err);
+    console.error("Validation Errors", err);
   };
 
   return (
