@@ -3,9 +3,7 @@ name: Build on PR
 on:
   pull_request:
     branches:
-      - master
-      # We've changed it to master just for now, as currenly we are just building our application and we don't want the whole
-      # workflow to run for each & every commit, that's why. You can change it to "main" later.
+      - main
 
 jobs:
   build:
