@@ -1,0 +1,28 @@
+# Version control
+.git
+.gitignore
+
+*.md
+
+# Dependencies
+**/node_modules
+
+# Build outputs
+**/dist
+**/.next
+**/build
+**/out
+
+# Development files
+**/.env*
+!**/.env.example
+**/.vscode
+**/.idea
+**/coverage
+**/.turbo
+**/.cache
+
+
+# Logs
+**/npm-debug.log*
+
