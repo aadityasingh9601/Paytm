@@ -1,16 +1,56 @@
-FROM node:20-alpine
+FROM node:20-alpine AS base
 
-WORKDIR /user/src/app
-
-COPY package.json package-lock.json turbo.json ./
-
-COPY apps ./apps
-COPY packages ./packages
-
-#Install dependencies
+FROM base AS pruner
+WORKDIR /app
+RUN apk update
+RUN apk add --no-cache libc6-compat
+# Replace <your-major-version> with the major version installed in your repository. For example:
+# RUN yarn global add turbo@^2
+RUN npm install -g turbo
+COPY . .
+# Add lockfile and package.json's of isolated subworkspace
+# Generate a partial monorepo with a pruned lockfile for a target workspace.
+# Assuming "web" is the name entered in the project's package.json: { name: "web" }
+RUN turbo prune user-app --docker
+# ---
+FROM base AS builder
+WORKDIR /app
+RUN apk add --no-cache libc6-compat
+# First install the dependencies (as they change less often)
+COPY --from=pruner /app/out/json/ .
 RUN npm install
-RUN npm run db:generate
+# Build the project
+COPY --from=pruner /app/out/full/ .
+# Uncomment and use build args to enable remote caching
+# ARG TURBO_TEAM
+# ENV TURBO_TEAM=$TURBO_TEAM
+# ARG TURBO_TOKEN
+# ENV TURBO_TOKEN=$TURBO_TOKEN
 
+RUN npm run db:generate
 RUN npm run build
 
-CMD ["npm","run","start-user-app"]
+FROM base AS runner
+WORKDIR /app
+RUN addgroup --system --gid 1001 nodejs && \
+    adduser --system --uid 1001 nextjs
+USER nextjs
+
+# Automatically leverage output traces to reduce image size
+# https://nextjs.org/docs/advanced-features/output-file-tracing
+COPY --from=builder --chown=nextjs:nodejs /app/apps/user-app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/apps/user-app/.next/static ./apps/user-app/.next/static
+COPY --from=builder --chown=nextjs:nodejs /app/apps/user-app/public ./apps/user-app/public
+
+EXPOSE 3000
+CMD ["node", "apps/user-app/server.js"]
+
+
+
+# We're just copying over all the files because it's a monorepo, so each app & package also has it's own package.json
+# files, so we need to copy them over too before running npm install.
+# We can optimize the current docker file further by only copying over the user-app & not other apps, or maybe not
+# because user-app also redirects to other apps sometimes, whatever it is, do research & try to optimize further.
+# Before optimizing the docker file. Image size = 2.84 GB. Build time -> 2 min 17 s.
+# After doing the optimizations, Image size = 330 MB. Build time -> Didn't calculated, but less than half.
+# Before (at the very start) I was using node:latest as base image, then image size was 3.33 GB.
