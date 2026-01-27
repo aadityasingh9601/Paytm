@@ -18,7 +18,6 @@ app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
 app.get("/", (req, res) => {
-  console.log("received on backend");
   res.send("Bank webhook handler");
 });
 
