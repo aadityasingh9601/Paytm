@@ -50,13 +50,13 @@ export const verifyOnramps = async (data: bankWithOnRampInput) => {
   //If correct, transaction is successful & request goes to the bank web hook hanlder that the transaction is completed
   //successfully, inform it, so that it can update the details.
   const res = await axios.post(
-    "http://localhost:3003/bankWebhook",
+    "http://host.docker.internal:3003/bankWebhook",
     {
       token: data.token,
       userId: data.userId,
       amount: data.amount,
     },
-    {}
+    {},
   );
 
   console.log(res);
