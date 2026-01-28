@@ -6,13 +6,13 @@ import { bankWebhookSchema } from "@repo/schema/schema";
 
 const app = express();
 
-const corsOptions = {
-  origin: ["http://localhost:3001"],
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  headers: ["Content-Type", "Authorization"],
-};
+// const corsOptions = {
+//   origin: ["http://localhost:3001"],
+//   methods: ["GET", "POST", "PUT", "DELETE"],
+//   headers: ["Content-Type", "Authorization"],
+// };
 
-app.use(cors(corsOptions));
+app.use(cors());
 
 //To parse the incoming request bodies.
 app.use(bodyParser.json());
