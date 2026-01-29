@@ -6,13 +6,13 @@ import { bankWebhookSchema } from "@repo/schema/schema";
 
 const app = express();
 
-// const corsOptions = {
-//   origin: ["http://localhost:3001"],
-//   methods: ["GET", "POST", "PUT", "DELETE"],
-//   headers: ["Content-Type", "Authorization"],
-// };
+const corsOptions = {
+  origin: "*",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  headers: ["Content-Type", "Authorization"],
+};
 
-app.use(cors());
+app.use(cors(corsOptions));
 
 //To parse the incoming request bodies.
 app.use(bodyParser.json());
@@ -81,6 +81,6 @@ app.post("/bankWebhook", async (req, res) => {
   }
 });
 
-app.listen(3003, () => {
+app.listen(3003, "0.0.0.0", () => {
   console.log("Bank webhook handler listening on port 3003 ");
 });
