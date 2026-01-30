@@ -7,7 +7,9 @@
     "src/index.ts"
   ],
   "scripts": {
-    "dev": " npx esbuild ./src/index.ts --bundle --platform=node --outfile=dist/index.js && node dist/index.js"
+    "build": "npx esbuild ./src/index.ts --bundle --platform=node --outfile=dist/index.js",
+    "start": "node dist/index.js",
+    "dev": "npm run build && npm run start"
   },
   "keywords": [],
   "author": "",
