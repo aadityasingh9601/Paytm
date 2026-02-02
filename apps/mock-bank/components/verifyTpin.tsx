@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
 
-const redirectUrl = `http://localhost:3000/transfer`;
+const redirectUrl = `${process.env.USER_APP}/transfer`;
 
 type txnData = {
   id: number;

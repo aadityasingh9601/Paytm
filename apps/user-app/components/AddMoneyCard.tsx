@@ -23,7 +23,7 @@ const SUPPORTED_BANKS = [
 export const AddMoney = () => {
   //If you have multiple banks with differenet redirect urls you can create a separate state managment for them too, like
   //it was done earlier, using a SUPPORTED_BANKS array.
-  const redirectUrl = "http://localhost:3001/netbanking";
+  const redirectUrl = `${process.env.NEXT_PUBLIC_MOCK_BANK}/netbanking`;
   const searchParams = useSearchParams();
   const isSuccess = searchParams.get("success");
   useEffect(() => {
@@ -45,6 +45,7 @@ export const AddMoney = () => {
   const onSubmit = async (data: addMoneyInput) => {
     //Server action handling the logic here.
     const res = await onRampTransaction(data.amount, data.provider);
+    //Redirect to the bank page.
     window.location.href = `${redirectUrl}/${res.token}` || "";
   };
   return (
