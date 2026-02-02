@@ -2,8 +2,6 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import db from "@repo/db/client";
 
-//console.log(process.env.NEXTAUTH_SECRET);
-
 export const authOptions = {
   providers: [
     CredentialsProvider({
