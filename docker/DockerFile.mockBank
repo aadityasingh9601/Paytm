@@ -27,6 +27,9 @@ COPY --from=pruner /app/out/full/ .
 # ARG TURBO_TOKEN
 # ENV TURBO_TOKEN=$TURBO_TOKEN
 
+ARG NEXT_PUBLIC_USER_APP
+ENV NEXT_PUBLIC_USER_APP=http://localhost:3000
+
 RUN npm run db:generate
 RUN npm run build
 
