@@ -28,7 +28,7 @@ COPY --from=pruner /app/out/full/ .
 # ENV TURBO_TOKEN=$TURBO_TOKEN
 
 ARG NEXT_PUBLIC_MOCK_BANK
-ENV NEXT_PUBLIC_MOCK_BANK=http://localhost:3001
+ENV NEXT_PUBLIC_MOCK_BANK=https://mock-bank.aadityasingh.dev
 
 RUN npm run db:generate
 RUN npm run build

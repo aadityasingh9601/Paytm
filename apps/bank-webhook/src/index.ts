@@ -7,7 +7,7 @@ import { bankWebhookSchema } from "@repo/schema/schema";
 const app = express();
 
 const corsOptions = {
-  origin: "*",
+  origin: `${process.env.MOCK_BANK} ?? http://localhost:3001`,
   methods: ["GET", "POST", "PUT", "DELETE"],
   headers: ["Content-Type", "Authorization"],
 };
