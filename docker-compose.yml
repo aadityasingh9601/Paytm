@@ -1,4 +1,3 @@
-# docker-compose.yml
 services:
   user-app:
     image: aaditya999/wallet-userapp:latest
@@ -35,7 +34,7 @@ services:
 
   # nginx:
   #   image: nginx:alpine
-  #   container_name: paytm-nginx
+  #   container_name: wallet-nginx
   #   restart: unless-stopped
   #   ports:
   #     - "80:80"

@@ -3,7 +3,7 @@ name: Build and Deploy to Docker Hub
 on:
   push:
     branches:
-      - master
+      - main
       # We've changed it to master just for now, as currenly we are just building our application and we don't want the whole
       # workflow to run for each & every commit, that's why. You can change it to "main" later.
 
@@ -26,20 +26,19 @@ jobs:
           context: .
           file: ./docker/DockerFile.userApp
           push: true
-          tags: aaditya999/user_app:latest # Replace with your Docker Hub username and repository
+          tags: aaditya999/wallet-userapp:latest # Replace with your Docker Hub username and repository
 
       - name: Verify Pushed Image
-        run: docker pull aaditya999/user_app:latest # Replace with your Docker Hub username and repository
+        run: docker pull aaditya999/wallet-userapp:latest # Replace with your Docker Hub username and repository
 
-
-    # - name: Deploy to EC2
-    #   uses: appleboy/ssh-action@master
-    #   with:
-    #     host: ${{ secrets.SSH_HOST }}
-    #     username: ${{ secrets.SSH_USERNAME }}
-    #     key: ${{ secrets.SSH_KEY }}
-    #     script: |
-    #       sudo docker pull 100xdevs/week-18-class:latest
-    #       sudo docker stop web-app || true
-    #       sudo docker rm web-app || true
-    #       sudo docker run -d --name web-app -p 3005:3000 100xdevs/week-18-class:latest
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }} # Public IP of EC2 instance.
+          username: ${{ secrets.SSH_USERNAME }} # Username inside the EC2 instance, usually it's "ubuntu".
+          key: ${{ secrets.SSH_KEY }} #SSH key for your EC2 instance.
+          script: |
+            cd /home/ubuntu/paytm-clone
+            docker compose pull user-app
+            sudo docker compose up -d
+            sudo docker pull aaditya999/wallet-userapp:latest
