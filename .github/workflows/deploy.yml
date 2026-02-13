@@ -38,7 +38,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }} # Username inside the EC2 instance, usually it's "ubuntu".
           key: ${{ secrets.SSH_KEY }} #SSH key for your EC2 instance.
           script: |
-            cd /home/ubuntu/paytm-clone
+            cd /home/ubuntu/paytm-deploy
             docker compose pull user-app
             sudo docker compose up -d
             sudo docker pull aaditya999/wallet-userapp:latest
