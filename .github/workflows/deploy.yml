@@ -41,4 +41,3 @@ jobs:
             cd /home/ubuntu/paytm-deploy
             sudo docker-compose pull user-app
             sudo docker-compose up -d
-            sudo docker pull aaditya999/wallet-userapp:latest
