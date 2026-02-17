@@ -18,7 +18,7 @@ app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
 app.get("/", (req, res) => {
-  res.send("Bank webhook handler");
+  res.send("Bank webhook handler!");
 });
 
 app.post("/bankWebhook", async (req, res) => {
