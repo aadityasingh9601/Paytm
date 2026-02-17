@@ -15,9 +15,11 @@ jobs:
       bank-webhook: ${{ steps.filter.outputs.bank-webhook }}
       packages: ${{ steps.filter.outputs.packages }}
     steps:
-      - uses: actions/checkout@v3
+      - name: Check Out Repo
+        uses: actions/checkout@v3
 
-      - uses: dorny/paths-filter@v2
+      - name: Detect file changes
+        uses: dorny/paths-filter@v2
         id: filter
         with:
           filters: |
