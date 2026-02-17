@@ -24,7 +24,7 @@ export const Button = ({
     <button
       onClick={onClick}
       type={type}
-      className={`text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 font-medium focus:ring-gray-300 ${sizeClasses[size]} rounded-lg me-2 mb-2`}
+      className={`text-white bg-gray-500 hover:bg-gray-900 focus:outline-none focus:ring-4 font-medium focus:ring-gray-300 ${sizeClasses[size]} rounded-lg me-2 mb-2`}
     >
       {children}
     </button>
