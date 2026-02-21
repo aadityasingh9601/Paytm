@@ -44,7 +44,7 @@ export const AddMoney = () => {
   });
 
   const onSubmit = async (data: addMoneyInput) => {
-    setLoading(true);
+    setLoading(!loading);
     //Server action handling the logic here.
     const res = await onRampTransaction(data.amount, data.provider);
     //Redirect to the bank page.
@@ -78,8 +78,9 @@ export const AddMoney = () => {
               {loading ? (
                 <LoaderIcon
                   style={{
-                    height: "1.5rem",
-                    width: "1.5rem",
+                    height: "1.3rem",
+                    width: "1.3rem",
+                    margin: "0 1.7rem 0 1.7rem",
                   }}
                 />
               ) : (
