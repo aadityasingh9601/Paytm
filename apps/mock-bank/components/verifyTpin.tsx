@@ -6,7 +6,8 @@ import { verifyOnramps } from "../app/lib/actions/verifyOnramps";
 import { verifyOnrampsSchema, verifyOnrampsInput } from "@repo/schema/schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import toast from "react-hot-toast";
+import { toast, LoaderIcon } from "react-hot-toast";
+import { useState } from "react";
 
 const redirectUrl = `${process.env.NEXT_PUBLIC_USER_APP}/transfer`;
 
@@ -32,7 +33,10 @@ export default function VerifyTpin({ txn }: { txn: txnData }) {
     resolver: zodResolver(verifyOnrampsSchema),
   });
 
+  const [loading, setLoading] = useState(false);
+
   const onSubmit = async (data: verifyOnrampsInput) => {
+    setLoading(true);
     const res = await verifyOnramps({
       userId: txn.userId,
       amount: txn.amount / 100, //DATABASES HAS AMOUNT STORES BY *100, SO TO USE WE'VE TO DIVIDE BY 100
@@ -47,6 +51,7 @@ export default function VerifyTpin({ txn }: { txn: txnData }) {
       console.log(res.error);
       toast.error(res.error);
     }
+    setLoading(false);
   };
 
   return (
@@ -76,7 +81,13 @@ export default function VerifyTpin({ txn }: { txn: txnData }) {
               >
                 Return home
               </Button>
-              <Button type="submit">Add Money</Button>
+              <Button type="submit">
+                {loading ? (
+                  <LoaderIcon style={{ height: "1.5rem", width: "1.5rem" }} />
+                ) : (
+                  "Add Money"
+                )}
+              </Button>
             </div>
           </form>
         </div>

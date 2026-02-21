@@ -1,5 +1,6 @@
 "use client";
 import { Card } from "@repo/ui/card";
+import { LoaderIcon } from "react-hot-toast";
 import { useStore } from "@repo/store/store";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
@@ -32,7 +33,6 @@ export const P2PTransactions = ({
     //Improve this card here to showcase also the name of the other person in the transaction, also if money is received
     //showcase in green color with plus, if debited, showcase in red color or with a minus sign.
     <Card title="📋Recent Transactions">
-      <div className=""></div>
       <div
         className="overflow-y-scroll pt-2 hide-scrollbar"
         style={{ height: "32rem" }}

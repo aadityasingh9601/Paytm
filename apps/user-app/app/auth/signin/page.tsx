@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signinSchema, signinInput } from "@repo/schema/schema";
+import { useState } from "react";
+import { LoaderIcon } from "react-hot-toast";
 
 export default function page() {
   const {
@@ -15,12 +17,11 @@ export default function page() {
   } = useForm({
     resolver: zodResolver(signinSchema), // Apply the zodResolver
   });
-
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const onSubmit = async (data: signinInput) => {
-    console.log("7");
-    console.log(data);
+    setLoading(true);
     try {
       const res = await signIn("credentials", {
         number: data.number,
@@ -36,6 +37,7 @@ export default function page() {
     } catch (error) {
       console.log(error);
     }
+    setLoading(false);
   };
 
   // Error handler
@@ -70,7 +72,13 @@ export default function page() {
               />
             </div>
             <Button2 shade="solid" type="submit">
-              Next
+              {loading ? (
+                <div className="flex justify-center">
+                  <LoaderIcon style={{ height: "1.5rem", width: "1.5rem" }} />
+                </div>
+              ) : (
+                "Next"
+              )}
             </Button2>
             <Button2
               onClick={() => {

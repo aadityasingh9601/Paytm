@@ -9,6 +9,8 @@ import { useSession } from "next-auth/react";
 import { toast } from "react-hot-toast";
 import { useStore } from "@repo/store/store";
 import { AccountData } from "@repo/types/types";
+import { useState } from "react";
+import { LoaderIcon } from "react-hot-toast";
 
 export default function AccountForm({
   accountInfo,
@@ -28,13 +30,15 @@ export default function AccountForm({
 
   const session = useSession();
   const userId = session.data?.user.id;
+  const [loading, setLoading] = useState(false);
   const updateAccountInfo = useStore((state) => state.updateAccount);
 
   const onSubmit = async (data: accountInput) => {
+    setLoading(true);
     const res = await updateAccount(Number(userId), data);
-    console.log(35, res.data);
 
     if (res?.data) {
+      setLoading(false);
       updateEdit(false);
       updateAccountInfo(res.data);
       toast.success(res.message ?? "Success");
@@ -86,8 +90,14 @@ export default function AccountForm({
           register={register}
           errors={errors}
         />
-        <div className=" pt-4">
-          <Button type="submit">Save</Button>
+        <div className="pt-4">
+          <Button type="submit">
+            {loading ? (
+              <LoaderIcon style={{ height: "1.5rem", width: "1.5rem" }} />
+            ) : (
+              "Save"
+            )}
+          </Button>
         </div>
       </div>
     </form>

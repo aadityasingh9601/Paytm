@@ -7,7 +7,8 @@ import axios from "axios";
 import { signupSchema, signupInput } from "@repo/schema/schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import toast from "react-hot-toast";
+import { toast, LoaderIcon } from "react-hot-toast";
+import { useState } from "react";
 
 export default function page() {
   const {
@@ -17,11 +18,11 @@ export default function page() {
   } = useForm({
     resolver: zodResolver(signupSchema), // Apply the zodResolver
   });
-
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const onSubmit = async (data: signupInput) => {
-    console.log(data);
+    setLoading(true);
     try {
       const res = await axios.post("/api/auth/signup", data, {});
       if (res.status === 200) {
@@ -36,6 +37,7 @@ export default function page() {
       toast.error("Some error occured");
       console.log(e);
     }
+    setLoading(false);
   };
 
   // Error handler
@@ -79,7 +81,13 @@ export default function page() {
             </div>
 
             <Button2 shade="solid" type="submit">
-              Next
+              {loading ? (
+                <div className="flex justify-center">
+                  <LoaderIcon style={{ height: "1.5rem", width: "1.5rem" }} />
+                </div>
+              ) : (
+                "Next"
+              )}
             </Button2>
             <Button2
               onClick={() => {

@@ -8,8 +8,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addMoneySchema, addMoneyInput } from "@repo/schema/schema";
 import { useSearchParams } from "next/navigation";
-import { toast } from "react-hot-toast";
-import { useEffect } from "react";
+import { LoaderIcon, toast } from "react-hot-toast";
+import { useEffect, useState } from "react";
 
 const SUPPORTED_BANKS = [
   {
@@ -21,6 +21,7 @@ const SUPPORTED_BANKS = [
 ];
 
 export const AddMoney = () => {
+  const [loading, setLoading] = useState(false);
   //If you have multiple banks with differenet redirect urls you can create a separate state managment for them too, like
   //it was done earlier, using a SUPPORTED_BANKS array.
   const redirectUrl = `${process.env.NEXT_PUBLIC_MOCK_BANK}/netbanking`;
@@ -43,6 +44,7 @@ export const AddMoney = () => {
   });
 
   const onSubmit = async (data: addMoneyInput) => {
+    setLoading(true);
     //Server action handling the logic here.
     const res = await onRampTransaction(data.amount, data.provider);
     //Redirect to the bank page.
@@ -72,7 +74,18 @@ export const AddMoney = () => {
             }))}
           />
           <div className="flex justify-center pt-4">
-            <Button type="submit">Add Money</Button>
+            <Button type="submit">
+              {loading ? (
+                <LoaderIcon
+                  style={{
+                    height: "1.5rem",
+                    width: "1.5rem",
+                  }}
+                />
+              ) : (
+                "Add Money"
+              )}
+            </Button>
           </div>
         </form>
       </div>

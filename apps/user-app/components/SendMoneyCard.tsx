@@ -8,6 +8,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { p2pSchema, p2pInput } from "@repo/schema/schema";
 import { useStore } from "@repo/store/store";
+import { LoaderIcon } from "react-hot-toast";
+import { useState } from "react";
 
 export const SendMoneyCard = () => {
   const {
@@ -19,9 +21,11 @@ export const SendMoneyCard = () => {
     resolver: zodResolver(p2pSchema),
   });
 
+  const [loading, setLoading] = useState(false);
   const updateP2P = useStore((state: any) => state.updateP2P);
 
   const onSubmit = async (data: p2pInput) => {
+    setLoading(true);
     const res = await p2pTransfer(data.number, data.amount);
     //If everything goes well add a toast notificaation here.
     if (res.success) {
@@ -32,6 +36,7 @@ export const SendMoneyCard = () => {
     } else {
       toast.error(res.error ?? "Some error occured!");
     }
+    setLoading(false);
   };
   return (
     <Card title="Send Money">
@@ -55,7 +60,14 @@ export const SendMoneyCard = () => {
             label="💵 Amount"
           />
           <div className="pt-4 flex justify-center">
-            <Button type="submit">Send</Button>
+            <Button type="submit">
+              {" "}
+              {loading ? (
+                <LoaderIcon style={{ height: "1.5rem", width: "1.5rem" }} />
+              ) : (
+                "Send"
+              )}
+            </Button>
           </div>
         </form>
       </div>

@@ -1,7 +1,7 @@
-import { z, ZodType } from "zod";
+import { email, z, ZodType } from "zod";
 
 export const signupSchema = z.object({
-  email: z.string().endsWith("@gmail.com", "Invalid email!"),
+  email: z.email("Please enter a valid email!"),
   number: z
     .string()
     .min(8, "Must be atleast 8 digits")
@@ -29,14 +29,14 @@ export const p2pSchema = z.object({
     .min(8, "Must be atleast 8 digits")
     .max(12, "Must be atmost 12 digits"),
   amount: z
-    .number()
+    .number("Please enter a valid amount!")
     .min(10, "Minimum amount ₹10")
     .max(50000, "Maximum amount ₹50000"),
 });
 
 export const addMoneySchema = z.object({
   amount: z
-    .number()
+    .number("Please enter a valid amount!")
     .min(100, "Minimum amount ₹100")
     .max(50000, "Maximum amount ₹50000"),
   provider: z.string().min(1, "Can't be empty!"),
