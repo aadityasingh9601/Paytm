@@ -83,7 +83,13 @@ export default function VerifyTpin({ txn }: { txn: txnData }) {
               </Button>
               <Button type="submit">
                 {loading ? (
-                  <LoaderIcon style={{ height: "1.5rem", width: "1.5rem" }} />
+                  <LoaderIcon
+                    style={{
+                      height: "1.3rem",
+                      width: "1.3rem",
+                      margin: "0 1.7rem 0 1.7rem",
+                    }}
+                  />
                 ) : (
                   "Add Money"
                 )}

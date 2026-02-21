@@ -45,6 +45,7 @@ export default function AccountForm({
     } else {
       toast.error(res.error ?? "Some error occured!");
     }
+    setLoading(false);
   };
 
   return (
@@ -93,7 +94,13 @@ export default function AccountForm({
         <div className="pt-4">
           <Button type="submit">
             {loading ? (
-              <LoaderIcon style={{ height: "1.5rem", width: "1.5rem" }} />
+              <LoaderIcon
+                style={{
+                  height: "1.3rem",
+                  width: "1.3rem",
+                  margin: "0 0.4rem 0 0.4rem",
+                }}
+              />
             ) : (
               "Save"
             )}

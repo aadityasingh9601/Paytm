@@ -63,7 +63,13 @@ export const SendMoneyCard = () => {
             <Button type="submit">
               {" "}
               {loading ? (
-                <LoaderIcon style={{ height: "1.5rem", width: "1.5rem" }} />
+                <LoaderIcon
+                  style={{
+                    height: "1.3rem",
+                    width: "1.3rem",
+                    margin: "0 0.4rem 0 0.4rem",
+                  }}
+                />
               ) : (
                 "Send"
               )}
