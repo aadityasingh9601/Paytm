@@ -43,12 +43,10 @@ export default function VerifyTpin({ txn }: { txn: txnData }) {
       token: txn.token,
       tpin: data.tpin,
     });
-    console.log(res);
     if (res?.success) {
       //Redirect back to the website.
       window.location.href = `${redirectUrl}?success=true` || "";
     } else {
-      console.log(res.error);
       toast.error(res.error);
     }
     setLoading(false);

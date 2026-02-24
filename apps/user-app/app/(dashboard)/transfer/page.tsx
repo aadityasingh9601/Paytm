@@ -15,7 +15,6 @@ async function getOnRampTransactions() {
       startTime: "desc",
     },
   });
-  console.log(txns);
   return txns.map((t) => ({
     time: t.startTime,
     amount: t.amount,

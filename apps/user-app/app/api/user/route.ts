@@ -6,7 +6,6 @@ export const GET = async () => {
   try {
     //This function returns the session details of the current logged-in user.
     const session = await getServerSession(authOptions);
-    console.log(session);
     if (session?.user) {
       return NextResponse.json({
         user: session?.user,
@@ -17,7 +16,7 @@ export const GET = async () => {
       {
         message: "You aren't logged in",
       },
-      { status: 403 }
+      { status: 403 },
     );
   }
 };

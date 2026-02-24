@@ -5,7 +5,6 @@ import db from "@repo/db/client";
 import { p2pSchema } from "@repo/schema/schema";
 
 export const p2pTransfer = async (number: string, amount: number) => {
-  console.log(number, amount);
   //First of all add zod validation here.
   const result = p2pSchema.safeParse({ number, amount });
   if (!result.success) {
