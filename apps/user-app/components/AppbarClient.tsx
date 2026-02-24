@@ -6,7 +6,6 @@ import { Appbar } from "@repo/ui/Appbar";
 
 export function AppbarClient() {
   const session = useSession();
-  console.log(session.data);
 
   return (
     <div>

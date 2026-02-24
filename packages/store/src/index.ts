@@ -23,7 +23,6 @@ const useStore = create<AppState>((set) => ({
   },
 
   updateP2P: (newTxn) => {
-    console.log(newTxn);
     set((state) => ({
       p2pTxns: [newTxn, ...state.p2pTxns],
     }));

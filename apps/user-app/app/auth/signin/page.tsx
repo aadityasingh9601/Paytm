@@ -29,11 +29,9 @@ export default function page() {
         redirect: false,
         callbackUrl: process.env.NEXTAUTH_URL,
       });
-      console.log(res?.status);
       if (res?.status === 200) {
         router.push("/dashboard");
       }
-      console.log(res);
     } catch (error) {
       console.log(error);
     }
