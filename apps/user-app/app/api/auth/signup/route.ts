@@ -52,7 +52,7 @@ export const POST = async (req: Request, res: NextApiResponse) => {
       },
     });
 
-    return new Response("User created successfully", {
+    return new Response("User created successfully!", {
       status: 200,
     });
   } catch (e) {

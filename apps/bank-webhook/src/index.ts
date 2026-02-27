@@ -24,14 +24,11 @@ app.get("/", (req, res) => {
 app.post("/bankWebhook", async (req, res) => {
   try {
     //Only do this, if the status is still processing. Add zod validation too.
-    console.log(req.body);
     const { token, userId, amount } = req.body;
-    console.log(amount);
 
     //Add zod validation here.
     const result = bankWebhookSchema.safeParse(req.body);
     if (!result.success) {
-      console.log(result.error);
       res.status(400).send(result.error);
       return;
     }
@@ -72,9 +69,7 @@ app.post("/bankWebhook", async (req, res) => {
       message: "Captured!",
     });
   } catch (e) {
-    console.log(e);
     //It's crucial to send 411 to the bank, as it means request failed, so the bank will refund the money to the user.
-
     res.status(411).json({
       message: "Unable to process transaction",
     });

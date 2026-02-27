@@ -1,6 +1,5 @@
 "use client";
 import { Card } from "@repo/ui/card";
-import { LoaderIcon } from "react-hot-toast";
 import { useStore } from "@repo/store/store";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
