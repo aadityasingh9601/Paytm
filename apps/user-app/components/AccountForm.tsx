@@ -41,9 +41,9 @@ export default function AccountForm({
       setLoading(false);
       updateEdit(false);
       updateAccountInfo(res.data);
-      toast.success(res.message ?? "Success");
+      toast.success(res.message ?? "Success!");
     } else {
-      toast.error(res.error ?? "Some error occured!");
+      toast.error(res.message ?? "Some error occured!");
     }
     setLoading(false);
   };

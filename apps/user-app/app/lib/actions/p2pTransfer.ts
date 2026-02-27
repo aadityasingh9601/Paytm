@@ -5,13 +5,13 @@ import db from "@repo/db/client";
 import { p2pSchema } from "@repo/schema/schema";
 
 export const p2pTransfer = async (number: string, amount: number) => {
+  console.log(number, amount);
   //First of all add zod validation here.
   const result = p2pSchema.safeParse({ number, amount });
   if (!result.success) {
-    console.log(result.error.message);
     return {
       success: false,
-      error: result.error.message,
+      message: result.error.message,
     };
   }
   //First check the login status of the current user.
@@ -22,7 +22,7 @@ export const p2pTransfer = async (number: string, amount: number) => {
   if (!userId) {
     return {
       success: false,
-      error: "User not logged in!",
+      message: "User not logged in!",
     };
   }
 
@@ -31,7 +31,7 @@ export const p2pTransfer = async (number: string, amount: number) => {
   if (!from) {
     return {
       success: false,
-      error: "Error while sending, check your login status",
+      message: "Error while sending, check your login status",
     };
   }
 
@@ -46,14 +46,14 @@ export const p2pTransfer = async (number: string, amount: number) => {
   if (Number(from) === toUser?.id) {
     return {
       success: false,
-      error: "You can't send money to yourself!",
+      message: "You can't send money to yourself!",
     };
   }
 
   if (!toUser) {
     return {
       success: false,
-      error: "User not found",
+      message: "User not found",
     };
   }
 
@@ -62,25 +62,18 @@ export const p2pTransfer = async (number: string, amount: number) => {
   //Create a transaction as we want everything to happen or nothing to happen.
   //There is another way to define a transaction, see in other files in this lib folder. Understand both of them & when we use
   //each one.
-  await db.$transaction(async (tx: any) => {
-    // const fromBalance = await db.balance.findFirst({
-    //   where: {
-    //     userId: from,
-    //   },
-    // });
-
+  const txn = await db.$transaction(async (tx: any) => {
     //This will ensure locking of rows in the database. So that only one transaction can access the database at one time.
     //const fromBalance = await db.$queryRaw `SELECT * FROM "Balance" WHERE "userId"= ${from} FOR UPDATE`;
     const fromBalance =
       await tx.$queryRaw`SELECT * FROM "Balance" WHERE "userId" = ${Number(from)} FOR UPDATE`;
 
-    if (!fromBalance || fromBalance?.amount < amount * 100) {
+    if (!fromBalance[0] || fromBalance[0]?.amount < amount * 100) {
       return {
         success: false,
-        error: "Insufficient funds",
+        message: "Insufficient funds!",
       };
     }
-
     //debit from fromUser account.
     await tx.balance.update({
       where: {
@@ -127,11 +120,17 @@ export const p2pTransfer = async (number: string, amount: number) => {
         },
       },
     });
+
+    return {
+      success: true,
+      message: "Transaction successful!",
+      data: newTxnData,
+    };
   });
 
   return {
-    success: true,
-    message: "Transaction successful",
+    success: txn.success,
+    message: txn.message,
     data: newTxnData,
   };
 };

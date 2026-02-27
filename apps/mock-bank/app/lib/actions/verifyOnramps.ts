@@ -5,11 +5,8 @@ import { bankWithOnrampSchema, bankWithOnRampInput } from "@repo/schema/schema";
 import db from "@repo/db/client";
 
 export const verifyOnramps = async (data: bankWithOnRampInput) => {
-  console.log(data);
-
   const result = bankWithOnrampSchema.safeParse(data);
   if (!result.success) {
-    console.log(result.error);
     return {
       success: false,
       error: result.error.message,
@@ -58,8 +55,6 @@ export const verifyOnramps = async (data: bankWithOnRampInput) => {
     },
     {},
   );
-
-  console.log(res);
 
   if (res.status === 200) {
     return {

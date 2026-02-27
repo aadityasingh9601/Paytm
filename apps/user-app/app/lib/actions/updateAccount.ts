@@ -5,27 +5,23 @@ import { authOptions } from "../auth";
 import db from "@repo/db/client";
 
 export const updateAccount = async (id: number, data: accountInput) => {
-  //console.log("received the request");
-  console.log(id, data);
   //First of all do zod validation to ensure data isn't malinformed.
   const result = accountSchema.safeParse(data);
   if (!result.success) {
-    console.log(result.error.message);
     return {
       success: false,
-      error: result.error.message,
+      message: result.error.message,
     };
   }
 
   //Check the login status of the current user.
   const session = await getServerSession(authOptions);
   const userId = session?.user.id;
-  console.log(session);
 
   if (!userId) {
     return {
       success: false,
-      error: "User not logged in!",
+      message: "User not logged in!",
     };
   }
 
@@ -39,16 +35,15 @@ export const updateAccount = async (id: number, data: accountInput) => {
   if (!user) {
     return {
       success: false,
-      error: "Oops! User not found!",
+      message: "Oops! User not found!",
     };
   }
 
   //Check if user has the permission to edit the resources (Authorization).
-  // console.log(typeof userId, typeof user.id);
   if (Number(userId) !== user.id) {
     return {
       success: false,
-      error: "Access denied!",
+      message: "Access denied!",
     };
   }
 
@@ -66,7 +61,6 @@ export const updateAccount = async (id: number, data: accountInput) => {
     },
   });
 
-  console.log(updatedData);
   const newData = {
     ...updatedData,
     tpin: updatedData.tpin ?? "",

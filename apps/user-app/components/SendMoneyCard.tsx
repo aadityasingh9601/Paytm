@@ -31,10 +31,10 @@ export const SendMoneyCard = () => {
     if (res.success) {
       updateP2P(res.data);
       toast.success(res.message ?? "Success");
-
+      console.log("triggered!");
       reset();
     } else {
-      toast.error(res.error ?? "Some error occured!");
+      toast.error(res.message ?? "Some error occured!");
     }
     setLoading(false);
   };

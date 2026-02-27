@@ -29,31 +29,11 @@ async function getP2PTransactions() {
         { toUserId: Number(session?.user?.id) },
       ],
     },
-    // select: {
-    //   id: true,
-    //   amount: true,
-    //   timeStamp: true,
-    //   fromUserId: true,
-    //   toUserId: true,
-    //   fromUser: {
-    //     select: {
-    //       id: true,
-    //       name: true,
-    //     },
-    //   },
-    //   toUser: {
-    //     select: {
-    //       id: true,
-    //       name: true,
-    //     },
-    //   },
-    // },
     orderBy: {
       timeStamp: "desc",
     },
   });
 
-  console.log(p2pTxns);
   return p2pTxns.map((t) => {
     return {
       ...t,
