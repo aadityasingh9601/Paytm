@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signinSchema, signinInput } from "@repo/schema/schema";
 import { useState } from "react";
-import { LoaderIcon } from "react-hot-toast";
+import toast, { LoaderIcon } from "react-hot-toast";
 
 export default function page() {
   const {
@@ -15,7 +15,7 @@ export default function page() {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(signinSchema), // Apply the zodResolver
+    resolver: zodResolver(signinSchema),
   });
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -31,6 +31,9 @@ export default function page() {
       });
       if (res?.status === 200) {
         router.push("/dashboard");
+      }
+      if (res?.status === 401) {
+        toast.error(res.error);
       }
     } catch (error) {
       console.log(error);

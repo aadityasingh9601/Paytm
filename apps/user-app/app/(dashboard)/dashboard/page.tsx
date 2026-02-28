@@ -8,11 +8,10 @@ import { P2pTxnData } from "@repo/types/types";
 
 type TxnData = Omit<P2pTxnData, "fromUser" | "toUser">;
 
-async function getBalance() {
-  const session = await getServerSession(authOptions);
+async function getBalance(userId: string) {
   const balance = await db.balance.findFirst({
     where: {
-      userId: Number(session?.user?.id),
+      userId: Number(userId),
     },
   });
   return {
@@ -21,9 +20,7 @@ async function getBalance() {
   };
 }
 
-async function getTxnData() {
-  const session = await getServerSession(authOptions);
-  const userId = session?.user?.id;
+async function getTxnData(userId: string) {
   //Fetching records of the last 30 days.
   const thirtyDaysAgo = new Date();
   thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
@@ -63,14 +60,13 @@ async function getTxnData() {
 
 export default async function () {
   const session = await getServerSession(authOptions);
-  const userName = session?.user?.name ?? "User";
-  const balance = await getBalance();
-  const txnData = await getTxnData();
+  const balance = await getBalance(session.user.id);
+  const txnData = await getTxnData(session.user.id);
 
   return (
     <div className="w-screen bg-brown-500">
       <div className="text-4xl text-[#6a51a6] pt-8 pl-4 mb-8 font-bold">
-        Welcome back, {userName}
+        Welcome back, {session.user.name}
       </div>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 p-4">
         <div>
