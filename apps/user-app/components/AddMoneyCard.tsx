@@ -74,7 +74,7 @@ export const AddMoney = () => {
             }))}
           />
           <div className="flex justify-center pt-4">
-            <Button type="submit">
+            <Button type="submit" disabled={loading}>
               {loading ? (
                 <LoaderIcon
                   style={{
