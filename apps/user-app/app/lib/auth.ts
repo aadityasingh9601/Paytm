@@ -1,6 +1,7 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import db from "@repo/db/client";
+import { signinSchema } from "@repo/schema/schema";
 
 export const authOptions = {
   providers: [
@@ -15,37 +16,48 @@ export const authOptions = {
         },
         password: { label: "Password", type: "password", required: true },
       },
-      //Do zod validation or OTP validation here.
+
       async authorize(credentials: any) {
         try {
-          //Hash the password sent by user.
-          const hashedPassword = await bcrypt.hash(credentials.password, 10);
+          //Do zod validation or OTP validation here.
+          const result = signinSchema.safeParse({
+            number: credentials.number,
+            password: credentials.password,
+          });
+          if (!result.success) {
+            throw new Error(result.error.message);
+          }
+
           const existingUser = await db.user.findFirst({
             where: {
               number: credentials.number,
             },
           });
 
-          //If user exists, then check their password.
-          if (existingUser) {
-            const passwordValidation = await bcrypt.compare(
-              credentials.password,
-              hashedPassword,
-            );
-            if (passwordValidation) {
-              return {
-                id: existingUser.id.toString(),
-                name: existingUser.name,
-                email: existingUser.email,
-              };
-            }
-            return null;
+          if (!existingUser) {
+            throw new Error("Invalid credentials!");
           }
-        } catch (error) {
-          console.log(error);
-        }
+          //If user exists, then check their password.
+          const passwordValidation = await bcrypt.compare(
+            credentials.password,
+            existingUser.password,
+          );
 
-        return null;
+          if (!passwordValidation) {
+            throw new Error("Incorrect Password!");
+          }
+          return {
+            id: existingUser.id.toString(),
+            name: existingUser.name,
+            email: existingUser.email,
+          };
+        } catch (error) {
+          // Re-throw your own known errors so NextAuth receives them
+          if (error instanceof Error) {
+            throw error;
+          }
+          throw new Error("Something went wrong. Please try again.");
+        }
       },
     }),
   ],

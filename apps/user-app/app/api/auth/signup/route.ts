@@ -12,23 +12,38 @@ export const POST = async (req: Request, res: NextApiResponse) => {
     const { email, number, password } = body;
     const result = signupSchema.safeParse(body);
     if (!result.success) {
-      return new Response(result.error.message, {
+      return Response.json({
+        message: result.error.message,
         status: 400,
       });
     }
-
-    const existingUser = await db.user.findFirst({
+    //Check if phone number already exists or not.
+    const existingNumber = await db.user.findFirst({
       where: {
         number: number,
       },
     });
 
-    if (existingUser) {
+    if (existingNumber) {
       return Response.json({
-        message: "Phone no. already registered, choose a unique one!",
+        message: "Phone no. already registered, choose new one!",
+        status: 400,
       });
     }
 
+    //Check if email already exists or not.
+    const existingEmail = await db.user.findFirst({
+      where: {
+        email: email,
+      },
+    });
+
+    if (existingEmail) {
+      return Response.json({
+        message: "Email already registered! Choose new one!",
+        status: 400,
+      });
+    }
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = await db.user.create({
@@ -48,15 +63,14 @@ export const POST = async (req: Request, res: NextApiResponse) => {
       },
     });
 
-    return new Response("User created successfully!", {
+    return Response.json({
+      message: "User created successfully!",
       status: 200,
     });
   } catch (e) {
-    return NextResponse.json(
-      {
-        message: "Something went wrong! Try again!",
-      },
-      { status: 400 },
-    );
+    return Response.json({
+      message: "Something went wrong! Try again!",
+      status: 400,
+    });
   }
 };
