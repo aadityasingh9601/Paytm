@@ -92,7 +92,7 @@ export default function AccountForm({
           errors={errors}
         />
         <div className="pt-4">
-          <Button type="submit">
+          <Button type="submit" disabled={loading}>
             {loading ? (
               <LoaderIcon
                 style={{

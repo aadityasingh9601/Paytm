@@ -17,7 +17,7 @@ export const SidebarItem = ({
 
   return (
     <div
-      className={`flex ${selected ? "text-[#6a51a6]" : "text-slate-500"} p-2 pl-8`}
+      className="flex gap-1.5 bg-transparent hover:bg-gray-200 cursor-pointer text-[#6a51a6] p-2 pl-8"
       onClick={() => {
         router.push(href);
       }}

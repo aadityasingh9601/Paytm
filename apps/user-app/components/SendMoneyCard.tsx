@@ -60,8 +60,7 @@ export const SendMoneyCard = () => {
             label="💵 Amount"
           />
           <div className="pt-4 flex justify-center">
-            <Button type="submit">
-              {" "}
+            <Button type="submit" disabled={loading}>
               {loading ? (
                 <LoaderIcon
                   style={{

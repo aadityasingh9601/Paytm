@@ -79,7 +79,7 @@ export default function page() {
               />
             </div>
 
-            <Button2 shade="solid" type="submit">
+            <Button2 shade="solid" type="submit" disabled={loading}>
               {loading ? (
                 <div className="flex justify-center">
                   <LoaderIcon style={{ height: "1.5rem", width: "1.5rem" }} />
