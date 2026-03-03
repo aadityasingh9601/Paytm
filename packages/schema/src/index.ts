@@ -43,7 +43,7 @@ export const addMoneySchema = z.object({
 });
 
 export const verifyOnrampsSchema = z.object({
-  tpin: z.string().regex(/^\d{6}$/, "OTP must be exactly 6 digits"),
+  tpin: z.string().regex(/^\d{6}$/, "T-PIN must be exactly 6 digits"),
 });
 
 export const bankWebhookSchema = z.object({
@@ -61,15 +61,20 @@ export const bankWithOnrampSchema = bankWebhookSchema.extend({
 });
 
 export const accountSchema = z.object({
-  email: z.string().endsWith("@gmail.com", "Invalid email!"),
+  name: z
+    .string()
+    .min(1, "Name can't be empty!")
+    .max(12, "Can't exceed length 12"),
+  email: z.email("Please enter a valid email!"),
   number: z
     .string()
     .min(8, "Must be atleast 8 digits")
     .max(12, "Must be atmost 12 digits"),
-  tpin: z.string().regex(/^\d{6}$/, "OTP must be exactly 6 digits"),
-
-  name: z.string(),
-  country: z.string(),
+  tpin: z.string().regex(/^\d{6}$/, "T-PIN must be exactly 6 digits"),
+  country: z
+    .string()
+    .min(3, "Country name can't be empty!")
+    .max(16, "Can't exceed length 16!"),
 });
 
 export type signupInput = z.infer<typeof signupSchema>;

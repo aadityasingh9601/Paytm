@@ -11,13 +11,14 @@ import { useStore } from "@repo/store/store";
 import { AccountData } from "@repo/types/types";
 import { useState } from "react";
 import { LoaderIcon } from "react-hot-toast";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function AccountForm({
   accountInfo,
   updateEdit,
 }: {
   accountInfo: AccountData;
-  updateEdit: any;
+  updateEdit?: any;
 }) {
   const {
     register,
@@ -28,6 +29,8 @@ export default function AccountForm({
     defaultValues: accountInfo,
   });
 
+  const pathname = usePathname();
+  const router = useRouter();
   const session = useSession();
   const userId = session.data?.user.id;
   const [loading, setLoading] = useState(false);
@@ -37,10 +40,11 @@ export default function AccountForm({
     setLoading(true);
     const res = await updateAccount(Number(userId), data);
 
-    if (res?.data) {
+    if (res.success) {
       setLoading(false);
-      updateEdit(false);
-      updateAccountInfo(res.data);
+      if (pathname == "/setup") router.push("/dashboard");
+      if (pathname == "/account") updateEdit(false);
+      res.data && updateAccountInfo(res?.data);
       toast.success(res.message ?? "Success!");
     } else {
       toast.error(res.message ?? "Some error occured!");
@@ -63,6 +67,7 @@ export default function AccountForm({
           size="sm"
           label="Email"
           placeholder="Enter your email"
+          isReadOnly={true}
           name="email"
           register={register}
           errors={errors}
@@ -71,6 +76,7 @@ export default function AccountForm({
           size="sm"
           label="Phone"
           placeholder="Enter your phone number"
+          isReadOnly={true}
           name="number"
           register={register}
           errors={errors}
@@ -78,6 +84,7 @@ export default function AccountForm({
         <TextInput
           size="sm"
           label="T-PIN"
+          type="password"
           placeholder="Set your Tpin"
           name="tpin"
           register={register}
@@ -91,7 +98,7 @@ export default function AccountForm({
           register={register}
           errors={errors}
         />
-        <div className="pt-4">
+        <div className="flex pt-2 justify-end">
           <Button type="submit" disabled={loading}>
             {loading ? (
               <LoaderIcon
