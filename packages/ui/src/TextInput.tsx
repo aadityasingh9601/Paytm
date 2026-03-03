@@ -9,6 +9,7 @@ export const TextInput = ({
   errors,
   options,
   size,
+  isReadOnly = false,
 }: {
   placeholder: string;
   label: string;
@@ -18,19 +19,21 @@ export const TextInput = ({
   errors?: any;
   options?: any;
   size: "sm" | "md";
+  isReadOnly?: boolean;
 }) => {
   const sizeClasses = {
-    sm: "w-[25rem] py-2",
-    md: "w-full py-4",
+    sm: "w-[28rem] py-3",
+    md: "w-full py-4 ",
   };
   return (
-    <div className="pt-2">
+    <div className={size == "md" ? "pt-3" : ""}>
       <label className="block mb-2 text-sm font-medium text-gray-900">
         {label}
       </label>
       <input
         {...register(name, { ...options })}
         type={type}
+        readOnly={isReadOnly}
         id="first_name"
         className={`bg-gray-50 border border-gray-300 ${sizeClasses[size]} px-2.5 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block`}
         placeholder={placeholder}
