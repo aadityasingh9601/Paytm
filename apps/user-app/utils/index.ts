@@ -1,5 +1,5 @@
 export function formatTransactionTime(
-  timestamp: Date | string | number
+  timestamp: Date | string | number,
 ): string {
   const date = new Date(timestamp);
 

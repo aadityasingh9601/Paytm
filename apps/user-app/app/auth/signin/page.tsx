@@ -30,7 +30,7 @@ export default function page() {
         callbackUrl: process.env.NEXTAUTH_URL,
       });
       if (res?.status === 200) {
-        router.push("/setup");
+        router.push("/dashboard");
       }
       if (res?.status === 401) {
         toast.error(res.error);
