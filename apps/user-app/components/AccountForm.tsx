@@ -39,13 +39,20 @@ export default function AccountForm({
   const onSubmit = async (data: accountInput) => {
     setLoading(true);
     const res = await updateAccount(Number(userId), data);
-
     if (res.success) {
       setLoading(false);
-      if (pathname == "/setup") router.push("/dashboard");
-      if (pathname == "/account") updateEdit(false);
-      res.data && updateAccountInfo(res?.data);
+      if (res.data) updateAccountInfo(res?.data);
+      //Trigger a JWT token refresh.
+      console.log(session);
+      const updated = await session.update({ forceRefresh: true });
+      console.log(updated);
+
       toast.success(res.message ?? "Success!");
+      if (pathname === "/setup") {
+        router.push("/dashboard");
+      } else if (pathname === "/account") {
+        updateEdit(false);
+      }
     } else {
       toast.error(res.message ?? "Some error occured!");
     }

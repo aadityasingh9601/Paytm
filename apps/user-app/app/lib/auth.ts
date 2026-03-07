@@ -65,6 +65,27 @@ export const authOptions = {
   //We've added this callback here to include the id of the user in the session data too, you can also use other similar
   //callbacks to perform various tasks, see on NextAuth docs.
   callbacks: {
+    async jwt({
+      token,
+      user,
+      trigger,
+      session,
+    }: {
+      token: any;
+      user: any;
+      trigger: any;
+      session: any;
+    }) {
+      // Manual trigger from client
+      if (trigger === "update" && session?.forceRefresh) {
+        const updatedUser = await db.user.findUnique({
+          where: { id: Number(token.sub) },
+        });
+        token.name = updatedUser?.name; // now token.name will have the value
+      }
+
+      return token;
+    },
     session: ({ session, token }: { session: any; token: any }) => ({
       ...session,
       user: {
