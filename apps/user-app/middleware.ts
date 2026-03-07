@@ -1,6 +1,6 @@
 import { getToken } from "next-auth/jwt";
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import { NextRequest } from "next/server";
 
 export default async function middleware(request: NextRequest) {
   const token = await getToken({
@@ -25,8 +25,16 @@ export default async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/setup", request.url));
   }
 
+  if (token && token?.name && isSetupRoute) {
+    return NextResponse.redirect(new URL("/dashboard", request.url));
+  }
+
   if (token && isAuthRoute) {
     // Already logged in → redirect away from signin/signup
+    return NextResponse.redirect(new URL("/dashboard", request.url));
+  }
+
+  if (token && token?.name && isSetupRoute) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
