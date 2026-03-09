@@ -61,7 +61,7 @@ export default function AccountForm({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="space-y-4 ">
+      <div className="pt-4">
         <TextInput
           size="sm"
           label="Name"
@@ -78,7 +78,9 @@ export default function AccountForm({
           name="email"
           register={register}
           errors={errors}
-        />
+        >
+          <div>Email can't be changed!</div>
+        </TextInput>
         <TextInput
           size="sm"
           label="Phone"
@@ -87,7 +89,9 @@ export default function AccountForm({
           name="number"
           register={register}
           errors={errors}
-        />
+        >
+          <div>Phone number can't be changed!</div>
+        </TextInput>
         <TextInput
           size="sm"
           label="T-PIN"
