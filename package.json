@@ -12,6 +12,8 @@
     "start-mock-bank": "cd apps/mock-bank && npm run dev"
   },
   "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "@types/node": "^25.3.5",
     "prettier": "^3.5.3",
     "prettier-plugin-tailwindcss": "^0.6.11",
     "turbo": "^2.5.5"
