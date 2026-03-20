@@ -3,13 +3,15 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
+    "dev:test": "dotenv -e .env.test turbo run dev ",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "check-types": "turbo run check-types",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "db:generate": "cd packages/db && npx prisma generate && cd ../..",
     "start-user-app": "cd apps/user-app && npm run dev",
-    "start-mock-bank": "cd apps/mock-bank && npm run dev"
+    "start-mock-bank": "cd apps/mock-bank && npm run dev",
+    "test-e2e": "./scripts/run-e2e.sh"
   },
   "devDependencies": {
     "@playwright/test": "^1.58.2",
