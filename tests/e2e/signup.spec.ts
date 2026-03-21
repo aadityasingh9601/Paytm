@@ -12,11 +12,11 @@ test.describe("tests the signup page", () => {
     await page.getByRole("textbox", { name: "Enter your email" }).click();
     await page
       .getByRole("textbox", { name: "Enter your email" })
-      .fill("test@abc.com");
+      .fill("test@abcde.com");
     await page.getByRole("textbox", { name: "Enter phone number" }).click();
     await page
       .getByRole("textbox", { name: "Enter phone number" })
-      .fill("123456780");
+      .fill("1234567800");
     await page.getByRole("textbox", { name: "Enter password" }).click();
     await page
       .getByRole("textbox", { name: "Enter password" })
