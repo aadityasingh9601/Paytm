@@ -79,6 +79,6 @@ export default defineConfig({
     command: "npm run dev:test", // starts app with TEST database URL
     url: "http://localhost:3000",
     reuseExistingServer: !process.env.CI, // locally reuse if already running, on CI always fresh
-    timeout: 60 * 1000, //30 seconds
+    timeout: 60 * 1000, //60 seconds
   },
 });

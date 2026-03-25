@@ -4,6 +4,7 @@ services:
     restart: always
     environment:
       - POSTGRES_USER=postgres
+      - POSTGRES_DB=paytm_test_db
       - POSTGRES_PASSWORD=mysecretpassword
     ports:
       - "5432:5432"

@@ -25,7 +25,6 @@ export default function page() {
     setLoading(true);
     try {
       const res = await axios.post("/api/auth/signup", data, {});
-      console.log(res);
       if (res.data.status === 200) {
         toast.success(res.data.message);
         router.push("/auth/signin");
@@ -40,14 +39,14 @@ export default function page() {
   };
 
   // Error handler
-  const onError = (err: unknown) => {
-    console.error("Validation Errors:", err);
-  };
+  // const onError = (err: unknown) => {
+  //   console.error("Validation Errors:", err);
+  // };
   return (
     <div className="flex justify-center items-center h-[92.8vh]">
       <div className="flex flex-col justify-center items-center border-[2px] rounded-md border-grey-800 bg-white w-[26rem] min-h-[23rem] max-h-[31rem] p-5">
         <div className="text-2xl">Sign up</div>
-        <form onSubmit={handleSubmit(onSubmit, onError)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex flex-col justify-center min-w-[20rem] gap-[1rem]">
             <div>
               <TextInput
