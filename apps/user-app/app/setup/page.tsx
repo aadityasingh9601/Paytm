@@ -30,7 +30,6 @@ const getAccountInfo = async (userId: number) => {
 export default async function page({}) {
   const session = await getServerSession(authOptions);
   const accountData = await getAccountInfo(session?.user?.id);
-  console.log(session);
 
   return (
     <div className="flex justify-center items-center h-[92.8vh]">

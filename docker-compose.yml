@@ -1,4 +1,14 @@
 services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=paytm
+      - POSTGRES_PASSWORD=mysecretpassword
+    ports:
+      - "5432:5432"
+
   user-app:
     image: aaditya999/wallet-userapp:latest
     container_name: user-app

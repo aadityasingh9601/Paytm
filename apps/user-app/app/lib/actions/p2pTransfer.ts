@@ -52,7 +52,7 @@ export const p2pTransfer = async (number: string, amount: number) => {
   if (!toUser) {
     return {
       success: false,
-      message: "User not found",
+      message: "User not found!",
     };
   }
 

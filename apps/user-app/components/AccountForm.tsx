@@ -42,10 +42,7 @@ export default function AccountForm({
     if (res.success) {
       setLoading(false);
       if (res.data) updateAccountInfo(res?.data);
-      //Trigger a JWT token refresh.
-      console.log(session);
       const updated = await session.update({ forceRefresh: true });
-      console.log(updated);
 
       toast.success(res.message ?? "Success!");
       if (pathname === "/setup") {
