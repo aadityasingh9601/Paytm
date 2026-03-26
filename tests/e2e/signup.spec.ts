@@ -12,11 +12,11 @@ test.describe("tests the signup page", () => {
     await page.getByRole("textbox", { name: "Enter your email" }).click();
     await page
       .getByRole("textbox", { name: "Enter your email" })
-      .fill("test@abcdef.com");
+      .fill(`test-${Date.now()}@abc.com`);
     await page.getByRole("textbox", { name: "Enter phone number" }).click();
     await page
       .getByRole("textbox", { name: "Enter phone number" })
-      .fill("1234567807");
+      .fill(`${Math.floor(1000000000 + Math.random() * 9000000000)}`);
     await page.getByRole("textbox", { name: "Enter password" }).click();
     await page
       .getByRole("textbox", { name: "Enter password" })
