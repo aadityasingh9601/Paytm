@@ -1,6 +1,4 @@
 import { defineConfig, devices } from "@playwright/test";
-import dotenv from "dotenv";
-dotenv.config();
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -76,9 +74,9 @@ export default defineConfig({
 
   // Run your local dev server before starting the tests
   webServer: {
-    command: "npm run dev:test", // starts app with TEST database URL
+    command: "npm run dev", // starts app with TEST database
     url: "http://localhost:3000",
-    reuseExistingServer: !process.env.CI, // locally reuse if already running, on CI always fresh
+    reuseExistingServer: true, // locally reuse if already running, on CI always fresh
     timeout: 60 * 1000, //60 seconds
   },
 });
