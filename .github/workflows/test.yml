@@ -24,7 +24,7 @@ jobs:
       - name: Generate prisma client
         run: npm run db:generate
 
-      - name: Run build
-        run: npm run build
+      - name: Run tests
+        run: npm run test:e2e
 
 # We can also add a lint check, formatting check & test step in our CI workflow.
