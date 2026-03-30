@@ -10,6 +10,9 @@ jobs:
     name: Runs the E2E tests
     runs-on: ubuntu-latest
     steps:
+      - name: Set up Docker Compose
+        uses: docker/setup-compose-action@v2
+
       - name: Checkout the repository
         uses: actions/checkout@v5
 
@@ -17,9 +20,6 @@ jobs:
         uses: actions/setup-node@v5
         with:
           node-version: "24.11.1"
-
-      - name: Set up Docker Compose
-        uses: docker/setup-compose-action@v2
 
       - name: Install dependencies
         run: npm install
