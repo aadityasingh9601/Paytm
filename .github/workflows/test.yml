@@ -39,8 +39,8 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: test-results-report
-          path: tests-result-report/
+          name: playwright-report
+          path: playwright-report/
           retention-days: 30
 
 # We can also add a lint check, formatting check, type check & step to upload the tests result to some place
