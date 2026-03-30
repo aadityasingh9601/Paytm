@@ -24,9 +24,6 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Generate prisma client
-        run: npm run db:generate
-
       - name: Install PlayWright browsers
         run: npx playwright install --with-deps
 
@@ -35,4 +32,13 @@ jobs:
         env:
           DATABASE_URL: ${{secrets.TEST_DATABASE_URL}}
 
-# We can also add a lint check, formatting check & test step in our CI workflow.
+      - name: Upload Test Results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-results-report
+          path: tests-result-report
+          retention-days: 30
+
+# We can also add a lint check, formatting check, type check & step to upload the tests result to some place
+# in the GitHub repo.
