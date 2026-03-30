@@ -8,6 +8,8 @@
     "lint": "turbo run lint",
     "check-types": "turbo run check-types",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "db:migrate-dev": "npx prisma migrate dev --schema ./packages/db/prisma/schema.prisma",
+    "db:migrate-deploy": "npx prisma migrate deploy --schema ./packages/db/prisma/schema.prisma",
     "db:generate": "cd packages/db && npx prisma generate && cd ../..",
     "start-bank-webhook": "cd apps/bank-webhook && npm run dev",
     "test:e2e": "./scripts/run-e2e.sh"
