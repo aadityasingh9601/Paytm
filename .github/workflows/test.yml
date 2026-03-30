@@ -18,11 +18,17 @@ jobs:
         with:
           node-version: "24.11.1"
 
+      - name: Set up Docker Compose
+        uses: docker/setup-compose-action@v2
+
       - name: Install dependencies
         run: npm install
 
       - name: Generate prisma client
         run: npm run db:generate
+
+      - name: Install PlayWright browsers
+        run: npx playwright install --with-deps
 
       - name: Run tests
         run: npm run test:e2e
