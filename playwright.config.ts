@@ -10,11 +10,13 @@ export default defineConfig({
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
-  /* Retry on CI only */
+  // Retry on CI only (to handle flakiness)
   retries: process.env.CI ? 2 : 0,
-  // Opt out of parallel tests on CI.
   //If not set, playwright defaults to half the logical CPU cores.
   workers: process.env.CI ? "50%" : undefined,
+  // maxFailures — save CI resources if suite is badly broken
+  // undefined locally = run all tests no matter what
+  maxFailures: process.env.CI ? 10 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: "html",
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
@@ -79,6 +81,6 @@ export default defineConfig({
     command: "npm run dev:test", // starts app with TEST database
     url: "http://localhost:3000",
     reuseExistingServer: true, // locally reuse if already running, on CI always fresh
-    timeout: 60 * 1000, //60 seconds
+    timeout: 30 * 1000, //30 seconds
   },
 });
