@@ -69,7 +69,7 @@ export default function page() {
                 name="password"
                 label=""
                 type="password"
-                placeholder="Enter your password"
+                placeholder="Enter password"
               />
             </div>
             <Button2 shade="solid" type="submit" disabled={loading}>
