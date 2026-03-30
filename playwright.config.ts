@@ -74,7 +74,7 @@ export default defineConfig({
 
   // Run your local dev server before starting the tests
   webServer: {
-    command: "npm run dev", // starts app with TEST database
+    command: "npm run dev:test", // starts app with TEST database
     url: "http://localhost:3000",
     reuseExistingServer: true, // locally reuse if already running, on CI always fresh
     timeout: 60 * 1000, //60 seconds
