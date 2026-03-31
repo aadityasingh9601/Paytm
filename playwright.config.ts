@@ -1,35 +1,24 @@
 import { defineConfig, devices } from "@playwright/test";
-import * as os from "node:os";
 
-/**
- * See https://playwright.dev/docs/test-configuration.
- */
 export default defineConfig({
   testDir: "./tests/e2e",
-  /* Run tests in files in parallel */
+  // Run tests in files in parallel */
   fullyParallel: true,
-  /* Fail the build on CI if you accidentally left test.only in the source code. */
+  // Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   // Retry on CI only (to handle flakiness)
   retries: process.env.CI ? 2 : 0,
   // maxFailures — save CI resources if suite is badly broken
   // undefined locally = run all tests no matter what
-
   maxFailures: process.env.CI ? 10 : undefined,
   //If not set, playwright defaults to half the logical CPU cores.
   workers: process.env.CI ? "50%" : undefined,
-
-  /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: "html",
-  /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
-    /* Base URL to use in actions like `await page.goto('')`. */
-    baseURL: "http://localhost:3000",
-
-    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
+    // Base URL to use in actions like `await page.goto('')`.
+    baseURL: "http://localhost:8000",
     trace: "on-first-retry",
   },
-
   /* Configure projects for major browsers */
   projects: [
     {
@@ -47,16 +36,6 @@ export default defineConfig({
     //   use: { ...devices["Desktop Safari"] },
     // },
 
-    // {
-    //   name: "Microsoft Edge",
-    //   use: { ...devices["Desktop Edge"], channel: "msedge" },
-    // },
-
-    // {
-    //   name: "chromium",
-    //   use: { ...devices["Desktop Chrome"] },
-    // },
-
     /* Test against mobile viewports. */
     // {
     //   name: 'Mobile Chrome',
@@ -66,22 +45,12 @@ export default defineConfig({
     //   name: 'Mobile Safari',
     //   use: { ...devices['iPhone 12'] },
     // },
-
-    /* Test against branded browsers. */
-    // {
-    //   name: 'Microsoft Edge',
-    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
-    // },
-    // {
-    //   name: 'Google Chrome',
-    //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-    // },
   ],
 
   // Run your local dev server before starting the tests
   webServer: {
-    command: "npm run dev:test", // starts app with TEST database
-    url: "http://localhost:3000",
+    command: "npm run start:test", // starts app with TEST database
+    url: "http://localhost:8000",
     reuseExistingServer: true, // locally reuse if already running, on CI always fresh
     timeout: 30 * 1000, //30 seconds
   },
