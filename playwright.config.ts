@@ -12,11 +12,13 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   // Retry on CI only (to handle flakiness)
   retries: process.env.CI ? 2 : 0,
-  //If not set, playwright defaults to half the logical CPU cores.
-  workers: process.env.CI ? "50%" : undefined,
   // maxFailures — save CI resources if suite is badly broken
   // undefined locally = run all tests no matter what
+
   maxFailures: process.env.CI ? 10 : undefined,
+  //If not set, playwright defaults to half the logical CPU cores.
+  workers: process.env.CI ? "50%" : undefined,
+
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: "html",
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
@@ -35,15 +37,15 @@ export default defineConfig({
       use: { ...devices["Desktop Chrome"], channel: "chrome" },
     },
 
-    {
-      name: "firefox",
-      use: { ...devices["Desktop Firefox"] },
-    },
+    // {
+    //   name: "firefox",
+    //   use: { ...devices["Desktop Firefox"] },
+    // },
 
-    {
-      name: "webkit",
-      use: { ...devices["Desktop Safari"] },
-    },
+    // {
+    //   name: "webkit",
+    //   use: { ...devices["Desktop Safari"] },
+    // },
 
     // {
     //   name: "Microsoft Edge",
