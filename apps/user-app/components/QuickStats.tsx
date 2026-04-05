@@ -15,7 +15,7 @@ export const QuickStatsCard = ({
       <div className="flex justify-between border-b border-slate-300 pb-2">
         <div>Money spent</div>
         <div className="text-red-500">
-          ₹ {txnsData.sentSum / 100} ( {txnsData.sentTxnLength} transactions)
+          ₹ {txnsData.sentSum / 100} ({txnsData.sentTxnLength} transactions)
         </div>
       </div>
 
