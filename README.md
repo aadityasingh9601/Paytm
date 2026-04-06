@@ -1,58 +1,161 @@
-# Turborepo Tailwind CSS starter
+# DigiWallet - A Digital wallet application
 
-This Turborepo starter is maintained by the Turborepo core team.
+A secure digital wallet application with peer-to-peer payments, bank transfers, and transaction management.
 
-## Using this example
+[Live link](https://wallet.aadityasingh.dev/)
 
-Run the following command:
+![DigiWallet dashboard](.github/assets/DigiWallet.png)
 
-```sh
-npx create-turbo@latest -e with-tailwind
+## Features
+
+- **User Authentication** : Uses [NextAuth](https://authjs.dev/) for Sign up & Sign in.
+- **Onramp transactions** : Transfer money from bank account to wallet.
+- **P2P transactions** : Transfer money to peers.
+- **Transaction history** : Showcases history of past On-ramp & P2P transactions.
+
+## Tech Stack
+
+**Frontend**
+
+- [Next.js 15](https://nextjs.org) - React framework
+- [TypeScript](https://typescriptlang.org) - Type safety
+- [Tailwind CSS](https://tailwindcss.com) - Styling
+
+**Backend**
+
+- [Node.js](https://nodejs.org) - Runtime environment
+- [Express](https://expressjs.com) - Backend framework
+- [Prisma](https://prisma.io) - Database ORM
+
+**Database**
+
+- [PostgreSQL](https://postgresql.org) - Primary database
+
+**DevOps & Infrastructure**
+
+- [Docker](https://docker.com) - Containerization
+- [Docker Compose](https://docs.docker.com/compose) - Multi-container orchestration
+- [GitHub Actions](https://github.com/features/actions) - CI/CD pipeline
+
+**Architecture**
+
+- [Turborepo](https://turbo.build) - Monorepo management
+
+## Getting Started
+
+To get a local copy up and running, follow these simple steps.
+
+### Prerequisites
+
+- Node.js (Version: >=18.x)
+- PostgreSQL (Version: >=13.x)
+
+## Development
+
+---
+
+### Setup
+
+1. Clone the repo
+
+```
+git clone git@github.com:aadityasingh9601/Paytm.git
 ```
 
-## What's inside?
+2. Go to the project folder
 
-This Turborepo includes the following packages/apps:
-
-### Apps and Packages
-
-- `docs`: a [Next.js](https://nextjs.org/) app with [Tailwind CSS](https://tailwindcss.com/)
-- `web`: another [Next.js](https://nextjs.org/) app with [Tailwind CSS](https://tailwindcss.com/)
-- `ui`: a stub React component library with [Tailwind CSS](https://tailwindcss.com/) shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Building packages/ui
-
-This example is set up to produce compiled styles for `ui` components into the `dist` directory. The component `.tsx` files are consumed by the Next.js apps directly using `transpilePackages` in `next.config.ts`. This was chosen for several reasons:
-
-- Make sharing one `tailwind.config.ts` to apps and packages as easy as possible.
-- Make package compilation simple by only depending on the Next.js Compiler and `tailwindcss`.
-- Ensure Tailwind classes do not overwrite each other. The `ui` package uses a `ui-` prefix for it's classes.
-- Maintain clear package export boundaries.
-
-Another option is to consume `packages/ui` directly from source without building. If using this option, you will need to update the `tailwind.config.ts` in your apps to be aware of your package locations, so it can find all usages of the `tailwindcss` class names for CSS compilation.
-
-For example, in [tailwind.config.ts](packages/tailwind-config/tailwind.config.ts):
-
-```js
-  content: [
-    // app content
-    `src/**/*.{js,ts,jsx,tsx}`,
-    // include packages if not transpiling
-    "../../packages/ui/*.{js,ts,jsx,tsx}",
-  ],
+```
+cd paytm
 ```
 
-If you choose this strategy, you can remove the `tailwindcss` and `autoprefixer` dependencies from the `ui` package.
+#### Manual setup
 
-### Utilities
+1. Install packages
 
-This Turborepo has some additional tools already setup for you:
+```
+npm install
+```
 
-- [Tailwind CSS](https://tailwindcss.com/) for styles
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+2. Setting up `.env` files
+
+- Duplicate `.env.example` to `.env`
+  ```
+  cp apps/user-app/.env.example apps/user-app/.env
+  cp apps/mock-bank/.env.example apps/mock-bank/.env
+  cp apps/bank-webhook/.env.example apps/bank-webhook/.env
+  cp packages/db/.env.example packages/db/.env
+  ```
+- Use `openssl rand -base64 32` to generate a key and add it under NEXTAUTH_SECRET in the `apps/user-app/.env` file.
+
+3. Setup postgres database locally using docker
+
+```
+docker compose up db
+```
+
+4. Apply database migrations
+
+```
+npm run db:migrate-dev
+```
+
+5. Generate prisma client
+
+```
+npm run db:generate
+```
+
+6. Run the development server
+
+```
+npm run dev
+```
+
+#### Setup using Docker
+
+1. Setting up `.env` files
+
+- Duplicate `.env.example` to `.env`
+
+  ```
+  cp ./.env.example .env
+  ```
+
+- Use `openssl rand -base64 32` to generate a key and add it under NEXTAUTH_SECRET in the `.env` file.
+
+2. Run the development server
+
+```
+docker compose up
+```
+
+3. To stop the development server
+
+```
+docker compose down
+```
+
+## E2E testing
+
+Create `.env.test` file in the root directory and set the environment variable `DATABASE_URL` in the `.env.test` file. The
+value should be `postgresql://postgres:mysecretpassword@localhost:5432/paytm_test_db`.
+
+```
+# In a terminal just run:
+./scripts/run-e2e.sh
+
+# To open the last HTML report run:
+npx playwright show-report
+```
+
+### Resolving issues
+
+#### E2E browsers not installed
+
+Run `npx playwright install --with-deps` to download the test browsers and the dependencies.
+
+## Author
+
+- **GitHub**: [https://github.com/aadityasingh9601](https://github.com/aadityasingh9601)
+- **LinkedIn**: [https://www.linkedin.com/in/aadityasingh999](https://www.linkedin.com/in/aadityasingh999)
+- **Portfolio**: [https://aadityasingh.dev](https://aadityasingh.dev/)

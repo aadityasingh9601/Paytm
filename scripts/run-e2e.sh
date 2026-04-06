@@ -1,7 +1,7 @@
 set -e # Enable exit-on-error
 
 # Cleanup any leftover from previous cancelled/failed run
-docker compose -f docker-compose-test.yml down --volumes --remove-orphans 2>/dev/null || true
+docker compose -f docker-compose-test.yml down --remove-orphans 2>/dev/null || true
 
 # Start fresh test DB
 docker compose -f docker-compose-test.yml up -d
@@ -20,7 +20,7 @@ TEST_EXIT_CODE=$?                    # capture result
 set -e                               # re-enable
 
 # Always cleanup regardless of test result
-docker compose -f docker-compose-test.yml down --volumes --remove-orphans
+docker compose -f docker-compose-test.yml down --remove-orphans
 
 # Exit with test exit code so npm knows if tests passed or failed
 exit $TEST_EXIT_CODE

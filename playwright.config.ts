@@ -16,7 +16,7 @@ export default defineConfig({
   reporter: "html",
   use: {
     // Base URL to use in actions like `await page.goto('')`.
-    baseURL: "http://localhost:8000",
+    baseURL: "http://localhost:3000",
     trace: "on-first-retry",
   },
   /* Configure projects for major browsers */
@@ -49,8 +49,8 @@ export default defineConfig({
 
   // Run your local dev server before starting the tests
   webServer: {
-    command: "npm run start:test", // starts app with TEST database
-    url: "http://localhost:8000",
+    command: "npm run dev:test", // starts app with TEST database
+    url: "http://localhost:3000",
     reuseExistingServer: true, // locally reuse if already running, on CI always fresh
     timeout: 30 * 1000, //30 seconds
   },
