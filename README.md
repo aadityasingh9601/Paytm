@@ -48,13 +48,13 @@ To get a local copy up and running, follow these simple steps.
 ### Prerequisites
 
 - Node.js (Version: >=18.x)
-- PostgreSQL (Version: >=13.x)
+- Docker
 
 ## Development
 
----
-
 ### Setup
+
+---
 
 1. Clone the repo
 
@@ -79,13 +79,15 @@ npm install
 2. Setting up `.env` files
 
 - Duplicate `.env.example` to `.env`
+
   ```
   cp apps/user-app/.env.example apps/user-app/.env
   cp apps/mock-bank/.env.example apps/mock-bank/.env
   cp apps/bank-webhook/.env.example apps/bank-webhook/.env
   cp packages/db/.env.example packages/db/.env
   ```
-- Use `openssl rand -base64 32` to generate a key and add it under NEXTAUTH_SECRET in the `apps/user-app/.env` file.
+
+- Use `openssl rand -base64 32` to generate a key and add it under `NEXTAUTH_SECRET` in the `apps/user-app/.env` file.
 
 3. Setup postgres database locally using docker
 
@@ -113,7 +115,7 @@ npm run dev
 
 #### Setup using Docker
 
-1. Setting up `.env` files
+1. Setting up the `.env` file
 
 - Duplicate `.env.example` to `.env`
 
@@ -121,7 +123,7 @@ npm run dev
   cp ./.env.example .env
   ```
 
-- Use `openssl rand -base64 32` to generate a key and add it under NEXTAUTH_SECRET in the `.env` file.
+- Use `openssl rand -base64 32` to generate a key and add it under `NEXTAUTH_SECRET` in the `.env` file.
 
 2. Run the development server
 
@@ -141,10 +143,10 @@ Create `.env.test` file in the root directory and set the environment variable `
 value should be `postgresql://postgres:mysecretpassword@localhost:5432/paytm_test_db`.
 
 ```
-# In a terminal just run:
+## In a terminal just run:
 ./scripts/run-e2e.sh
 
-# To open the last HTML report run:
+## To open the last HTML report run:
 npx playwright show-report
 ```
 
@@ -158,4 +160,5 @@ Run `npx playwright install --with-deps` to download the test browsers and the d
 
 - **GitHub**: [https://github.com/aadityasingh9601](https://github.com/aadityasingh9601)
 - **LinkedIn**: [https://www.linkedin.com/in/aadityasingh999](https://www.linkedin.com/in/aadityasingh999)
+- **X**: [https://x.com/AadityaSingh771](https://x.com/AadityaSingh771)
 - **Portfolio**: [https://aadityasingh.dev](https://aadityasingh.dev/)
