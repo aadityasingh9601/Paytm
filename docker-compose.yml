@@ -16,12 +16,8 @@ services:
       - 5432:5432
     restart: always
 
-    # ✅ Runs migrations inside Docker network — uses db:5432
   migrate:
-    image: aaditya999/wallet-userapp:latest
-    command: sh -c "npm run db:migrate-dev && npm run db:generate"
-    volumes:
-      - ./packages/db/prisma:/app/packages/db/prisma
+    image: migrate_db:latest
     environment:
       - DATABASE_URL=${DATABASE_URL}
     depends_on:
@@ -42,8 +38,7 @@ services:
     ports:
       - 3000:3000
     depends_on:
-      db:
-        condition: service_healthy
+      - migrate
 
   mock-bank-service:
     image: aaditya999/wallet-mockbank:latest
@@ -57,8 +52,7 @@ services:
     ports:
       - 3001:3001
     depends_on:
-      db:
-        condition: service_healthy
+      - migrate
 
   bank-webhook-service:
     image: aaditya999/wallet-bankwebhook:latest
@@ -71,8 +65,7 @@ services:
     ports:
       - 3003:3003
     depends_on:
-      db:
-        condition: service_healthy
+      - migrate
 
 volumes:
   paytm:

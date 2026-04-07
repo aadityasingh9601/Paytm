@@ -22,7 +22,7 @@ RUN npm install
 COPY --from=pruner /app/out/full/ .
 
 ARG NEXT_PUBLIC_MOCK_BANK
-ENV NEXT_PUBLIC_MOCK_BANK=https://mock-bank.aadityasingh.dev
+ENV NEXT_PUBLIC_MOCK_BANK=http://localhost:3001
 RUN npm run db:generate
 RUN npm run build
 

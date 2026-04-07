@@ -1,0 +1,7 @@
+FROM node:20-alpine
+WORKDIR /app
+COPY packages/db/prisma ./packages/db/prisma
+COPY package*.json ./
+RUN npm ci
+RUN npx prisma generate --schema ./packages/db/prisma/schema.prisma
+CMD ["npm","run","db:migrate-dev"]
