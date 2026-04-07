@@ -7,57 +7,72 @@ services:
       - POSTGRES_PASSWORD=mysecretpassword
     volumes:
       - paytm:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     ports:
-      - "5432:5432"
+      - 5432:5432
+    restart: always
+
+    # ✅ Runs migrations inside Docker network — uses db:5432
+  migrate:
+    image: aaditya999/wallet-userapp:latest
+    command: sh -c "npm run db:migrate-dev && npm run db:generate"
+    volumes:
+      - ./packages/db/prisma:/app/packages/db/prisma
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: on-failure
 
   user-app:
     image: aaditya999/wallet-userapp:latest
     container_name: user-app
     restart: unless-stopped
     environment:
-      - DATABASE_URL=${DATABASE_URL}
+      - NEXT_PUBLIC_MOCK_BANK=${NEXT_PUBLIC_MOCK_BANK}
       - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
       - NEXTAUTH_URL=${NEXTAUTH_URL}
+      - DATABASE_URL=${DATABASE_URL}
       - PORT=3000
     ports:
-      - "3000:3000"
+      - 3000:3000
     depends_on:
-      - mock-bank-service
+      db:
+        condition: service_healthy
 
   mock-bank-service:
     image: aaditya999/wallet-mockbank:latest
     container_name: mock-bank
     restart: unless-stopped
     environment:
-      - DATABASE_URL=${DATABASE_URL}
+      - NEXT_PUBLIC_USER_APP=${NEXT_PUBLIC_USER_APP}
       - BANK_WEBHOOK=${BANK_WEBHOOK}
+      - DATABASE_URL=${DATABASE_URL}
       - PORT=3001
     ports:
-      - "3001:3001"
+      - 3001:3001
+    depends_on:
+      db:
+        condition: service_healthy
 
   bank-webhook-service:
     image: aaditya999/wallet-bankwebhook:latest
     container_name: bank-webhook
     restart: unless-stopped
     environment:
+      - MOCK_BANK=${NEXT_PUBLIC_MOCK_BANK}
       - DATABASE_URL=${DATABASE_URL}
-      - PORT=${BANK_WEBHOOK_PORT}
+      - PORT=3003
+    ports:
+      - 3003:3003
+    depends_on:
+      db:
+        condition: service_healthy
 
 volumes:
-  paytm: # named volume — persists between runs
-
-
-  # nginx:
-  #   image: nginx:alpine
-  #   container_name: wallet-nginx
-  #   restart: unless-stopped
-  #   ports:
-  #     - "80:80"
-  #     - "443:443"
-  #   volumes:
-  #     - ./nginx.conf:/etc/nginx/nginx.conf:ro
-  #     - /etc/letsencrypt:/etc/letsencrypt:ro
-  #   depends_on:
-  #     - user-app
-  #     - merchant-app
-  #     - express-api
+  paytm:
