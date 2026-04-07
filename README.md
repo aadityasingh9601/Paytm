@@ -113,7 +113,29 @@ npm run db:generate
 npm run dev
 ```
 
-#### Setup using Docker (Coming soon!)
+#### Using Docker
+
+1. Setting up `.env` file
+
+- Duplicate `.env.example` to `.env`
+
+  ```
+  cp .env.example .env
+  ```
+
+- Use `openssl rand -base64 32` to generate a key and add it under `NEXTAUTH_SECRET` in the `apps/user-app/.env` file.
+
+2. Run the development server
+
+```
+docker compose up
+```
+
+3. To gracefully stop the development server
+
+```
+docker compose down
+```
 
 ## E2E testing
 
