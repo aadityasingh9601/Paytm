@@ -58,13 +58,13 @@ To get a local copy up and running, follow these simple steps.
 
 1. Clone the repo
 
-```
+```bash
 git clone git@github.com:aadityasingh9601/Paytm.git
 ```
 
 2. Go to the project folder
 
-```
+```bash
 cd paytm
 ```
 
@@ -72,7 +72,7 @@ cd paytm
 
 1. Install packages
 
-```
+```bash
 npm install
 ```
 
@@ -80,7 +80,7 @@ npm install
 
 - Duplicate `.env.example` to `.env`
 
-  ```
+  ```bash
   cp apps/user-app/.env.example apps/user-app/.env
   cp apps/mock-bank/.env.example apps/mock-bank/.env
   cp apps/bank-webhook/.env.example apps/bank-webhook/.env
@@ -91,25 +91,25 @@ npm install
 
 3. Setup postgres database locally using docker
 
-```
+```bash
 docker compose up db
 ```
 
 4. Apply database migrations
 
-```
+```bash
 npm run db:migrate-dev
 ```
 
 5. Generate prisma client
 
-```
+```bash
 npm run db:generate
 ```
 
 6. Run the development server
 
-```
+```bash
 npm run dev
 ```
 
@@ -119,7 +119,7 @@ npm run dev
 
 - Duplicate `.env.example` to `.env`
 
-  ```
+  ```bash
   cp .env.example .env
   ```
 
@@ -127,13 +127,13 @@ npm run dev
 
 2. Run the development server
 
-```
+```bash
 docker compose up
 ```
 
 3. To gracefully stop the development server
 
-```
+```bash
 docker compose down
 ```
 
@@ -142,11 +142,11 @@ docker compose down
 Create `.env.test` file in the root directory and set the environment variable `DATABASE_URL` in the `.env.test` file. The
 value should be `postgresql://postgres:mysecretpassword@localhost:5432/paytm_test_db`.
 
-```
-## In a terminal just run:
+```bash
+# In a terminal just run:
 ./scripts/run-e2e.sh
 
-## To open the last HTML report run:
+# To open the last HTML report run:
 npx playwright show-report
 ```
 
