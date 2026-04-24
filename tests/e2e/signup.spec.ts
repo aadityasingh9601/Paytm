@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { SignupPage } from "./pages/SignupPage";
 
 test.describe("tests the signup page", () => {
   test.beforeEach(async ({ page }) => {
@@ -7,16 +8,14 @@ test.describe("tests the signup page", () => {
   });
 
   test("basic functionality", async ({ page }) => {
-    const email = page.getByRole("textbox", { name: "Enter your email" });
-    const phone = page.getByRole("textbox", { name: "Enter phone number" });
-    const password = page.getByRole("textbox", { name: "Enter password" });
-    const submitBtn = page.getByRole("button", { name: "Next", exact: true });
+    const signupPage = new SignupPage(page);
 
-    await email.fill(`test-${Date.now()}@abc.com`);
-    await phone.fill(`${Math.floor(1000000000 + Math.random() * 9000000000)}`);
-    await password.fill("12345678");
-    await submitBtn.click();
-    //If everything goes well
+    await signupPage.signup(
+      `test-${Date.now()}@abc.com`,
+      `${Math.floor(1000000000 + Math.random() * 9000000000)}`,
+      "12345678",
+    );
+    await expect(page.getByText("User created successfully!")).toBeVisible();
     await expect(page).toHaveURL("http://localhost:3000/auth/signin");
   });
 
@@ -41,18 +40,18 @@ test.describe("tests the signup page", () => {
       },
     });
 
-    const email = page.getByRole("textbox", { name: "Enter your email" });
-    const phone = page.getByRole("textbox", { name: "Enter phone number" });
-    const password = page.getByRole("textbox", { name: "Enter password" });
-    const submitBtn = page.getByRole("button", { name: "Next", exact: true });
+    const signupPage = new SignupPage(page);
 
-    await email.fill("abc@example.com");
-    await phone.fill(`${Math.floor(1000000000 + Math.random() * 9000000000)}`);
-    await password.fill("12345678");
-    await submitBtn.click();
-    //If everything goes well
-    const toast = page.getByText("Email already registered! Choose new one!");
-    await expect(toast).toBeVisible();
+    await signupPage.signup(
+      "abc@example.com",
+      `${Math.floor(1000000000 + Math.random() * 9000000000)}`,
+      "12345678",
+    );
+
+    const toastMsg = page.getByText(
+      "Email already registered! Choose new one!",
+    );
+    await expect(toastMsg).toBeVisible();
   });
 
   test("shows error when phone number already registered!", async ({
@@ -68,19 +67,16 @@ test.describe("tests the signup page", () => {
       },
     });
 
-    const email = page.getByRole("textbox", { name: "Enter your email" });
-    const phone = page.getByRole("textbox", { name: "Enter phone number" });
-    const password = page.getByRole("textbox", { name: "Enter password" });
-    const submitBtn = page.getByRole("button", { name: "Next", exact: true });
+    const signupPage = new SignupPage(page);
+    await signupPage.signup(
+      `test-${Date.now()}@abc.com`,
+      "44444444",
+      "12345678",
+    );
 
-    await email.fill(`test-${Date.now()}@abc.com`);
-    await phone.fill("44444444");
-    await password.fill("12345678");
-    await submitBtn.click();
-    //If everything goes well
-    const toast = page.getByText(
+    const toastMsg = page.getByText(
       "Phone no. already registered, choose new one!",
     );
-    await expect(toast).toBeVisible();
+    await expect(toastMsg).toBeVisible();
   });
 });
