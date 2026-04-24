@@ -52,6 +52,7 @@ export default defineConfig({
     command: "npm run dev:test", // starts app with TEST database
     url: "http://localhost:3000",
     reuseExistingServer: true, // locally reuse if already running, on CI always fresh
+    gracefulShutdown: { signal: "SIGTERM", timeout: 500 },
     timeout: 30 * 1000, //30 seconds
   },
 });
