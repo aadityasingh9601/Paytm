@@ -55,7 +55,7 @@ export default function VerifyTpin({ txn }: { txn: txnData }) {
   return (
     <div>
       <Card
-        title={`You are transfering ₹${txn.amount / 100} from your ${txn.provider} bank account to Paytm PVT LTD`}
+        title={`You are transfering ₹${txn.amount / 100} from your ${txn.provider} bank account to DigiWallet.`}
       >
         <div className="w-full flex flex-col mt-4">
           <form onSubmit={handleSubmit(onSubmit)}>
