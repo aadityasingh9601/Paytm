@@ -32,7 +32,7 @@ export const verifyOnramps = async (data: bankWithOnRampInput) => {
     return {
       success: false,
       error:
-        "Setup your tpin first (in account settings) to enable bank transfers!  ",
+        "Setup your tpin first (in account settings) to enable bank transfers!",
     };
   }
 
