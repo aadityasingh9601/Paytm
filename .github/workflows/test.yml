@@ -5,7 +5,7 @@ on:
     branches:
       - main
 
-# To ensure multiple jobs with same re never run at the same time.
+# To ensure multiple jobs with same ref never run at the same time.
 concurrency:
   group: e2e-${{ github.ref }}
   cancel-in-progress: true
