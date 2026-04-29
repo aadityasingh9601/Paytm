@@ -52,7 +52,7 @@ jobs:
         run: npm run db:generate
 
       - name: Run tests
-        run: npx playwright test --workers
+        run: npx playwright test
         env:
           DATABASE_URL: ${{secrets.TEST_DATABASE_URL}}
 
