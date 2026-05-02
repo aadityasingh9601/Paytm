@@ -48,11 +48,12 @@ export default defineConfig({
   ],
 
   // Run your local dev server before starting the tests
-  webServer: {
-    command: "npm run dev:test", // starts app with TEST database
-    url: "http://localhost:3000",
-    reuseExistingServer: true, // locally reuse if already running, on CI always fresh
-    gracefulShutdown: { signal: "SIGTERM", timeout: 500 },
-    timeout: 30 * 1000, //30 seconds
-  },
+  // webServer: {
+  //   command: "npm run dev:test", // starts app with TEST database
+  //   url: "http://localhost:3000/api/health",
+  //   reuseExistingServer: !process.env.CI, // locally reuse if already running, on CI always fresh
+  //   ignoreHTTPSErrors: true,
+  //   gracefulShutdown: { signal: "SIGTERM", timeout: 500 },
+  //   timeout: 30 * 1000, //30 seconds
+  // },
 });

@@ -65,7 +65,6 @@ export const SendMoneyCard = () => {
                   style={{
                     height: "1.3rem",
                     width: "1.3rem",
-                    margin: "0 0.4rem 0 0.4rem",
                   }}
                 />
               ) : (

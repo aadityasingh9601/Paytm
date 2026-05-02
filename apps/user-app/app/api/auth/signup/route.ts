@@ -1,5 +1,4 @@
 import { NextApiResponse } from "next";
-import { NextResponse } from "next/server";
 import db from "@repo/db/client";
 import bcrypt from "bcrypt";
 import { signupSchema } from "@repo/schema/schema";

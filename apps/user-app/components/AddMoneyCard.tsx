@@ -80,7 +80,6 @@ export const AddMoney = () => {
                   style={{
                     height: "1.3rem",
                     width: "1.3rem",
-                    margin: "0 1.7rem 0 1.7rem",
                   }}
                 />
               ) : (
