@@ -47,7 +47,7 @@ export default function VerifyTpin({ txn }: { txn: txnData }) {
       //Redirect back to the website.
       window.location.href = `${redirectUrl}?success=true` || "";
     } else {
-      toast.error(res.error);
+      toast.error(res?.message);
     }
     setLoading(false);
   };

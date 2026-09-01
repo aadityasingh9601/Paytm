@@ -1,9 +1,13 @@
 "use server";
+import { ActionResult } from "@repo/schema/schema";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth";
 import db from "@repo/db/client";
 
-export const onRampTransaction = async (amount: number, provider: string) => {
+export const onRampTransaction = async (
+  amount: number,
+  provider: string,
+): Promise<ActionResult<{ token: string }>> => {
   const session = await getServerSession(authOptions);
   //In the real world, this token is received by the bank by sending it the request, it'll be the secure token for our
   //transaction available for one time.
@@ -12,6 +16,7 @@ export const onRampTransaction = async (amount: number, provider: string) => {
   const userId = session?.user.id;
   if (!userId) {
     return {
+      success: false,
       message: "User not logged in!",
     };
   }
@@ -29,7 +34,10 @@ export const onRampTransaction = async (amount: number, provider: string) => {
 
   //Inform the user that on ramp transaction is added.
   return {
+    success: true,
     message: "Transaction was added",
-    token: entry.token,
+    data: {
+      token: entry.token,
+    },
   };
 };

@@ -2,9 +2,12 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth";
 import db from "@repo/db/client";
-import { p2pSchema } from "@repo/schema/schema";
+import { ActionResult, p2pSchema } from "@repo/schema/schema";
 
-export const p2pTransfer = async (number: string, amount: number) => {
+export const p2pTransfer = async (
+  number: string,
+  amount: number,
+): Promise<ActionResult> => {
   //First of all add zod validation here.
   const result = p2pSchema.safeParse({ number, amount });
   if (!result.success) {
@@ -61,75 +64,83 @@ export const p2pTransfer = async (number: string, amount: number) => {
   //Create a transaction as we want everything to happen or nothing to happen.
   //There is another way to define a transaction, see in other files in this lib folder. Understand both of them & when we use
   //each one.
-  const txn = await db.$transaction(async (tx: any) => {
-    //This will ensure locking of rows in the database. So that only one transaction can access the database at one time.
-    //const fromBalance = await db.$queryRaw `SELECT * FROM "Balance" WHERE "userId"= ${from} FOR UPDATE`;
-    const fromBalance =
-      await tx.$queryRaw`SELECT * FROM "Balance" WHERE "userId" = ${Number(from)} FOR UPDATE`;
+  try {
+    const txn = await db.$transaction(async (tx: any) => {
+      //This will ensure locking of rows in the database. So that only one transaction can access the database at one time.
+      //const fromBalance = await db.$queryRaw `SELECT * FROM "Balance" WHERE "userId"= ${from} FOR UPDATE`;
+      const fromBalance =
+        await tx.$queryRaw`SELECT * FROM "Balance" WHERE "userId" = ${Number(from)} FOR UPDATE`;
 
-    if (!fromBalance[0] || fromBalance[0]?.amount < amount * 100) {
+      if (!fromBalance[0] || fromBalance[0]?.amount < amount * 100) {
+        throw new Error("Insufficient funds");
+      }
+      //debit from fromUser account.
+      await tx.balance.update({
+        where: {
+          userId: Number(from),
+        },
+        data: {
+          amount: {
+            decrement: amount * 100,
+          },
+        },
+      });
+      //credit to toUser account
+      await tx.balance.update({
+        where: {
+          userId: toUser.id,
+        },
+        data: {
+          amount: {
+            increment: amount * 100,
+          },
+        },
+      });
+
+      //Make sure to create transaction history too & show on the UI.
+      newTxnData = await tx.p2pTransfers.create({
+        data: {
+          amount: amount * 100,
+          timeStamp: new Date(),
+          fromUserId: Number(from),
+          toUserId: toUser.id,
+        },
+        include: {
+          fromUser: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          toUser: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+        },
+      });
+
       return {
-        success: false,
-        message: "Insufficient funds!",
+        success: true,
+        message: "Transaction successful!",
+        data: newTxnData,
       };
-    }
-    //debit from fromUser account.
-    await tx.balance.update({
-      where: {
-        userId: Number(from),
-      },
-      data: {
-        amount: {
-          decrement: amount * 100,
-        },
-      },
-    });
-    //credit to toUser account
-    await tx.balance.update({
-      where: {
-        userId: toUser.id,
-      },
-      data: {
-        amount: {
-          increment: amount * 100,
-        },
-      },
-    });
-
-    //Make sure to create transaction history too & show on the UI.
-    newTxnData = await tx.p2pTransfers.create({
-      data: {
-        amount: amount * 100,
-        timeStamp: new Date(),
-        fromUserId: Number(from),
-        toUserId: toUser.id,
-      },
-      include: {
-        fromUser: {
-          select: {
-            id: true,
-            name: true,
-          },
-        },
-        toUser: {
-          select: {
-            id: true,
-            name: true,
-          },
-        },
-      },
     });
 
     return {
-      success: true,
-      message: "Transaction successful!",
+      success: txn.success,
+      message: txn.message,
       data: newTxnData,
     };
-  });
-
-  return {
-    success: txn.success,
-    message: txn.message,
-    data: newTxnData,
-  };
+  } catch (e) {
+    const message =
+      e instanceof Error && e.message === "Insufficient funds"
+        ? "Insufficient funds!"
+        : "Something went wrong while processing the transaction!";
+    return {
+      success: false,
+      message,
+    };
+  }
 };

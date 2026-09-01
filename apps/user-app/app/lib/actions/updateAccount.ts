@@ -1,10 +1,14 @@
 "use server";
-import { accountSchema, accountInput } from "@repo/schema/schema";
+import { accountSchema, accountInput, ActionResult } from "@repo/schema/schema";
+import { AccountData } from "@repo/types/types";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth";
 import db from "@repo/db/client";
 
-export const updateAccount = async (id: number, data: accountInput) => {
+export const updateAccount = async (
+  id: number,
+  data: accountInput,
+): Promise<ActionResult<AccountData>> => {
   //First of all do zod validation to ensure data isn't malinformed.
   const result = accountSchema.safeParse(data);
   if (!result.success) {

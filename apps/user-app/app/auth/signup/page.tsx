@@ -25,15 +25,17 @@ export default function page() {
     setLoading(true);
     try {
       const res = await axios.post("/api/auth/signup", data, {});
-      if (res.data.status === 200) {
+      if (res.status === 200) {
         toast.success(res.data.message);
         router.push("/auth/signin");
       }
-      if (res.data.status === 400) {
-        toast.error(res.data.message);
-      }
     } catch (e: unknown) {
-      toast.error("Some error occured");
+      if (axios.isAxiosError(e) && e.response) {
+        toast.error(e.response.data.message);
+      } else {
+        toast.error("Some error occured");
+      }
+      setLoading(false);
     }
     setLoading(false);
   };

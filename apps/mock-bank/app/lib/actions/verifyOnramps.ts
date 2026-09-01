@@ -1,15 +1,21 @@
 "use server";
 
 import axios from "axios";
-import { bankWithOnrampSchema, bankWithOnRampInput } from "@repo/schema/schema";
+import {
+  ActionResult,
+  bankWithOnrampSchema,
+  bankWithOnRampInput,
+} from "@repo/schema/schema";
 import db from "@repo/db/client";
 
-export const verifyOnramps = async (data: bankWithOnRampInput) => {
+export const verifyOnramps = async (
+  data: bankWithOnRampInput,
+): Promise<ActionResult> => {
   const result = bankWithOnrampSchema.safeParse(data);
   if (!result.success) {
     return {
       success: false,
-      error: result.error.message,
+      message: result.error.message,
     };
   }
 
@@ -23,7 +29,7 @@ export const verifyOnramps = async (data: bankWithOnRampInput) => {
   if (!user) {
     return {
       success: false,
-      error: "User doesn't exists!",
+      message: "User doesn't exists!",
     };
   }
 
@@ -31,7 +37,7 @@ export const verifyOnramps = async (data: bankWithOnRampInput) => {
   if (user.tpin == null) {
     return {
       success: false,
-      error:
+      message:
         "Setup your tpin first (in account settings) to enable bank transfers!",
     };
   }
@@ -40,7 +46,7 @@ export const verifyOnramps = async (data: bankWithOnRampInput) => {
   if (user.tpin !== data.tpin) {
     return {
       success: false,
-      error: "Tpin is incorrect",
+      message: "Tpin is incorrect",
     };
   }
 
@@ -64,7 +70,7 @@ export const verifyOnramps = async (data: bankWithOnRampInput) => {
   } else {
     return {
       success: false,
-      error: res.data,
+      message: res.data,
     };
   }
 

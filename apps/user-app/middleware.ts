@@ -7,6 +7,8 @@ export default async function middleware(request: NextRequest) {
     req: request,
     secret: process.env.NEXTAUTH_SECRET,
   });
+  console.log("Nextauth secret", process.env.NEXTAUTH_SECRET);
+  console.log("Token", token);
 
   const { pathname } = request.nextUrl;
 

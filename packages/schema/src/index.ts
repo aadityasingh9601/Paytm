@@ -77,6 +77,10 @@ export const accountSchema = z.object({
     .max(16, "Can't exceed length 16!"),
 });
 
+export type ActionResult<T = undefined> =
+  | { success: true; message: string; data?: T }
+  | { success: false; message: string };
+
 export type signupInput = z.infer<typeof signupSchema>;
 export type signinInput = z.infer<typeof signinSchema>;
 export type p2pInput = z.infer<typeof p2pSchema>;

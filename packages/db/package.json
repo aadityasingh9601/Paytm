@@ -12,7 +12,7 @@
   "devDependencies": {
     "@repo/eslint-config": "*",
     "@repo/typescript-config": "*",
-    "prisma": "^6.19.2"
+    "prisma": "^6.12.0"
   },
   "exports": {
     "./client": "./src/index.ts"
@@ -20,6 +20,7 @@
   "dependencies": {
     "@prisma/client": "^6.19.2",
     "@types/node": "^24.0.12",
+    "sharp": "0.35.4",
     "ts-node": "^10.9.2"
   },
   "prisma": {

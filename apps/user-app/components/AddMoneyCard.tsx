@@ -47,8 +47,13 @@ export const AddMoney = () => {
     setLoading(!loading);
     //Server action handling the logic here.
     const res = await onRampTransaction(data.amount, data.provider);
+    if (!res.success) {
+      toast.error(res.message);
+      setLoading(false);
+      return;
+    }
     //Redirect to the bank page.
-    window.location.href = `${redirectUrl}/${res.token}` || "";
+    window.location.href = `${redirectUrl}/${res.data?.token}` || "";
   };
   return (
     <Card title="💳Add Money to wallet">

@@ -1,18 +1,16 @@
-import { NextApiResponse } from "next";
 import db from "@repo/db/client";
 import bcrypt from "bcrypt";
 import { signupSchema } from "@repo/schema/schema";
 
 //This function returns the session details of the current logged in user.
 
-export const POST = async (req: Request, res: NextApiResponse) => {
+export const POST = async (req: Request) => {
   try {
     const body = await req.json();
     const { email, number, password } = body;
     const result = signupSchema.safeParse(body);
     if (!result.success) {
-      return Response.json({
-        message: result.error.message,
+      return new Response(JSON.stringify({ message: result.error.message }), {
         status: 400,
       });
     }
@@ -24,10 +22,12 @@ export const POST = async (req: Request, res: NextApiResponse) => {
     });
 
     if (existingNumber) {
-      return Response.json({
-        message: "Phone no. already registered, choose new one!",
-        status: 400,
-      });
+      return new Response(
+        JSON.stringify({
+          message: "Phone no. already registered, choose new one!",
+        }),
+        { status: 400 },
+      );
     }
 
     //Check if email already exists or not.
@@ -38,10 +38,10 @@ export const POST = async (req: Request, res: NextApiResponse) => {
     });
 
     if (existingEmail) {
-      return Response.json({
-        message: "Email already registered! Choose new one!",
-        status: 400,
-      });
+      return new Response(
+        JSON.stringify({ message: "Email already registered! Choose new one!" }),
+        { status: 400 },
+      );
     }
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -62,14 +62,15 @@ export const POST = async (req: Request, res: NextApiResponse) => {
       },
     });
 
-    return Response.json({
-      message: "User created successfully!",
-      status: 200,
-    });
+    return new Response(
+      JSON.stringify({ message: "User created successfully!" }),
+      { status: 200 },
+    );
   } catch (e) {
-    return Response.json({
-      message: "Something went wrong! Try again!",
-      status: 400,
-    });
+    console.log(e);
+    return new Response(
+      JSON.stringify({ message: "Something went wrong! Try again!" }),
+      { status: 400 },
+    );
   }
 };
