@@ -4,7 +4,7 @@ A secure digital wallet application with peer-to-peer payments, bank transfers, 
 
 [Live link](https://wallet.aadityasingh.dev/)
 
-![DigiWallet dashboard](.github/assets/DigiWallet.png)
+![DigiWallet dashboard](./.github/assets/DigiWallet.png)
 
 ## Features
 
