@@ -1,4 +1,4 @@
-# DigiWallet - A Digital wallet wallet application
+# DigiWallet - A Digital wallet application
 
 A secure digital wallet application with peer-to-peer payments, bank transfers, and transaction management.
 
