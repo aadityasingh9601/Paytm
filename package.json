@@ -20,6 +20,7 @@
     "dotenv-cli": "^11.0.0",
     "prettier": "^3.5.3",
     "prettier-plugin-tailwindcss": "^0.6.11",
+    "prisma": "^8.0.0-rc.10",
     "turbo": "^2.5.5"
   },
   "engines": {
